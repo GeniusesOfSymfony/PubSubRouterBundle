@@ -1,0 +1,10 @@
+services:
+    gos_pubsub_router.router:
+        class: Gos\Bundle\PubSubRouterBundle\Router\Router
+        calls:
+            - [ addLoader, [ @gos_pubsub_router.yaml.loader ] ]
+
+    gos_pubsub_router.yaml.loader:
+        class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
+        arguments:
+            - @file_locator
