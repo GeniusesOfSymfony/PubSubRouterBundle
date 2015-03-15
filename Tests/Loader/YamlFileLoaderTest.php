@@ -45,7 +45,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'InvalidArgumentException',
-            'The routing file "/home/johann/Projects/notification/src/Gos/Bundle/PubSubRouterBundle/Tests/Loader/../Resources/Yaml/routes.yml" contains unsupported keys for "user": "foo". Expected one of: "channel", "pushers", "requirements".'
+            'The routing file "'.__DIR__.'/../Resources/Yaml/routes.yml" contains unsupported keys for "user": "foo". Expected one of: "channel", "pushers", "requirements".'
         );
 
         $this->yamlParser->parse(file_get_contents(__DIR__.'/../Resources/Yaml/routes.yml'))
