@@ -12,6 +12,18 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     protected $routes;
 
+    /**
+     * @param Route[] $routes
+     */
+    public function __construct(Array $routes = null)
+    {
+        if(null !== $routes){
+            foreach($routes as $routeName => $route){
+                $this->add($routeName, $route);
+            }
+        }
+    }
+
     public function __clone()
     {
         /**
