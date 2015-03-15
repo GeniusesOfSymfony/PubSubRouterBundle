@@ -17,8 +17,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public function __construct(Array $routes = null)
     {
-        if(null !== $routes){
-            foreach($routes as $routeName => $route){
+        if (null !== $routes) {
+            foreach ($routes as $routeName => $route) {
                 $this->add($routeName, $route);
             }
         }
@@ -27,10 +27,10 @@ class RouteCollection implements \Countable, \IteratorAggregate
     public function __clone()
     {
         /**
-         * @var string $name
-         * @var Route $route
+         * @var string
+         * @var Route
          */
-        foreach($this->routes as $name => $route){
+        foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
         }
     }
@@ -52,8 +52,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param string      $name
-     * @param Route $route
+     * @param string $name
+     * @param Route  $route
      */
     public function add($name, Route $route)
     {
@@ -66,7 +66,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public function remove($name)
     {
-        foreach((array) $name as $n){
+        foreach ((array) $name as $n) {
             unset($this->routes[$n]);
         }
     }

@@ -3,14 +3,15 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ProphecyInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,12 +70,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadRoute()
     {
-        $router = new Router;
+        $router = new Router();
         $router->addResource('@resource/collectionA.yml');
         $router->addResource('@resource/collectionB.yml');
         $router->addResource('@resource/collectionC.yml');
 
-        $routeA = new Route('channel/*', ['redis']);
+        $routeA = new Route('notification/user/foo-bar', ['redis']);
         $routeCollectionA = new RouteCollection();
         $routeCollectionA->add('routeA', $routeA);
 
@@ -84,15 +85,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $routeCollectionC = new RouteCollection([
             'routeC' => $routeC = new Route('channel/123', [ 'mongodb' ]),
-            'routeD' => $routeD = new Route('channel/AZERTY', [ 'redis' ])
+            'routeD' => $routeD = new Route('channel/AZERTY', [ 'redis' ]),
         ]);
 
         $loader = $this->prophesize(YamlFileLoader::CLASS);
 
         $loader
             ->setResolver(Argument::type(LoaderResolverInterface::CLASS))
-            ->willReturn($this->prophesize(LoaderResolverInterface::CLASS)->reveal())
-        ;
+            ->willReturn($this->prophesize(LoaderResolverInterface::CLASS)->reveal());
 
         $loader->supports(Argument::type('string'), null)->willReturn(true);
 
@@ -108,7 +108,61 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             'routeA' => $routeA,
             'routeB' => $routeB,
             'routeC' => $routeC,
-            'routeD' => $routeD
+            'routeD' => $routeD,
         ]), $router->getCollection());
+
+        return $router;
+    }
+
+    protected function injectMatcher(Router $router, ProphecyInterface $mockedMatcher)
+    {
+        $reflection = new \ReflectionClass(Router::CLASS);
+        $property = $reflection->getProperty('matcher');
+        $property->setAccessible(true);
+        $property->setValue($router, $mockedMatcher->reveal());
+    }
+
+    public function testMatchWithoutLoadRouter()
+    {
+        $this->setExpectedException('LogicException');
+        $router = new Router();
+
+        $matcher = $this->prophesize(Matcher::class);
+        $matcher->match('channel/user/foo-bar', '/')->willReturn(false);
+
+        $this->injectMatcher($router, $matcher);
+
+        $this->assertFalse($router->match('channel/user/foo-bar', '/'));
+    }
+
+    /**
+     * @depends testLoadRoute
+     */
+    public function testMatchWithoutContext(Router $router)
+    {
+        $matcher = $this->prophesize(Matcher::class);
+        $matcher->match('channel/user/foo-bar', '/')->shouldBeCalled();
+        $this->injectMatcher($router, $matcher);
+
+        $router->match('channel/user/foo-bar', '/');
+
+        return $router;
+    }
+
+    /**
+     * @depends testLoadRoute
+     */
+    public function testMatchWithContext(Router $router)
+    {
+        $context = $this->prophesize(RouterContext::CLASS);
+        $context->getTokenSeparator()->willReturn('/');
+
+        $router->setContext($context->reveal());
+
+        $matcher = $this->prophesize(Matcher::CLASS);
+        $matcher->match('channel/user/foo-bar', '/')->shouldBeCalled();
+        $this->injectMatcher($router, $matcher);
+
+        $router->match('channel/user/foo-bar');
     }
 }

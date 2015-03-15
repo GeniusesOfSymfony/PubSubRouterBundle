@@ -14,7 +14,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $this->routes = [
             'routeA' => new Route('channel/abc', ['pusherA', 'pusherB']),
             'routeB' => new Route('channel/cde', [ 'pusherA' ]),
-            'routeC' => new Route('channel/foo/bar', [ 'pusherC'])
+            'routeC' => new Route('channel/foo/bar', [ 'pusherC']),
         ];
     }
 
@@ -52,7 +52,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             'routeA' => $this->routes['routeA'],
-            'routeB' => $this->routes['routeB']
+            'routeB' => $this->routes['routeB'],
         ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
     }
 
@@ -64,7 +64,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             'routeB' => $this->routes['routeB'],
-            'routeC' => $this->routes['routeC']
+            'routeC' => $this->routes['routeC'],
         ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
     }
 
@@ -85,11 +85,11 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $routeCollectionA = new RouteCollection([
             'routeA' => $this->routes['routeA'],
-            'routeB' => $this->routes['routeB']
+            'routeB' => $this->routes['routeB'],
         ]);
 
         $routeCollectionB = new RouteCollection([
-            'routeC' => $this->routes['routeC']
+            'routeC' => $this->routes['routeC'],
         ]);
 
         $routeCollectionA->addCollection($routeCollectionB);

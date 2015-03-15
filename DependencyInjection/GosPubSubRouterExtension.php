@@ -2,7 +2,6 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
-use Monolog\Logger;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -30,7 +29,9 @@ class GosPubSubRouterExtension extends Extension
 
         $routerDef = $container->getDefinition('gos_pubsub_router.router');
 
-        foreach($configs['resources']['files'] as $file){
+        $container->setAlias('router.pubsub', 'gos_pubsub_router.router');
+
+        foreach ($configs['resources']['files'] as $file) {
             $routerDef->addMethodCall('addResource', array($file));
         }
     }

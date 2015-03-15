@@ -23,9 +23,9 @@ class Route
     protected $requirements;
 
     /**
-     * @param string      $pattern
+     * @param string   $pattern
      * @param string[] $pushers
-     * @param array $requirements
+     * @param array    $requirements
      */
     public function __construct($pattern, Array $pushers = array(), Array $requirements = array())
     {

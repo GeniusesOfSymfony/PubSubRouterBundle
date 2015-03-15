@@ -7,5 +7,4 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
  */
 interface RouterInterface
 {
-
 }

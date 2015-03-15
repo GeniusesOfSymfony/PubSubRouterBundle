@@ -7,5 +7,5 @@ namespace Gos\Bundle\PubSubRouterBundle\Matcher;
  */
 interface MatcherInterface
 {
-
+    public function match($channel, $tokenSeparator);
 }
