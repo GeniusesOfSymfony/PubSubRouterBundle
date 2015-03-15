@@ -15,7 +15,7 @@ class YamlFileLoader extends AbstractRouteLoader
      * @var array
      */
     private static $availableKeys = array(
-        'channel', 'pushers', 'requirements', 'pattern', 'wildcard'
+        'channel', 'pushers', 'requirements'
     );
 
     /**
@@ -40,6 +40,10 @@ class YamlFileLoader extends AbstractRouteLoader
         $config = $this->yamlParser->parse(file_get_contents($resource));
 
         $routeCollection = new RouteCollection();
+
+        if(!is_array($config)){
+            throw new \InvalidArgumentException('Invalid configuration');
+        }
 
         foreach($config as $routeName => $routeConfig){
 

@@ -29,5 +29,4 @@ abstract class AbstractRouteLoader extends FileLoader
 
         return $path;
     }
-
 }

@@ -1,0 +1,15 @@
+user:
+    channel: notification/user/{username}
+    pushers: [ 'gos_redis', 'gos_websocket' ]
+    requirements:
+        username:
+            pattern: "[a-zA-Z0-9]+"
+            wildcard: true
+
+application:
+    channel: notification/application/{applicationName}
+    pushers: [ 'gos_redis', 'gos_websocket' ]
+    requirements:
+        applicationName:
+            pattern: "[a-zA-Z0-9]+"
+            wildcard: true
