@@ -16,7 +16,6 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
             'routeB' => new Route('channel/cde', [ 'pusherA' ]),
             'routeC' => new Route('channel/foo/bar', [ 'pusherC'])
         ];
-
     }
 
     public function testConstructorWithInitialRoutes()
@@ -75,7 +74,31 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->routes['routeA'], $routeCollection->get('routeA'));
     }
 
+    public function testAll()
+    {
+        $routeCollection = new RouteCollection($this->routes);
+
+        $this->assertEquals($this->routes, $routeCollection->all());
+    }
+
+    public function testAddCollection()
+    {
+        $routeCollectionA = new RouteCollection([
+            'routeA' => $this->routes['routeA'],
+            'routeB' => $this->routes['routeB']
+        ]);
+
+        $routeCollectionB = new RouteCollection([
+            'routeC' => $this->routes['routeC']
+        ]);
+
+        $routeCollectionA->addCollection($routeCollectionB);
+
+        $this->assertEquals($this->routes, \PHPUnit_Framework_Assert::readAttribute($routeCollectionA, 'routes'));
+    }
+
     public function tearDown()
     {
+        $this->routes = null;
     }
 }
