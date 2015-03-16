@@ -8,12 +8,12 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 class RouteCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var Route[]
+     * @var RouteInterface[]
      */
     protected $routes;
 
     /**
-     * @param Route[] $routes
+     * @param RouteInterface[] $routes
      */
     public function __construct(Array $routes = null)
     {
@@ -28,7 +28,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     {
         /**
          * @var string
-         * @var Route
+         * @var RouteInterface
          */
         foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
@@ -53,9 +53,9 @@ class RouteCollection implements \Countable, \IteratorAggregate
 
     /**
      * @param string $name
-     * @param Route  $route
+     * @param RouteInterface  $route
      */
-    public function add($name, Route $route)
+    public function add($name, RouteInterface $route)
     {
         unset($this->routes[$name]);
         $this->routes[$name] = $route;

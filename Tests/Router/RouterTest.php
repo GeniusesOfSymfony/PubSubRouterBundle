@@ -75,7 +75,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $router->addResource('@resource/collectionB.yml');
         $router->addResource('@resource/collectionC.yml');
 
-        $routeA = new Route('notification/user/foo-bar', ['redis']);
+        $routeA = new Route('notification/user/foo-bar', ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], ['redis']);
         $routeCollectionA = new RouteCollection();
         $routeCollectionA->add('routeA', $routeA);
 
@@ -84,8 +84,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $routeCollectionB->add('routeB', $routeB);
 
         $routeCollectionC = new RouteCollection([
-            'routeC' => $routeC = new Route('channel/123', [ 'mongodb' ]),
-            'routeD' => $routeD = new Route('channel/AZERTY', [ 'redis' ]),
+            'routeC' => $routeC = new Route('channel/123', ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], [ 'mongodb' ]),
+            'routeD' => $routeD = new Route('channel/AZERTY', ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], [ 'redis' ]),
         ]);
 
         $loader = $this->prophesize(YamlFileLoader::CLASS);

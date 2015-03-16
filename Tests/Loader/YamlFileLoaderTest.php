@@ -4,15 +4,19 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Parser;
 
 class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  FileLocator */
     protected $fileLocator;
 
+    /** @var  Parser */
     protected $yamlParser;
 
+    /** @var  LoaderInterface */
     protected $loader;
 
     protected function setUp()
@@ -44,14 +48,17 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'InvalidArgumentException',
-            'The routing file "' . __DIR__ . '/../Resources/Yaml/routes.yml" contains unsupported keys for "user": "foo". Expected one of: "channel", "pushers", "requirements".'
+            'The routing file "' . __DIR__ . '/../Resources/Yaml/routes.yml" contains unsupported keys for "user": "foo". Expected one of: "channel", "handler", "requirements".'
         );
 
         $this->yamlParser->parse(file_get_contents(__DIR__ . '/../Resources/Yaml/routes.yml'))
             ->willReturn([
             'user' => [
                 'channel' => 'notification/user/{username}',
-                'pushers' => [ 'gos_redis', 'gos_websocket' ],
+                'handler' => [
+                    'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
+                    'args' => ['gos_redis', 'gos_websocket']
+                ],
                 'foo' => 'bar',
                 'requirements' => [
                     'username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
@@ -82,14 +89,19 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'user' => [
                     'channel' => 'notification/user/{username}',
-                    'pushers' => [ 'gos_redis', 'gos_websocket' ],
+                    'handler' => [
+                        'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
+                        'args' => ['gos_redis', 'gos_websocket']
+                    ],
                     'requirements' => [
                         'username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
                     ],
                 ],
                 'application' => [
                     'channel' => 'notification/application/{applicationName}',
-                    'pushers' => [ 'gos_redis', 'gos_websocket' ],
+                    'handler' => [
+                        'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
+                        'args' => ['gos_redis', 'gos_websocket'] ],
                     'requirements' => [
                         'applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
                     ],
@@ -103,13 +115,15 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             'user' => new Route(
                 'notification/user/{username}',
+                ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                 [ 'gos_redis', 'gos_websocket'],
-                ['username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ]]
+                ['username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ] ]
             ),
             'application' => new Route(
                 'notification/application/{applicationName}',
-                ['gos_redis', 'gos_websocket' ],
-                ['applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ]]
+                ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
+                [ 'gos_redis', 'gos_websocket'],
+                ['applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ] ]
             ),
         ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
     }

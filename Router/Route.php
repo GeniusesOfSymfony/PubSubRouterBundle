@@ -5,7 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-class Route
+class Route implements RouteInterface
 {
     /**
      * @var string
@@ -13,9 +13,14 @@ class Route
     protected $pattern;
 
     /**
-     * @var string[]
+     * @var Callable
      */
-    protected $pushers;
+    protected $callback;
+
+    /**
+     * @var array
+     */
+    protected $args;
 
     /**
      * @var array
@@ -23,19 +28,21 @@ class Route
     protected $requirements;
 
     /**
-     * @param string   $pattern
-     * @param string[] $pushers
+     * @param string         $pattern
+     * @param callable|string $callback
+     * @param array    $args
      * @param array    $requirements
      */
-    public function __construct($pattern, Array $pushers = array(), Array $requirements = array())
+    public function __construct($pattern, $callback, Array $args = [], Array $requirements = [])
     {
         $this->pattern = $pattern;
-        $this->pushers = $pushers;
+        $this->callback = $callback;
+        $this->args = $args;
         $this->requirements = $requirements;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getPattern()
     {
@@ -43,18 +50,26 @@ class Route
     }
 
     /**
-     * @return \string[]
+     * {@inheritdoc}
      */
-    public function getPushers()
+    public function getCallback()
     {
-        return $this->pushers;
+        return $this->callback;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getRequirements()
     {
         return $this->requirements;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArgs()
+    {
+        return $this->args;
     }
 }

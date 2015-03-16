@@ -15,7 +15,7 @@ class YamlFileLoader extends AbstractRouteLoader
      * @var array
      */
     private static $availableKeys = array(
-        'channel', 'pushers', 'requirements',
+        'channel', 'handler', 'requirements',
     );
 
     /**
@@ -48,9 +48,12 @@ class YamlFileLoader extends AbstractRouteLoader
         foreach ($config as $routeName => $routeConfig) {
             $this->validate($routeConfig, $routeName, $resource);
 
+            $handler = $routeConfig['handler'];
+
             $routeCollection->add($routeName, new Route(
                 $routeConfig['channel'],
-                $routeConfig['pushers'],
+                $handler['callback'],
+                $handler['args'],
                 $routeConfig['requirements']
             ));
         }

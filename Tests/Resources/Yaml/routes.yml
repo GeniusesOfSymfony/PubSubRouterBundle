@@ -1,6 +1,8 @@
 user:
     channel: notification/user/{username}
-    pushers: [ 'gos_redis', 'gos_websocket' ]
+    handler:
+        callable: ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers']
+        args : ['gos_redis', 'gos_websocket']
     requirements:
         username:
             pattern: "[a-zA-Z0-9]+"
@@ -8,7 +10,9 @@ user:
 
 application:
     channel: notification/application/{applicationName}
-    pushers: [ 'gos_redis', 'gos_websocket' ]
+    handler:
+        callable: ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers']
+        args : ['gos_redis', 'gos_websocket']
     requirements:
         applicationName:
             pattern: "[a-zA-Z0-9]+"
