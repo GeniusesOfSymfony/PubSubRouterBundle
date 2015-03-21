@@ -79,7 +79,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $routeCollectionA = new RouteCollection();
         $routeCollectionA->add('routeA', $routeA);
 
-        $routeB = new Route('channel/abc', ['websocket']);
+        $routeB = new Route(
+            'channel/abc',
+            [['callable' => 'Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], 'args' => ['gos_redis', 'gos_websocket']],
+            ['uid' => "\d+", 'wildcard' => true]
+        );
         $routeCollectionB = new RouteCollection();
         $routeCollectionB->add('routeB', $routeB);
 
@@ -128,11 +132,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $router = new Router();
 
         $matcher = $this->prophesize(Matcher::class);
-        $matcher->match('channel/user/foo-bar', '/')->willReturn(false);
+        $matcher->match('channel/user/foo-bar', $router->getCollection(), '/')->willReturn(false);
 
         $this->injectMatcher($router, $matcher);
 
-        $this->assertFalse($router->match('channel/user/foo-bar', '/'));
+        $this->assertFalse($router->match('channel/user/foo-bar', $router->getCollection(), '/'));
     }
 
     /**
@@ -141,7 +145,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testMatchWithoutContext(Router $router)
     {
         $matcher = $this->prophesize(Matcher::class);
-        $matcher->match('channel/user/foo-bar', '/')->shouldBeCalled();
+        $matcher->match('channel/user/foo-bar', $router->getCollection(), '/')->shouldBeCalled();
         $this->injectMatcher($router, $matcher);
 
         $router->match('channel/user/foo-bar', '/');
@@ -160,7 +164,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $router->setContext($context->reveal());
 
         $matcher = $this->prophesize(Matcher::CLASS);
-        $matcher->match('channel/user/foo-bar', '/')->shouldBeCalled();
+        $matcher->match('channel/user/foo-bar', $router->getCollection(), '/')->shouldBeCalled();
         $this->injectMatcher($router, $matcher);
 
         $router->match('channel/user/foo-bar');

@@ -13,7 +13,7 @@ class Route implements RouteInterface
     protected $pattern;
 
     /**
-     * @var Callable
+     * @var callable|string
      */
     protected $callback;
 
@@ -28,12 +28,12 @@ class Route implements RouteInterface
     protected $requirements;
 
     /**
-     * @param string         $pattern
+     * @param string          $pattern
      * @param callable|string $callback
-     * @param array    $args
-     * @param array    $requirements
+     * @param array           $args
+     * @param array           $requirements
      */
-    public function __construct($pattern, $callback, Array $args = [], Array $requirements = [])
+    public function __construct($pattern, $callback, $args, Array $requirements = [])
     {
         $this->pattern = $pattern;
         $this->callback = $callback;

@@ -57,7 +57,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                 'channel' => 'notification/user/{username}',
                 'handler' => [
                     'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
-                    'args' => ['gos_redis', 'gos_websocket']
+                    'args' => ['gos_redis', 'gos_websocket'],
                 ],
                 'foo' => 'bar',
                 'requirements' => [
@@ -91,7 +91,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                     'channel' => 'notification/user/{username}',
                     'handler' => [
                         'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
-                        'args' => ['gos_redis', 'gos_websocket']
+                        'args' => ['gos_redis', 'gos_websocket'],
                     ],
                     'requirements' => [
                         'username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
@@ -101,7 +101,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                     'channel' => 'notification/application/{applicationName}',
                     'handler' => [
                         'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
-                        'args' => ['gos_redis', 'gos_websocket'] ],
+                        'args' => ['gos_redis', 'gos_websocket'], ],
                     'requirements' => [
                         'applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
                     ],

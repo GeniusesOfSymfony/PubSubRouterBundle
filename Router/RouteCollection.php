@@ -26,7 +26,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
 
     public function __clone()
     {
-        /**
+        /*
          * @var string
          * @var RouteInterface
          */
@@ -52,8 +52,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param string $name
-     * @param RouteInterface  $route
+     * @param string         $name
+     * @param RouteInterface $route
      */
     public function add($name, RouteInterface $route)
     {

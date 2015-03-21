@@ -12,9 +12,21 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->routes = [
-            'routeA' => new Route('channel/abc', ['pusherA', 'pusherB']),
-            'routeB' => new Route('channel/cde', [ 'pusherA' ]),
-            'routeC' => new Route('channel/foo/bar', [ 'pusherC']),
+            'routeA' => new Route(
+                'channel/abc',
+                [['callable' => 'Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], 'args' => ['gos_redis', 'gos_websocket']],
+                ['uid' => "\d+", 'wildcard' => true]
+            ),
+            'routeB' => new Route(
+                'channel/cde',
+                [['callable' => 'Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], 'args' => ['gos_redis', 'gos_websocket']],
+                ['uid' => "\d+", 'wildcard' => true]
+            ),
+            'routeC' => new Route(
+                'channel/foo/bar',
+                [['callable' => 'Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'], 'args' => ['gos_redis', 'gos_websocket']],
+                ['uid' => "\d+", 'wildcard' => true]
+            ),
         ];
     }
 

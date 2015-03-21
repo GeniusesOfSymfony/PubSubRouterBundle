@@ -90,7 +90,7 @@ class Router implements RouterInterface, WarmableInterface
             $tokenSeparator = $this->context->getTokenSeparator();
         }
 
-        return $this->matcher->match($channel, $tokenSeparator);
+        return $this->matcher->match($channel,  $this->collection, $tokenSeparator);
     }
 
     /**
