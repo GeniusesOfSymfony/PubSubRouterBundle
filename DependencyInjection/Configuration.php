@@ -20,12 +20,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
             ->arrayNode('resources')
-                ->children()
-                    ->arrayNode('files')
-                        ->prototype('scalar')->end()
-                    ->end()
+                ->prototype('scalar')->end()
                 ->end()
-            ->end()
             ->arrayNode('loaders')
                 ->prototype('scalar')->end()
             ->end()

@@ -38,8 +38,8 @@ class GosPubSubRouterExtension extends Extension
 
         $container->setAlias('router.pubsub', 'gos_pubsub_router.router');
 
-        foreach ($configs['resources']['files'] as $file) {
-            $routerDef->addMethodCall('addResource', array($file));
+        foreach ($configs['resources'] as $resource) {
+            $routerDef->addMethodCall('addResource', array($resource));
         }
 
         $routerDef->addMethodCall('loadRoute');

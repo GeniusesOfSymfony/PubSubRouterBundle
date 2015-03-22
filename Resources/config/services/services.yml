@@ -6,3 +6,10 @@ services:
         class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
         arguments:
             - @file_locator
+
+    gos_pubsub_router.debug.command:
+        class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
+        arguments:
+            - @gos_pubsub_router.router
+        tags:
+            - { name: console.command }
