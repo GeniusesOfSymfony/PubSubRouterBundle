@@ -22,9 +22,12 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('resources')
                 ->children()
                     ->arrayNode('files')
-                        ->prototype('scalar')
+                        ->prototype('scalar')->end()
                     ->end()
                 ->end()
+            ->end()
+            ->arrayNode('loaders')
+                ->prototype('scalar')->end()
             ->end()
         ->end();
 

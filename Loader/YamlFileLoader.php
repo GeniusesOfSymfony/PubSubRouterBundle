@@ -53,7 +53,7 @@ class YamlFileLoader extends AbstractRouteLoader
             $routeCollection->add($routeName, new Route(
                 $routeConfig['channel'],
                 $handler['callback'],
-                $handler['args'],
+                isset($handler['args']) ? $handler['args'] : [],
                 $routeConfig['requirements']
             ));
         }

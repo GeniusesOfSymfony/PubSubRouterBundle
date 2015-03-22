@@ -13,17 +13,22 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 class Matcher implements MatcherInterface
 {
     /**
+     * @var array
+     */
+    protected $attributes;
+
+    /**
      * {@inheritdoc}
      */
     public function match($channel, RouteCollection $routeCollection, $tokenSeparator)
     {
-        /**
+        /*
          * @var string
          * @var Route
          */
         foreach ($routeCollection as $routeName => $route) {
             if ($this->compare($route, $channel, $tokenSeparator)) {
-                return $route;
+                return [$routeName, $route, $this->attributes];
             }
         }
 
@@ -35,6 +40,7 @@ class Matcher implements MatcherInterface
      */
     public function compare(Route $route, $expected, $tokenSeparator)
     {
+        $this->attributes = [];
         $expectedTokens =  $this->tokenize($expected, $tokenSeparator);
         $routeTokens = $this->tokenize($route, $tokenSeparator);
 
@@ -54,6 +60,7 @@ class Matcher implements MatcherInterface
             $expectedToken = $expectedTokens[$i];
 
             if ($hasRequirements && $routeToken->isParameter()) {
+                $this->attributes[$routeToken->getExpression()] = $expectedToken->getExpression();
                 $tokenRequirements = $routeToken->getRequirements();
 
                 if (empty($tokenRequirements)) {

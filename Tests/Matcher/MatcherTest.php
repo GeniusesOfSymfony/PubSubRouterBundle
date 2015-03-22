@@ -189,11 +189,16 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
     {
         $rc = $this->getRouteCollection();
         $matcher = new Matcher();
-        $matchedRoute = $matcher->match('channel/user/foo-bar', $rc, '/');
-        $this->assertEquals($matchedRoute, $rc->get('simple_user'));
 
-        $matchedRoute = $matcher->match('notification/user/admin/123', $rc, '/');
-        $this->assertEquals($matchedRoute, $rc->get('user_employee_role_notification'));
+        $matched = $matcher->match('channel/user/foo-bar', $rc, '/');
+        $this->assertEquals($matched, ['simple_user', $rc->get('simple_user'), []]);
+
+        $matched = $matcher->match('notification/user/admin/123', $rc, '/');
+        $this->assertEquals($matched, [
+            'user_employee_role_notification',
+            $rc->get('user_employee_role_notification'),
+            [ 'role' => 'admin', 'uid' => 123 ],
+        ]);
     }
 
     public function testMissMatch()

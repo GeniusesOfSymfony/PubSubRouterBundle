@@ -53,7 +53,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param LoaderInterface $loader
+     * {@inheritdoc}
      */
     public function addLoader(LoaderInterface $loader)
     {
@@ -61,7 +61,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param RouterContext $context
+     * {@inheritdoc}
      */
     public function setContext(RouterContext $context)
     {
@@ -69,7 +69,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @return RouterContext
+     * {@inheritdoc}
      */
     public function getContext()
     {
@@ -77,8 +77,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param string      $channel
-     * @param null|string $tokenSeparator
+     * {@inheritdoc}
      */
     public function match($channel, $tokenSeparator = null)
     {
@@ -94,13 +93,16 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param string $resource
+     * {@inheritdoc}
      */
     public function addResource($resource)
     {
         $this->resources[] = $resource;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function loadRoute()
     {
         $loaderResolver = new LoaderResolver($this->loaders);
@@ -114,7 +116,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -122,7 +124,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @return RouteCollection
+     * {@inheritdoc}
      */
     public function getCollection()
     {

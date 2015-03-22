@@ -28,6 +28,11 @@ class Route implements RouteInterface
     protected $requirements;
 
     /**
+     * @var string
+     */
+    protected $name;
+
+    /**
      * @param string          $pattern
      * @param callable|string $callback
      * @param array           $args
@@ -71,5 +76,21 @@ class Route implements RouteInterface
     public function getArgs()
     {
         return $this->args;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }
