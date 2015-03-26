@@ -61,7 +61,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                 ],
                 'foo' => 'bar',
                 'requirements' => [
-                    'username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
+                    'username' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true],
                 ],
             ],
         ]);
@@ -94,7 +94,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                         'args' => ['gos_redis', 'gos_websocket'],
                     ],
                     'requirements' => [
-                        'username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
+                        'username' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true],
                     ],
                 ],
                 'application' => [
@@ -103,7 +103,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                         'callback' => ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                         'args' => ['gos_redis', 'gos_websocket'], ],
                     'requirements' => [
-                        'applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ],
+                        'applicationName' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true],
                     ],
                 ],
             ]);
@@ -116,14 +116,14 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
             'user' => new Route(
                 'notification/user/{username}',
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
-                [ 'gos_redis', 'gos_websocket'],
-                ['username' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ] ]
+                ['gos_redis', 'gos_websocket'],
+                ['username' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true]]
             ),
             'application' => new Route(
                 'notification/application/{applicationName}',
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
-                [ 'gos_redis', 'gos_websocket'],
-                ['applicationName' => [ 'pattern' => "[a-zA-Z0-9]+", 'wildcard' => true ] ]
+                ['gos_redis', 'gos_websocket'],
+                ['applicationName' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true]]
             ),
         ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
     }

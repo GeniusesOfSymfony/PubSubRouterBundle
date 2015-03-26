@@ -28,7 +28,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                 ['gos_redis', 'gos_websocket'],
                 [
-                    'uid' => [ 'pattern' => "\d+", 'wildcard' => true],
+                    'uid' => ['pattern' => "\d+", 'wildcard' => true],
                 ]
             ),
             'application_notification' => new Route(
@@ -36,7 +36,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                 ['gos_redis', 'gos_websocket'],
                 [
-                    'name' => [ 'pattern' => "[a-zA-Z0-9]", 'wildcard' => true],
+                    'name' => ['pattern' => '[a-zA-Z0-9]', 'wildcard' => true],
                 ]
             ),
             'application_chat_topic' => new Route(
@@ -44,7 +44,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                 ['gos_redis', 'gos_websocket'],
                 [
-                    'room' => [ 'pattern' => "[a-zA-Z0-9]", 'wildcard' => true],
+                    'room' => ['pattern' => '[a-zA-Z0-9]', 'wildcard' => true],
                 ]
             ),
             'user_employee_role_notification' => new Route(
@@ -52,8 +52,8 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                 ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
                 ['gos_redis', 'gos_websocket'],
                 [
-                    'role' => [ 'pattern' => 'admin|employee|user|anon'],
-                    'uid' => [ 'pattern' => "\d+" ],
+                    'role' => ['pattern' => 'admin|employee|user|anon'],
+                    'uid' => ['pattern' => "\d+"],
                 ]
             ),
             'simple_user' => new Route(
@@ -72,7 +72,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
             ['Gos\Bundle\PubSubRouterBundle\Tests\Model', 'setPushers'],
             ['gos_redis', 'gos_websocket'],
             [
-                'name' => [ 'pattern' => "[a-zA-Z0-9]", 'wildcard' => true],
+                'name' => ['pattern' => '[a-zA-Z0-9]', 'wildcard' => true],
             ]
         );
 
@@ -98,15 +98,15 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
         $rc = $this->getRouteCollection();
 
         return [
-            [ $rc->get('user_notification'), 'notification/user/18', '/', true],
-            [ $rc->get('application_notification'), 'notification/application/*', '/', true],
-            [ $rc->get('application_notification'), 'notification/application/all', '/', true],
-            [ $rc->get('application_notification'), 'notification/application/@foo', '/', false],
-            [ $rc->get('user_notification'), 'notification/user/username', '/', false],
-            [ $rc->get('user_employee_role_notification'), 'notification/user/admin/1', '/', true],
-            [ $rc->get('user_employee_role_notification'), 'notification/user/*/azerty', '/', false],
-            [ $rc->get('user_employee_role_notification'), 'notification/user/admin/all', '/', false],
-            [ $rc->get('application_chat_topic'), 'application/chat/foobar', '/', true],
+            [$rc->get('user_notification'), 'notification/user/18', '/', true],
+            [$rc->get('application_notification'), 'notification/application/*', '/', true],
+            [$rc->get('application_notification'), 'notification/application/all', '/', true],
+            [$rc->get('application_notification'), 'notification/application/@foo', '/', false],
+            [$rc->get('user_notification'), 'notification/user/username', '/', false],
+            [$rc->get('user_employee_role_notification'), 'notification/user/admin/1', '/', true],
+            [$rc->get('user_employee_role_notification'), 'notification/user/*/azerty', '/', false],
+            [$rc->get('user_employee_role_notification'), 'notification/user/admin/all', '/', false],
+            [$rc->get('application_chat_topic'), 'application/chat/foobar', '/', true],
         ];
     }
 
@@ -197,7 +197,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($matched, [
             'user_employee_role_notification',
             $rc->get('user_employee_role_notification'),
-            [ 'role' => 'admin', 'uid' => 123 ],
+            ['role' => 'admin', 'uid' => 123],
         ]);
     }
 

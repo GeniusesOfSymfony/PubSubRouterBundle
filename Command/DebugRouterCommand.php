@@ -41,7 +41,7 @@ class DebugRouterCommand extends Command
         $table->setLayout(TableHelper::LAYOUT_COMPACT);
 
         $rows = [];
-        /**
+        /*
          * @var string
          * @var RouteInterface
          */
