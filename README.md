@@ -46,7 +46,7 @@ gos_pubsub_router:
 Usage
 -----
 
-## Routing definition
+### Routing definition
 
 Example with websocket pubsub
 
@@ -85,9 +85,10 @@ user_app_notification:
 ```
 
 **NOTE** : Wildcard match with `*`and `all`
-**NOTE 2** Callback is not type hinted, so you can pass a single string (like a service name) that only depend of your implementation when you retrieve the route ! You are free to choose what you to do !
 
-## Use router
+**NOTE 2** : Callback is not type hinted, so you can pass a single string (like a service name) that only depend of your implementation when you retrieve the route ! You are free to choose what you to do !
+
+### Use router
 
 ```php
 use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
@@ -114,7 +115,7 @@ list($routeName, $route, $attributes) = $router->match($channel);
 // $attributes -> [ 'role' => 'admin', 'application' => 'billing-app', 'user_ref' => '639409' ]
 ```
 
-What about mismatch humm ?
+What about miss match humm ?
 
 ```php
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
@@ -128,7 +129,7 @@ try {
 }
 ```
 
-## Router CLI
+### Router CLI
 
 `php app/console gos:prouter:debug` dump all registered routes
 
