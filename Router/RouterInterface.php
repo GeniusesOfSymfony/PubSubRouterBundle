@@ -2,10 +2,13 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
+use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
+
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-interface RouterInterface
+interface RouterInterface extends MatcherInterface, GeneratorInterface
 {
     /**
      * @param RouterContext $context
@@ -16,24 +19,6 @@ interface RouterInterface
      * @return RouterContext
      */
     public function getContext();
-
-    /**
-     * @param string      $channel
-     * @param null|string $tokenSeparator
-     */
-    public function match($channel, $tokenSeparator = null);
-
-    /**
-     * @param string $resource
-     */
-    public function addResource($resource);
-
-    public function loadRoute();
-
-    /**
-     * @return bool
-     */
-    public function isLoaded();
 
     /**
      * @return RouteCollection

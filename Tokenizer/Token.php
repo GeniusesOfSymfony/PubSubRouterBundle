@@ -1,6 +1,6 @@
 <?php
 
-namespace Gos\Bundle\PubSubRouterBundle\Matcher;
+namespace Gos\Bundle\PubSubRouterBundle\Tokenizer;
 
 class Token
 {

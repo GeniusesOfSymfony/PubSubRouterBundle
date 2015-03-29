@@ -28,21 +28,18 @@ class GosPubSubRouterExtension extends Extension
         $configuration = new Configuration();
         $configs = $this->processConfiguration($configuration, $configs);
 
+        $container->setAlias('router.pubsub', 'gos_pubsub_router.router');
         $configs['loaders'][] = '@gos_pubsub_router.yaml.loader';
 
-        $routerDef = $container->getDefinition('gos_pubsub_router.router');
-
-        foreach ($configs['loaders'] as $loaderRef) {
-            $routerDef->addMethodCall('addLoader', [new Reference(ltrim($loaderRef, '@'))]);
-        }
-
-        $container->setAlias('router.pubsub', 'gos_pubsub_router.router');
+        $routeLoaderDef = $container->getDefinition('gos_pubsub_route.loader');
 
         foreach ($configs['resources'] as $resource) {
-            $routerDef->addMethodCall('addResource', array($resource));
+            $routeLoaderDef->addMethodCall('addResource', array($resource));
         }
 
-        $routerDef->addMethodCall('loadRoute');
+        foreach ($configs['loaders'] as $loaderRef) {
+            $routeLoaderDef->addMethodCall('addLoader', [new Reference(ltrim($loaderRef, '@'))]);
+        }
     }
 
     /**

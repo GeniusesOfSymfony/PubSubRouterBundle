@@ -2,10 +2,11 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Matcher;
 
-use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
+use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
@@ -18,15 +19,34 @@ class Matcher implements MatcherInterface
     protected $attributes;
 
     /**
+     * @var TokenizerInterface
+     */
+    protected $tokenizer;
+
+    /**
+     * @var RouteCollection
+     */
+    protected $routeCollection;
+
+    /**
+     * @param TokenizerInterface $tokenizer
+     */
+    public function __construct(RouteCollection $routeCollection, TokenizerInterface $tokenizer)
+    {
+        $this->routeCollection = $routeCollection;
+        $this->tokenizer = $tokenizer;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function match($channel, RouteCollection $routeCollection, $tokenSeparator)
+    public function match($channel, $tokenSeparator)
     {
         /*
          * @var string
          * @var Route
          */
-        foreach ($routeCollection as $routeName => $route) {
+        foreach ($this->routeCollection as $routeName => $route) {
             if ($this->compare($route, $channel, $tokenSeparator)) {
                 return [$routeName, $route, $this->attributes];
             }
@@ -36,13 +56,16 @@ class Matcher implements MatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param Route  $route
+     * @param string $expected
+     *
+     * @return bool
      */
-    public function compare(Route $route, $expected, $tokenSeparator)
+    protected function compare(Route $route, $expected, $tokenSeparator)
     {
         $this->attributes = [];
-        $expectedTokens =  $this->tokenize($expected, $tokenSeparator);
-        $routeTokens = $this->tokenize($route, $tokenSeparator);
+        $expectedTokens =  $this->tokenizer->tokenize($expected, $tokenSeparator);
+        $routeTokens = $this->tokenizer->tokenize($route, $tokenSeparator);
 
         if (($length = count($routeTokens)) !== count($expectedTokens)) {
             return false;
@@ -94,68 +117,5 @@ class Matcher implements MatcherInterface
         }
 
         return $validTokens === $length;
-    }
-
-    /**
-     * @param string|Route $stringOrRoute
-     * @param string       $separator
-     *
-     * @return Token[]
-     *
-     * @throws InvalidArgumentException
-     */
-    public function tokenize($stringOrRoute, $separator)
-    {
-        if ($stringOrRoute instanceof Route) {
-            $pattern = $stringOrRoute->getPattern();
-            $requirements = $stringOrRoute->getRequirements();
-        } else {
-            $pattern = $stringOrRoute;
-        }
-
-        $rawTokens = explode($separator, $pattern);
-        $tokens = [];
-        $requirementsSeen = [];
-        $parametersSeen = [];
-
-        foreach ($rawTokens as $i => $rawToken) {
-            $token = new Token();
-            $split = str_split($rawToken);
-            reset($split);
-
-            if (current($split) === '{' && end($split) === '}') {
-                $token->setParameter();
-                unset($split[0], $split[count($split)]);
-            }
-
-            $token->setExpression(implode($split));
-
-            if ($token->isParameter()) {
-                $parametersSeen[] = $token->getExpression();
-            }
-
-            if ($stringOrRoute instanceof Route) {
-                if (!empty($stringOrRoute->getRequirements())) {
-                    if (isset($requirements[$token->getExpression()])) {
-                        $requirementsSeen[] = $token->getExpression();
-                        $token->setRequirements($requirements[$token->getExpression()]);
-                    }
-                }
-            }
-
-            $tokens[$i] = $token;
-        }
-
-        if ($stringOrRoute instanceof Route) {
-            if ($requirementsSeen !== $parametersSeen) {
-                throw new InvalidArgumentException(sprintf(
-                    'Unknown parameter %s in [ %s ]',
-                    implode(', ', array_diff($parametersSeen, $requirementsSeen)),
-                    implode(', ', $parametersSeen)
-                ));
-            }
-        }
-
-        return $tokens;
     }
 }
