@@ -8,7 +8,6 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer;
-use Prophecy\Argument;
 use Prophecy\Prophecy\ProphecyInterface;
 
 class MatcherTest extends \PHPUnit_Framework_TestCase
@@ -83,18 +82,18 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
         $this->tokenizer->tokenize($userNotifRoute, '/')->willReturn([
             $this->createToken('notification'),
             $this->createToken('user'),
-            $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true])
+            $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true]),
         ]);
 
         $this->tokenizer->tokenize('notification/user/123', '/')->willReturn([
             $this->createToken('notification'),
             $this->createToken('user'),
-            $this->createToken('123')
+            $this->createToken('123'),
         ]);
 
         $this->routeCollection->getIterator()->willReturn(
             new \ArrayIterator([
-                'user_notification' => $userNotifRoute
+                'user_notification' => $userNotifRoute,
             ])
         );
 
@@ -131,13 +130,13 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
     {
         $results = [];
 
-        foreach($conf['channels'] as $channel){
+        foreach ($conf['channels'] as $channel) {
             list($path, $separator, $expected) = $channel;
 
             $rawTokens = explode($separator, $path);
             $tokens = [];
 
-            foreach($rawTokens as $token){
+            foreach ($rawTokens as $token) {
                 $tokens[] = $this->createToken($token);
             }
 
@@ -154,45 +153,40 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
         $results = [];
 
         $tests = [
-            'user_notification' => [ 'channels' =>
-                [
+            'user_notification' => ['channels' => [
                     ['notification/user/18', '/', true],
-                    ['notification/user/username', '/', false]
-                ]
+                    ['notification/user/username', '/', false],
+                ],
             ],
-            'application_notification' => [ 'channels' =>
-                [
+            'application_notification' => ['channels' => [
                     ['notification/application/*', '/', true],
                     ['notification/application/all', '/', true],
-                    ['notification/application/@foo', '/', false]
-                ]
+                    ['notification/application/@foo', '/', false],
+                ],
             ],
-            'user_employee_notification' => ['channels' =>
-                [
+            'user_employee_notification' => ['channels' => [
                     ['notification/user/admin/1', '/', true],
                     ['notification/user/*/azerty', '/', false],
                     ['notification/user/admin/all', '/', false],
-                    ['notification/user/*/*', '/', false]
-                ]
+                    ['notification/user/*/*', '/', false],
+                ],
             ],
-            'application_chat_topic' => ['channels' =>
-                [
-                    ['application/chat/foobar', '/', true]
-                ]
+            'application_chat_topic' => ['channels' => [
+                    ['application/chat/foobar', '/', true],
+                ],
             ],
-            'redis_user_notification' => [ 'channels' =>
-                [
+            'redis_user_notification' => ['channels' => [
                     ['notification:user:1233', ':', true],
                     ['notification:user:*', ':', true],
-                    ['notification:user:azerty', ':', false]
-                ]
-            ]
+                    ['notification:user:azerty', ':', false],
+                ],
+            ],
         ];
 
-        foreach($tests as $routeName => $conf){
+        foreach ($tests as $routeName => $conf) {
             $tokenizer = $this->prophesize(Tokenizer::CLASS);
 
-            switch($routeName){
+            switch ($routeName) {
                 case 'redis_user_notification':
                     $route = $this->createRoute(
                         'notification:user:{uid}', 'redis_user_notification', ['uid' => ['pattern' => "\d+", 'wildcard' => true]]
@@ -201,7 +195,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                     $tokenizer->tokenize($route, ':')->willReturn([
                         $this->createToken('notification'),
                         $this->createToken('user'),
-                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true])
+                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true]),
                     ]);
 
                     $results += $this->generateResult($conf, $tokenizer, $route);
@@ -214,7 +208,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                     $tokenizer->tokenize($route, '/')->willReturn([
                         $this->createToken('notification'),
                         $this->createToken('user'),
-                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true])
+                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true]),
                     ]);
 
                     $results += $this->generateResult($conf, $tokenizer, $route);
@@ -229,7 +223,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                     $tokenizer->tokenize($route, '/')->willReturn([
                         $this->createToken('notification'),
                         $this->createToken('application'),
-                        $this->createToken('aid', true, [ 'pattern' => "\d+", 'wildcard' => true])
+                        $this->createToken('aid', true, ['pattern' => "\d+", 'wildcard' => true]),
                     ]);
 
                     $results += $this->generateResult($conf, $tokenizer, $route);
@@ -240,7 +234,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                         'user_employee_role_notification',
                         [
                             'uid' => ['pattern' => "\d+", 'wildcard' => true],
-                            'role' => ['pattern' => "admin|moderator"]
+                            'role' => ['pattern' => 'admin|moderator'],
                         ]
                     )->reveal();
 
@@ -248,7 +242,7 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                         $this->createToken('notification'),
                         $this->createToken('user'),
                         $this->createToken('role', true, ['pattern' => 'admin|moderator']),
-                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true])
+                        $this->createToken('uid', true, ['pattern' => "\d+", 'wildcard' => true]),
                     ]);
 
                     $results += $this->generateResult($conf, $tokenizer, $route);
@@ -259,14 +253,14 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
                         'application/chat/{rid}',
                         'application_chat_topic',
                         [
-                            'rid' => ['pattern' => "\d+", 'wildcard' => true]
+                            'rid' => ['pattern' => "\d+", 'wildcard' => true],
                         ]
                     )->reveal();
 
                     $tokenizer->tokenize($route, '/')->willReturn([
                         $this->createToken('application'),
                         $this->createToken('chat'),
-                        $this->createToken('rid', true, [ 'pattern' => "\d+", 'wildcard' => true])
+                        $this->createToken('rid', true, ['pattern' => "\d+", 'wildcard' => true]),
                     ]);
 
                     $results += $this->generateResult($conf, $tokenizer, $route);

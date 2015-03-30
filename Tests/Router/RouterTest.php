@@ -8,9 +8,6 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
-use Prophecy\Argument;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -82,7 +79,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $router->generateFromTokens($tokens, $parameters, '/');
     }
-
 
     public function testGenerateWithoutContext()
     {
