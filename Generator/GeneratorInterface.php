@@ -19,9 +19,9 @@ interface GeneratorInterface
     public function generate($routeName, Array $parameters = [], $tokenSeparator);
 
     /**
-     * @param Token[] $tokens
-     * @param array   $parameters
-     * @param string|null  $tokenSeparator
+     * @param Token[]     $tokens
+     * @param array       $parameters
+     * @param string|null $tokenSeparator
      *
      * @throws InvalidArgumentException
      *

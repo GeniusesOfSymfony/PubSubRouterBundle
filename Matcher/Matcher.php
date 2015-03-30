@@ -49,6 +49,7 @@ class Matcher implements MatcherInterface
         foreach ($this->routeCollection as $routeName => $route) {
             if ($this->compare($route, $channel, $tokenSeparator)) {
                 $route->setName($routeName);
+
                 return [$routeName, $route, $this->attributes];
             }
         }
@@ -116,7 +117,6 @@ class Matcher implements MatcherInterface
                 }
             }
         }
-
 
         return $validTokens === $length && 0 !== $validTokens;
     }
