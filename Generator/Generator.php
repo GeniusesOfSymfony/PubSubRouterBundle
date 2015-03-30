@@ -31,7 +31,7 @@ class Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator = null)
+    public function generate($routeName, Array $parameters = [], $tokenSeparator)
     {
         $route = $this->routeCollection->get($routeName);
 

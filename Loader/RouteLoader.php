@@ -57,7 +57,7 @@ class RouteLoader implements CacheWarmerInterface
         $this->resources[] = $resource;
     }
 
-    /**
+    /**md
      * @param LoaderInterface $loader
      */
     public function addLoader(LoaderInterface $loader)

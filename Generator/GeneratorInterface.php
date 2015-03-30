@@ -16,12 +16,12 @@ interface GeneratorInterface
      *
      * @return mixed
      */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator = null);
+    public function generate($routeName, Array $parameters = [], $tokenSeparator);
 
     /**
      * @param Token[] $tokens
      * @param array   $parameters
-     * @param string  $tokenSeparator
+     * @param string|null  $tokenSeparator
      *
      * @throws InvalidArgumentException
      *

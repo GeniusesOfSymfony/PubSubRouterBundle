@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Matcher;
 
-use Gos\Bundle\PubSubRouterBundle\Matcher\Token;
+use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 
 class TokenTest extends \PHPUnit_Framework_TestCase
 {

@@ -49,7 +49,7 @@ class Router implements RouterInterface
     ) {
         $this->collection = $routeCollection;
         $this->matcher = $matcher;
-        $this->generator = $matcher;
+        $this->generator = $generator;
         $this->loader = $loader;
 
         //throw an event to dynamically add route from app before load ?
@@ -75,7 +75,7 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator = null)
+    public function generate($routeName, Array $parameters = [], $tokenSeparator)
     {
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();
