@@ -32,6 +32,8 @@ class RouteLoader implements CacheWarmerInterface
     /** @var  string */
     protected $fileName;
 
+    const CACHE_FILE_NAME = 'gosPubSubRouter.php';
+
     /**
      * @param RouteCollection $routeCollection
      * @param string          $cacheDir
@@ -45,7 +47,7 @@ class RouteLoader implements CacheWarmerInterface
         $this->routeCollection = $routeCollection;
         $this->cacheDir = $cacheDir;
         $this->debug = $debug;
-        $this->fileName = $this->cacheDir . '/gosPubSubRouter.php';
+        $this->fileName = $this->cacheDir . '/'. self::CACHE_FILE_NAME;
         $this->cache = new ConfigCache($this->fileName, $this->debug);
     }
 
