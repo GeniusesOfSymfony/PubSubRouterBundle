@@ -44,7 +44,7 @@ class RedisDumper implements DumperInterface
      * {@inheritdoc}
      */
     public function dump($tokenSeparator = ':', Array $extras = [])
-    {;
+    {
         $subscriptions = [
             self::SUBSCRIBE => [],
             self::PSUBSCRIBE => [],

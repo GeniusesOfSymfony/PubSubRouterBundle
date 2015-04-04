@@ -4,8 +4,9 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 
-class RouteCollectionTest extends \PHPUnit_Framework_TestCase
+class RouteCollectionTest extends PubSubTestCase
 {
     protected $routes;
 
@@ -33,7 +34,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testConstructorWithInitialRoutes()
     {
         $routeCollection = new RouteCollection($this->routes);
-        $this->assertEquals($this->routes, \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        $this->assertEquals($this->routes, $this->readProperty($routeCollection, 'routes'));
     }
 
     public function testClone()
@@ -42,15 +43,15 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $routeCollectionB = clone $routeCollectionA;
 
         $this->assertEquals(
-            \PHPUnit_Framework_Assert::readAttribute($routeCollectionA, 'routes'),
-            \PHPUnit_Framework_Assert::readAttribute($routeCollectionB, 'routes')
+            $this->readProperty($routeCollectionA, 'routes'),
+            $this->readProperty($routeCollectionB, 'routes')
         );
     }
 
     public function testCount()
     {
         $routeCollection = new RouteCollection($this->routes);
-        $this->assertCount(3, \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        $this->assertCount(3, $this->readProperty($routeCollection, 'routes'));
     }
 
     public function testAdd()
@@ -58,14 +59,14 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $routeCollection = new RouteCollection();
         $routeCollection->add('routeA', $this->routes['routeA']);
 
-        $this->assertEquals(['routeA' => $this->routes['routeA']], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        $this->assertEquals(['routeA' => $this->routes['routeA']], $this->readProperty($routeCollection, 'routes'));
 
         $routeCollection->add('routeB', $this->routes['routeB']);
 
         $this->assertEquals([
             'routeA' => $this->routes['routeA'],
             'routeB' => $this->routes['routeB'],
-        ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        ], $this->readProperty($routeCollection, 'routes'));
     }
 
     public function testRemove()
@@ -77,7 +78,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             'routeB' => $this->routes['routeB'],
             'routeC' => $this->routes['routeC'],
-        ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        ], $this->readProperty($routeCollection, 'routes'));
     }
 
     public function testGet()
@@ -106,7 +107,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 
         $routeCollectionA->addCollection($routeCollectionB);
 
-        $this->assertEquals($this->routes, \PHPUnit_Framework_Assert::readAttribute($routeCollectionA, 'routes'));
+        $this->assertEquals($this->routes, $this->readProperty($routeCollectionA, 'routes'));
     }
 
     public function tearDown()

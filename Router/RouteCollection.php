@@ -85,7 +85,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
             return $route;
         }
 
-        return;
+        return false;
     }
 
     /**

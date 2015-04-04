@@ -6,11 +6,12 @@ use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer;
 use Prophecy\Prophecy\ProphecyInterface;
 
-class MatcherTest extends \PHPUnit_Framework_TestCase
+class MatcherTest extends PubSubTestCase
 {
     /** @var  ProphecyInterface */
     protected $routeCollection;
@@ -28,15 +29,6 @@ class MatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->routeCollection = null;
         $this->tokenizer = null;
-    }
-
-    public function invokeMethod(&$object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
     }
 
     /**

@@ -5,18 +5,19 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 use Gos\Bundle\PubSubRouterBundle\Loader\AbstractRouteLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 use Symfony\Component\Config\ConfigCache;
 
-class RouteLoaderTest extends \PHPUnit_Framework_TestCase
+class RouteLoaderTest extends PubSubTestCase
 {
     public function testAddResources()
     {
         $collection = $this->prophesize(RouteCollection::CLASS);
         $routeLoader = new RouteLoader($collection->reveal(), '', true);
         $routeLoader->addResource('foo');
-        $this->assertEquals(['foo'], \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'resources'));
+        $this->assertEquals(['foo'], $this->readProperty($routeLoader, 'resources'));
         $routeLoader->addResource('bar');
-        $this->assertEquals(['foo', 'bar'], \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'resources'));
+        $this->assertEquals(['foo', 'bar'], $this->readProperty($routeLoader, 'resources'));
     }
 
     public function testAddLoader()
@@ -26,29 +27,29 @@ class RouteLoaderTest extends \PHPUnit_Framework_TestCase
 
         $routeLoader = new RouteLoader($collection->reveal(), '', true);
         $routeLoader->addLoader($loader);
-        $this->assertEquals([$loader], \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'loaders'));
+        $this->assertEquals([$loader], $this->readProperty($routeLoader, 'loaders'));
 
         $loader2 = $this->prophesize(AbstractRouteLoader::CLASS)->reveal();
         $routeLoader->addLoader($loader2);
-        $this->assertEquals([$loader, $loader2], \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'loaders'));
+        $this->assertEquals([$loader, $loader2], $this->readProperty($routeLoader, 'loaders'));
     }
 
     public function testConstruct()
     {
         $collection = $this->prophesize(RouteCollection::CLASS)->reveal();
         $routeLoader = new RouteLoader($collection, '/foo', true);
-        $this->assertEquals($collection, \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'routeCollection'));
-        $this->assertEquals('/foo', \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'cacheDir'));
-        $this->assertEquals(true, \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'debug'));
-        $this->assertEquals('/foo/'.RouteLoader::CACHE_FILE_NAME, \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'fileName'));
-        $configCache = \PHPUnit_Framework_Assert::readAttribute($routeLoader, 'cache');
-        $this->assertInstanceOf(ConfigCache::CLASS, $configCache);
-        $this->assertEquals(true, \PHPUnit_Framework_Assert::readAttribute($configCache, 'debug'));
-        $this->assertEquals('/foo/'.RouteLoader::CACHE_FILE_NAME, \PHPUnit_Framework_Assert::readAttribute($configCache, 'file'));
-    }
 
-    public function testLoad()
-    {
-        
+        $this->assertEquals([], $this->readProperty($routeLoader, 'loaders'));
+        $this->assertEquals([], $this->readProperty($routeLoader, 'resources'));
+        $this->assertEquals($collection, $this->readProperty($routeLoader, 'routeCollection'));
+        $this->assertEquals('/foo', $this->readProperty($routeLoader, 'cacheDir'));
+        $this->assertEquals(true, $this->readProperty($routeLoader, 'debug'));
+        $this->assertEquals('/foo/' . RouteLoader::CACHE_FILE_NAME, $this->readProperty($routeLoader, 'fileName'));
+
+        $configCache = $this->readProperty($routeLoader, 'cache');
+
+        $this->assertInstanceOf(ConfigCache::CLASS, $configCache);
+        $this->assertEquals(true, $this->readProperty($configCache, 'debug'));
+        $this->assertEquals('/foo/' . RouteLoader::CACHE_FILE_NAME, $this->readProperty($configCache, 'file'));
     }
 }

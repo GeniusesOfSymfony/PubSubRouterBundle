@@ -8,8 +8,9 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends PubSubTestCase
 {
     public function testMatchWithoutContext()
     {
@@ -135,7 +136,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $router = new Router($routeCollection->reveal(), $matcher->reveal(), $generator->reveal(), $routeLoader->reveal());
 
         $router->setContext(new RouterContext());
-        $this->assertInstanceOf(RouterContext::CLASS, \PHPUnit_Framework_Assert::readAttribute($router, 'context'));
+        $this->assertInstanceOf(RouterContext::CLASS, $this->readProperty($router, 'context'));
     }
 
     public function testGetContext()

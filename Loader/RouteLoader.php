@@ -47,8 +47,10 @@ class RouteLoader implements CacheWarmerInterface
         $this->routeCollection = $routeCollection;
         $this->cacheDir = $cacheDir;
         $this->debug = $debug;
-        $this->fileName = $this->cacheDir . '/'. self::CACHE_FILE_NAME;
+        $this->fileName = $this->cacheDir . '/' . self::CACHE_FILE_NAME;
         $this->cache = new ConfigCache($this->fileName, $this->debug);
+        $this->resources = [];
+        $this->loaders = [];
     }
 
     /**

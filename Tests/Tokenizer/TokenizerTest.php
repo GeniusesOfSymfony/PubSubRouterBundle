@@ -2,46 +2,11 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Tokenizer;
 
-use Gos\Bundle\PubSubRouterBundle\Router\Route;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer;
 
-class TokenizerTest extends \PHPUnit_Framework_TestCase
+class TokenizerTest extends PubSubTestCase
 {
-    /**
-     * @param string $expression
-     * @param bool   $isParameter
-     * @param array  $requirements
-     *
-     * @return object
-     */
-    protected function createToken($expression, $isParameter = false, $requirements = [])
-    {
-        $token = $this->prophesize(Token::CLASS);
-        $token->isParameter()->willReturn($isParameter);
-        $token->getExpression()->willReturn($expression);
-        $token->getRequirements()->willReturn($requirements);
-
-        return $token->reveal();
-    }
-
-    /**
-     * @param string $pattern
-     * @param string $name
-     * @param array  $requirements
-     *
-     * @return \Prophecy\Prophecy\ObjectProphecy
-     */
-    protected function createRoute($pattern, $name, $requirements = [])
-    {
-        $route = $this->prophesize(Route::CLASS);
-        $route->getPattern()->willReturn($pattern);
-        $route->getRequirements()->willReturn($requirements);
-        $route->__toString()->willReturn($name);
-
-        return $route;
-    }
-
     /**
      * @dataProvider provideData
      */
