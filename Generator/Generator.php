@@ -3,6 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle\Generator;
 
 use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
+use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
@@ -17,15 +18,22 @@ class Generator implements GeneratorInterface
     /**
      * @var RouteCollection
      */
-    protected $routeCollection;
+    protected $collection;
 
     /**
      * @param TokenizerInterface $tokenizer
      */
-    public function __construct(RouteCollection $routeCollection, TokenizerInterface $tokenizer)
+    public function __construct(TokenizerInterface $tokenizer)
     {
-        $this->routeCollection = $routeCollection;
         $this->tokenizer = $tokenizer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCollection(RouteCollection $collection)
+    {
+        $this->collection = $collection;
     }
 
     /**
@@ -33,7 +41,15 @@ class Generator implements GeneratorInterface
      */
     public function generate($routeName, Array $parameters = [], $tokenSeparator)
     {
-        $route = $this->routeCollection->get($routeName);
+        $route = $this->collection->get($routeName);
+
+        if (false === $route) {
+            throw new ResourceNotFoundException(sprintf(
+                'Route %s not exists in [%s]',
+                $routeName,
+                implode(', ', array_keys($this->collection->all()))
+            ));
+        }
 
         $tokens = $this->tokenizer->tokenize($route, $tokenSeparator);
 

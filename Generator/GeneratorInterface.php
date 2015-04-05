@@ -28,4 +28,9 @@ interface GeneratorInterface
      * @return string
      */
     public function generateFromTokens(Array $tokens, Array $parameters = [], $tokenSeparator);
+
+    /**
+     * @param RouteCollection $collection
+     */
+    public function setCollection(RouteCollection $collection);
 }

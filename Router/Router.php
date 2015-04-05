@@ -37,23 +37,37 @@ class Router implements RouterInterface
     protected $loader;
 
     /**
+     * @var string
+     */
+    protected $name;
+
+    /**
      * @param RouteCollection    $routeCollection
      * @param MatcherInterface   $matcher
      * @param GeneratorInterface $generator
+     * @param RouteLoader        $loader
+     * @param string             $name
      */
     public function __construct(
         RouteCollection $routeCollection,
         MatcherInterface $matcher,
         GeneratorInterface $generator,
-        RouteLoader $loader
+        RouteLoader $loader,
+        $name
     ) {
         $this->collection = $routeCollection;
         $this->matcher = $matcher;
         $this->generator = $generator;
         $this->loader = $loader;
+        $this->name = $name;
+    }
 
-        //throw an event to dynamically add route from app before load ?
-        $this->loader->load();
+    /**
+     * @param RouteCollection $collection
+     */
+    public function setCollection(RouteCollection $collection)
+    {
+        $this->collection = $collection;
     }
 
     /**
@@ -77,6 +91,8 @@ class Router implements RouterInterface
      */
     public function generate($routeName, Array $parameters = [], $tokenSeparator)
     {
+        $this->generator->setCollection($this->collection);
+
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();
         }
@@ -101,6 +117,8 @@ class Router implements RouterInterface
      */
     public function match($channel, $tokenSeparator = null)
     {
+        $this->matcher->setCollection($this->collection);
+
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();
         }
@@ -114,5 +132,13 @@ class Router implements RouterInterface
     public function getCollection()
     {
         return $this->collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

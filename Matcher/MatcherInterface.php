@@ -3,6 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle\Matcher;
 
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
+use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
@@ -18,4 +19,9 @@ interface MatcherInterface
      * @throws ResourceNotFoundException
      */
     public function match($channel, $tokenSeparator);
+
+    /**
+     * @param RouteCollection $collection
+     */
+    public function setCollection(RouteCollection $collection);
 }

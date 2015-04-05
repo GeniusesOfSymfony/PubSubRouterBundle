@@ -26,15 +26,22 @@ class Matcher implements MatcherInterface
     /**
      * @var RouteCollection
      */
-    protected $routeCollection;
+    protected $collection;
 
     /**
      * @param TokenizerInterface $tokenizer
      */
-    public function __construct(RouteCollection $routeCollection, TokenizerInterface $tokenizer)
+    public function __construct(TokenizerInterface $tokenizer)
     {
-        $this->routeCollection = $routeCollection;
         $this->tokenizer = $tokenizer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCollection(RouteCollection $collection)
+    {
+        $this->collection = $collection;
     }
 
     /**
@@ -46,7 +53,7 @@ class Matcher implements MatcherInterface
          * @var string
          * @var RouteInterface Route
          */
-        foreach ($this->routeCollection as $routeName => $route) {
+        foreach ($this->collection as $routeName => $route) {
             if ($this->compare($route, $channel, $tokenSeparator)) {
                 $route->setName($routeName);
 

@@ -24,4 +24,9 @@ interface RouterInterface extends MatcherInterface, GeneratorInterface
      * @return RouteCollection
      */
     public function getCollection();
+
+    /**
+     * @return string
+     */
+    public function getName();
 }
