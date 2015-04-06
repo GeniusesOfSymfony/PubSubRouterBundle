@@ -28,7 +28,11 @@ class PhpFileCacheDecorator implements Cache
      */
     public function fetch($id)
     {
-        return $this->cache->fetch('id');
+        if (true === $this->debug) {
+            return false;
+        }
+
+        return $this->cache->fetch($id);
     }
 
     /**
@@ -48,7 +52,11 @@ class PhpFileCacheDecorator implements Cache
      */
     public function save($id, $data, $lifeTime = 0)
     {
-        return $this->save($id, $data, $lifeTime);
+        if (true === $this->debug) {
+            return true;
+        }
+
+        return $this->cache->save($id, $data, $lifeTime);
     }
 
     /**
@@ -56,7 +64,7 @@ class PhpFileCacheDecorator implements Cache
      */
     public function delete($id)
     {
-        return $this->delete($id);
+        return $this->cache->delete($id);
     }
 
     /**

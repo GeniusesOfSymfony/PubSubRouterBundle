@@ -26,6 +26,22 @@ class Token
     }
 
     /**
+     * @param array $data
+     *
+     * @return Token
+     */
+    public static function __set_state(array $data)
+    {
+        $token = new Token();
+
+        $token->setParameter($data['isParameter']);
+        $token->setRequirements($data['requirements']);
+        $token->setExpression($data['expression']);
+
+        return $token;
+    }
+
+    /**
      * @param bool $bool
      */
     public function setParameter($bool = true)

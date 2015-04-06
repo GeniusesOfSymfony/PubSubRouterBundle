@@ -47,6 +47,22 @@ class Route implements RouteInterface
     }
 
     /**
+     * @param array $data
+     *
+     * @return Route
+     */
+    public static function __set_state($data)
+    {
+        $route = new Route($data['pattern'], $data['callback'], $data['args'], $data['requirements']);
+
+        if(isset($data['name'])){
+            $route->setName($data['name']);
+        }
+
+        return $route;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getPattern()
@@ -83,7 +99,11 @@ class Route implements RouteInterface
      */
     public function __toString()
     {
-        return $this->name;
+        if(null !== $this->name){
+            return $this->name;
+        }
+
+        return spl_object_hash($this);
     }
 
     /**

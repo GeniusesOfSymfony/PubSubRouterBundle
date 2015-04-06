@@ -44,26 +44,24 @@ class Tokenizer implements TokenizerInterface
                 $parametersSeen[] = $token->getExpression();
             }
 
-            if ($stringOrRoute instanceof RouteInterface) {
-                if (!empty($stringOrRoute->getRequirements())) {
-                    if (isset($requirements[$token->getExpression()])) {
-                        $requirementsSeen[] = $token->getExpression();
-                        $token->setRequirements($requirements[$token->getExpression()]);
-                    }
-                }
+            if (
+                $stringOrRoute instanceof RouteInterface &&
+                count($stringOrRoute->getRequirements()) >= 1 &&
+                isset($requirements[$token->getExpression()])
+            ) {
+                $requirementsSeen[] = $token->getExpression();
+                $token->setRequirements($requirements[$token->getExpression()]);
             }
 
             $tokens[$i] = $token;
         }
 
-        if ($stringOrRoute instanceof RouteInterface) {
-            if ($requirementsSeen !== $parametersSeen) {
-                throw new InvalidArgumentException(sprintf(
-                    'Unknown parameter %s in [ %s ]',
-                    implode(', ', array_diff($parametersSeen, $requirementsSeen)),
-                    implode(', ', $parametersSeen)
-                ));
-            }
+        if ($stringOrRoute instanceof RouteInterface && $requirementsSeen !== $parametersSeen) {
+            throw new InvalidArgumentException(sprintf(
+                'Unknown parameter %s in [ %s ]',
+                implode(', ', array_diff($parametersSeen, $requirementsSeen)),
+                implode(', ', $parametersSeen)
+            ));
         }
 
         return $tokens;

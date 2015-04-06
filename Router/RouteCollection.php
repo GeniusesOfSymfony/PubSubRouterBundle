@@ -13,6 +13,16 @@ class RouteCollection implements \Countable, \IteratorAggregate
     protected $routes;
 
     /**
+     * @param array $data
+     *
+     * @return RouteCollection
+     */
+    public static function __set_state($data)
+    {
+        return new RouteCollection($data['routes']);
+    }
+
+    /**
      * @param RouteInterface[] $routes
      */
     public function __construct(Array $routes = null)
@@ -21,6 +31,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
             foreach ($routes as $routeName => $route) {
                 $this->add($routeName, $route);
             }
+        }else{
+            $this->routes = [];
         }
     }
 
@@ -57,7 +69,6 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public function add($name, RouteInterface $route)
     {
-        unset($this->routes[$name]);
         $this->routes[$name] = $route;
     }
 

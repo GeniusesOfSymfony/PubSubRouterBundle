@@ -3,27 +3,16 @@
 namespace Gos\Bundle\PubSubRouterBundle\Cache;
 
 use Doctrine\Common\Cache\Cache;
-use Gos\Bundle\PubSubRouterBundle\Dumper\DumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class CacheWarmer implements CacheWarmerInterface
 {
-    /**
-     * @var DumperInterface[]
-     */
-    protected $dumpers;
-
-    /**
-     * @var RouteLoader
-     */
-    protected $routeLoader;
-
-    /**
-     * @var TokenizerInterface
-     */
-    protected $tokenizer;
+    /** @var  ContainerInterface */
+    protected $container;
 
     /**
      * @var Cache
@@ -32,23 +21,12 @@ class CacheWarmer implements CacheWarmerInterface
 
     /**
      * @param Cache              $cache
-     * @param RouteLoader        $routeLoader
-     * @param TokenizerInterface $tokenizer
+     * @param ContainerInterface $container
      */
-    public function __construct(Cache $cache, RouteLoader $routeLoader, TokenizerInterface $tokenizer)
+    public function __construct(Cache $cache, ContainerInterface $container)
     {
         $this->cache = $cache;
-        $this->tokenizer = $tokenizer;
-        $this->routeLoader = $routeLoader;
-        $this->dumpers = [];
-    }
-
-    /**
-     * @param DumperInterface $dumper
-     */
-    public function addDumper(DumperInterface $dumper)
-    {
-        $this->dumpers[] = $dumper;
+        $this->container = $container;
     }
 
     /**
@@ -56,7 +34,7 @@ class CacheWarmer implements CacheWarmerInterface
      */
     public function isOptional()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -64,15 +42,17 @@ class CacheWarmer implements CacheWarmerInterface
      */
     public function warmUp($cacheDir)
     {
-        $routeCollection = $this->routeLoader->load();
-        $this->cache->save('route_collection', $routeCollection);
+        $registeredRouter = $this->container->getParameter('gos_pubsub_registered_routers');
 
-        foreach ($this->dumpers as $dumper) {
-            $this->cache->save($dumper->getName() . '_dumper', $dumper->dump());
-        }
+        foreach($registeredRouter as $routerType){
 
-        foreach ($routeCollection as $name => $route) {
-            //            $this->tokenizer->tokenize($route)
+            /** @var RouteCollection $collection */
+            $collection = $this->container->get('gos_pubsub_router.collection.'.$routerType);
+
+            /** @var RouteLoader $loader */
+            $loader = $this->container->get('gos_pubsub_router.loader.' . $routerType);
+
+            $loader->load($collection); //trigger cache on route collection
         }
     }
 }

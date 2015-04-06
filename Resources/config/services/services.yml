@@ -4,9 +4,16 @@ services:
         tags:
             - { name: console.command }
 
-    gos_pubsub_router.tokenizer:
+    gos_pubsub_router.tokenizer.default:
         class: Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer
         public: false
+
+    gos_pubsub_router.tokenizer.cache_decorator:
+        class: Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerCacheDecorator
+        public: false
+        arguments:
+            - @gos_pubsub_router.tokenizer.default
+            - @gos_pubsub_router.php_file.cache
 
     gos_pubsub_router.matcher:
         class: Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
