@@ -12,7 +12,7 @@ Feature
 
 * [x] Route definition
 * [x] Route matching
-* [ ] Route generator
+* [x] Route generator
 
 Installation
 ------------
