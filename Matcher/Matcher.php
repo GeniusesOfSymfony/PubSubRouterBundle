@@ -47,7 +47,7 @@ class Matcher implements MatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function match($channel, $tokenSeparator)
+    public function match($channel, $tokenSeparator = null)
     {
         /*
          * @var string

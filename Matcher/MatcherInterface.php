@@ -18,7 +18,7 @@ interface MatcherInterface
      *
      * @throws ResourceNotFoundException
      */
-    public function match($channel, $tokenSeparator);
+    public function match($channel, $tokenSeparator = null);
 
     /**
      * @param RouteCollection $collection

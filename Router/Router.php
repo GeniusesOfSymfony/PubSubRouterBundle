@@ -89,7 +89,7 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator)
+    public function generate($routeName, Array $parameters = [], $tokenSeparator = null)
     {
         $this->generator->setCollection($this->collection);
 
@@ -103,7 +103,7 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generateFromTokens(Array $tokens, Array $parameters = [], $tokenSeparator)
+    public function generateFromTokens(Array $tokens, Array $parameters = [], $tokenSeparator = null)
     {
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();

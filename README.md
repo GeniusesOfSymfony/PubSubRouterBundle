@@ -38,10 +38,20 @@ Bundle configuration
 ```yaml
 #Gos PubSub Router
 gos_pubsub_router:
-    resources: #register all routing definition file
-        - @GosNotificationBundle/Resources/config/pubsub/notification.yml
-        - ...
+    routers:
+        websocket: #available from container through gos_pubsub_router.websocket
+            context:
+                tokenSeparator: '/'
+            resources:
+                - @GosNotificationBundle/Resources/config/pubsub/websocket/notification.yml
+        redis: #available from container through gos_pubsub_router.redis
+            context:
+                tokenSeparator: ':' #redis channel are like : notification:user:user2 so the token separator is :
+            resources:
+                - @GosNotificationBundle/Resources/config/pubsub/redis/notification.yml
 ```
+
+**NOTE** : Each router is insulated. If you several routers in the same class you will need to inject each router that you need.
 
 Usage
 -----
@@ -84,29 +94,33 @@ user_app_notification:
             wildcard: true
 ```
 
-**NOTE** : Wildcard match with `*`and `all`
+**NOTE** : Wildcard match with `*`and `all` keyword
 
 **NOTE 2** : Callback is not type hinted, so you can pass a single string (like a service name) that only depend of your implementation when you retrieve the route ! You are free to choose what you to do !
 
 ### Use router
 
+Let's generate a route !
+
 ```php
-use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
+$router = $this->container->get('gos_pubsub_router.websocket');
+$channel = $router->generate('user_notification', ['role' => 'admin', 'application' => 'blog-app', 'user_ref' => '123']);
 
-$router = $this->container->get('gos_pubsub_router.router');
-$context = new RouterContext();
-
-// This is optional
-$context->setTokenSeparator('/') // depending of how your pubsub work, for example redis will be ':', websocket will be '/'
-$router->setContext($context);
+echo $channel // notification/user/admin/blog/123
 ```
 
 Match your first route !
 
 ```php
+use Gos\Bundle\PubSubRouterBundle\Request\PubSubRequest;
+
 $channel = 'notification/user/admin/billing-app/639409'; // 'notification/user/admin/billing-app/*' work :)
 
 list($routeName, $route, $attributes) = $router->match($channel);
+
+$request = new PubSubRequest($routeName, $route, $attributes); //Create a request object if you want transport the request data as dependency
+
+//$request->getAttributes->get('user_ref'); it's a parameterBag
 
 // $router->match($channel, ':'); if you want override tokenSeparator from context, or if you dont have context.
 
@@ -129,9 +143,13 @@ try {
 }
 ```
 
+- If you only need to generate route, type hint against `Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface`
+- If you only need to match route, type hint against `Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface`
+- If you need both, type hint against `Gos\Bundle\PubSubRouterBundle\Router\RouterInterface`
+
 ### Router CLI
 
-`php app/console gos:prouter:debug` dump all registered routes
+`php app/console gos:prouter:debug -r websocket` dump all registered routes for websocket router
 
 ## License
 
