@@ -2,17 +2,14 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
+use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
+use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-class Router implements RouterInterface, WarmableInterface
+class Router implements RouterInterface
 {
     /**
      * @var RouteCollection
@@ -25,39 +22,52 @@ class Router implements RouterInterface, WarmableInterface
     protected $context;
 
     /**
-     * @var string[]
-     */
-    protected $resources;
-
-    /**
-     * @var LoaderInterface[]
-     */
-    protected $loaders;
-
-    /**
      * @var MatcherInterface
      */
     protected $matcher;
 
     /**
-     * @var bool
+     * @var GeneratorInterface
      */
-    protected $loaded;
+    protected $generator;
 
-    public function __construct()
-    {
-        $this->collection = new RouteCollection();
-        $this->resources = array();
-        $this->loaded = false;
-        $this->matcher = new Matcher();
+    /**
+     * @var RouteLoader
+     */
+    protected $loader;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @param RouteCollection    $routeCollection
+     * @param MatcherInterface   $matcher
+     * @param GeneratorInterface $generator
+     * @param RouteLoader        $loader
+     * @param string             $name
+     */
+    public function __construct(
+        RouteCollection $routeCollection,
+        MatcherInterface $matcher,
+        GeneratorInterface $generator,
+        RouteLoader $loader,
+        $name
+    ) {
+        $this->collection = $routeCollection;
+        $this->matcher = $matcher;
+        $this->generator = $generator;
+        $this->loader = $loader;
+        $this->name = $name;
     }
 
     /**
-     * {@inheritdoc}
+     * @param RouteCollection $collection
      */
-    public function addLoader(LoaderInterface $loader)
+    public function setCollection(RouteCollection $collection)
     {
-        $this->loaders[] = $loader;
+        $this->collection = $collection;
     }
 
     /**
@@ -79,48 +89,41 @@ class Router implements RouterInterface, WarmableInterface
     /**
      * {@inheritdoc}
      */
-    public function match($channel, $tokenSeparator = null)
+    public function generate($routeName, Array $parameters = [], $tokenSeparator = null)
     {
-        if (!$this->isLoaded()) {
-            throw new \LogicException('You must load router before');
-        }
+        $this->generator->setCollection($this->collection);
 
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();
         }
 
-        return $this->matcher->match($channel,  $this->collection, $tokenSeparator);
+        return $this->generator->generate($routeName, $parameters, $tokenSeparator);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addResource($resource)
+    public function generateFromTokens(Array $tokens, Array $parameters = [], $tokenSeparator = null)
     {
-        $this->resources[] = $resource;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function loadRoute()
-    {
-        $loaderResolver = new LoaderResolver($this->loaders);
-        $delegatingLoader = new DelegatingLoader($loaderResolver);
-
-        foreach ($this->resources as $resource) {
-            $this->collection->addCollection($delegatingLoader->load($resource));
+        if (null === $tokenSeparator && null !== $this->context) {
+            $tokenSeparator = $this->context->getTokenSeparator();
         }
 
-        $this->loaded = true;
+        return $this->generator->generateFromTokens($tokens, $parameters, $tokenSeparator);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isLoaded()
+    public function match($channel, $tokenSeparator = null)
     {
-        return true === $this->loaded;
+        $this->matcher->setCollection($this->collection);
+
+        if (null === $tokenSeparator && null !== $this->context) {
+            $tokenSeparator = $this->context->getTokenSeparator();
+        }
+
+        return $this->matcher->match($channel, $tokenSeparator);
     }
 
     /**
@@ -132,14 +135,10 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * Warms up the cache.
-     *
-     * @param string $cacheDir The cache directory
+     * {@inheritdoc}
      */
-    public function warmUp($cacheDir)
+    public function getName()
     {
-        $this->loadRoute();
-
-        //do stuff with collection
+        return $this->name;
     }
 }

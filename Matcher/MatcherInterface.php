@@ -3,7 +3,6 @@
 namespace Gos\Bundle\PubSubRouterBundle\Matcher;
 
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
-use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 /**
@@ -12,21 +11,17 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 interface MatcherInterface
 {
     /**
-     * @param string          $channel
-     * @param RouteCollection $routeCollection
-     * @param string          $tokenSeparator
+     * @param string $channel
+     * @param string $tokenSeparator
      *
-     * @return mixed
+     * @return bool
      *
      * @throws ResourceNotFoundException
      */
-    public function match($channel, RouteCollection $routeCollection, $tokenSeparator);
+    public function match($channel, $tokenSeparator = null);
 
     /**
-     * @param Route  $route
-     * @param string $expected
-     *
-     * @return bool
+     * @param RouteCollection $collection
      */
-    public function compare(Route $route, $expected, $tokenSeparator);
+    public function setCollection(RouteCollection $collection);
 }

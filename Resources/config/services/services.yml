@@ -1,15 +1,32 @@
 services:
-    gos_pubsub_router.router:
-        class: Gos\Bundle\PubSubRouterBundle\Router\Router
+    gos_pubsub_router.debug.command:
+        class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
+        tags:
+            - { name: console.command }
+
+    gos_pubsub_router.tokenizer:
+        class: Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer
+        public: false
+
+    gos_pubsub_router.matcher:
+        class: Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
+        arguments:
+            - @gos_pubsub_router.tokenizer
+
+    gos_pubsub_router.generator:
+        class: Gos\Bundle\PubSubRouterBundle\Generator\Generator
+        arguments:
+            - @gos_pubsub_router.tokenizer
+
+    gos_pubsub_router.php_file.cache:
+        class: Gos\Bundle\PubSubRouterBundle\Cache\PhpFileCacheDecorator
+        public: false
+        arguments:
+            - %kernel.cache_dir%
+            - %kernel.debug%
 
     gos_pubsub_router.yaml.loader:
         class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
+        public: false
         arguments:
             - @file_locator
-
-    gos_pubsub_router.debug.command:
-        class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
-        arguments:
-            - @gos_pubsub_router.router
-        tags:
-            - { name: console.command }

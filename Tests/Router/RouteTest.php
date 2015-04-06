@@ -4,8 +4,9 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 
-class RouteTest extends \PHPUnit_Framework_TestCase
+class RouteTest extends PubSubTestCase
 {
     /**
      * @var RouteInterface
@@ -32,10 +33,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertEquals($this->pattern, \PHPUnit_Framework_Assert::readAttribute($this->route, 'pattern'));
-        $this->assertEquals($this->callback, \PHPUnit_Framework_Assert::readAttribute($this->route, 'callback'));
-        $this->assertEquals($this->args, \PHPUnit_Framework_Assert::readAttribute($this->route, 'args'));
-        $this->assertEquals($this->requirements, \PHPUnit_Framework_Assert::readAttribute($this->route, 'requirements'));
+        $this->assertEquals($this->pattern, $this->readProperty($this->route, 'pattern'));
+        $this->assertEquals($this->callback, $this->readProperty($this->route, 'callback'));
+        $this->assertEquals($this->args, $this->readProperty($this->route, 'args'));
+        $this->assertEquals($this->requirements, $this->readProperty($this->route, 'requirements'));
     }
 
     public function testGetPattern()

@@ -5,7 +5,6 @@ namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -24,25 +23,6 @@ class GosPubSubRouterExtension extends Extension
         );
 
         $loader->load('services.yml');
-
-        $configuration = new Configuration();
-        $configs = $this->processConfiguration($configuration, $configs);
-
-        $configs['loaders'][] = '@gos_pubsub_router.yaml.loader';
-
-        $routerDef = $container->getDefinition('gos_pubsub_router.router');
-
-        foreach ($configs['loaders'] as $loaderRef) {
-            $routerDef->addMethodCall('addLoader', [new Reference(ltrim($loaderRef, '@'))]);
-        }
-
-        $container->setAlias('router.pubsub', 'gos_pubsub_router.router');
-
-        foreach ($configs['resources'] as $resource) {
-            $routerDef->addMethodCall('addResource', array($resource));
-        }
-
-        $routerDef->addMethodCall('loadRoute');
     }
 
     /**

@@ -2,25 +2,17 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Matcher;
 
-use Gos\Bundle\PubSubRouterBundle\Matcher\Token;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
+use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 
-class TokenTest extends \PHPUnit_Framework_TestCase
+class TokenTest extends PubSubTestCase
 {
-    public function setPropertyValue(&$object, $propertyName, $value)
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getProperty($propertyName);
-        $method->setAccessible(true);
-
-        $method->setValue($object, $value);
-    }
-
     public function testInit()
     {
         $token = new Token();
 
-        $this->assertEquals([], \PHPUnit_Framework_Assert::readAttribute($token, 'requirements'));
-        $this->assertFalse(\PHPUnit_Framework_Assert::readAttribute($token, 'isParameter'));
+        $this->assertEquals([], $this->readProperty($token, 'requirements'));
+        $this->assertFalse($this->readProperty($token, 'isParameter'));
     }
 
     public function testSetParameter()
@@ -28,7 +20,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $token = new Token();
         $token->setParameter();
 
-        $this->assertTrue(\PHPUnit_Framework_Assert::readAttribute($token, 'isParameter'));
+        $this->assertTrue($this->readProperty($token, 'isParameter'));
     }
 
     public function testIsParameter()
@@ -52,7 +44,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $token = new Token();
 
         $token->setExpression('foo');
-        $this->assertEquals('foo', \PHPUnit_Framework_Assert::readAttribute($token, 'expression'));
+        $this->assertEquals('foo', $this->readProperty($token, 'expression'));
     }
 
     public function testSetRequirements()
@@ -63,7 +55,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
             'foo' => 'bar',
         ]);
 
-        $this->assertEquals(['foo' => 'bar'], \PHPUnit_Framework_Assert::readAttribute($token, 'requirements'));
+        $this->assertEquals(['foo' => 'bar'], $this->readProperty($token, 'requirements'));
     }
 
     public function testGetRequirements()

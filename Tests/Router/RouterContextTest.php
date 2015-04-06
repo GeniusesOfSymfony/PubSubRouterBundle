@@ -3,21 +3,14 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 
-class RouterContextTest extends \PHPUnit_Framework_TestCase
+class RouterContextTest extends PubSubTestCase
 {
-    protected function injectPropertyValue($obj, $property, $value)
-    {
-        $reflection = new \ReflectionClass(RouterContext::CLASS);
-        $property = $reflection->getProperty($property);
-        $property->setAccessible(true);
-        $property->setValue($obj, $value);
-    }
-
     public function testGetTokenSeparator()
     {
         $context = new RouterContext();
-        $this->injectPropertyValue($context, 'tokenSeparator', '/');
+        $this->setPropertyValue($context, 'tokenSeparator', '/');
 
         $this->assertEquals('/', $context->getTokenSeparator());
     }
@@ -26,6 +19,6 @@ class RouterContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new RouterContext();
         $context->setTokenSeparator('/');
-        $this->assertEquals('/', \PHPUnit_Framework_Assert::readAttribute($context, 'tokenSeparator'));
+        $this->assertEquals('/', $this->readProperty($context, 'tokenSeparator'));
     }
 }

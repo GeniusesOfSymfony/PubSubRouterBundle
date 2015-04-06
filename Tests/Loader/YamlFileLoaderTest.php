@@ -4,11 +4,12 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use Gos\Bundle\PubSubRouterBundle\Tests\PubSubTestCase;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Parser;
 
-class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
+class YamlFileLoaderTest extends PubSubTestCase
 {
     /** @var  FileLocator */
     protected $fileLocator;
@@ -23,9 +24,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileLocator = $this->prophesize(FileLocator::class);
         $this->fileLocator->locate('@Resource/routes.yml')->willReturn(__DIR__ . '/../Resources/Yaml/routes.yml');
-
         $this->yamlParser = $yamlParser = $this->prophesize(Parser::CLASS);
-
         $this->loader = new YamlFileLoader($this->fileLocator->reveal());
     }
 
@@ -38,10 +37,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     protected function injectYamlParser()
     {
-        $reflection = new \ReflectionClass(YamlFileLoader::CLASS);
-        $property = $reflection->getProperty('yamlParser');
-        $property->setAccessible(true);
-        $property->setValue($this->loader, $this->yamlParser->reveal());
+        $this->setPropertyValue($this->loader, 'yamlParser', $this->yamlParser->reveal());
     }
 
     public function testLoadInvalidConfigurationKeys()
@@ -125,7 +121,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
                 ['gos_redis', 'gos_websocket'],
                 ['applicationName' => ['pattern' => '[a-zA-Z0-9]+', 'wildcard' => true]]
             ),
-        ], \PHPUnit_Framework_Assert::readAttribute($routeCollection, 'routes'));
+        ], $this->readProperty($routeCollection, 'routes'));
     }
 
     public function testSupports()
