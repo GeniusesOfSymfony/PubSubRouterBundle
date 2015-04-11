@@ -4,7 +4,6 @@ namespace Gos\Bundle\PubSubRouterBundle\Tokenizer;
 
 use Doctrine\Common\Cache\Cache;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class TokenizerCacheDecorator implements TokenizerInterface
 {
@@ -33,13 +32,13 @@ class TokenizerCacheDecorator implements TokenizerInterface
      */
     public function tokenize($stringOrRoute, $separator)
     {
-        if($stringOrRoute instanceof RouteInterface){
+        if ($stringOrRoute instanceof RouteInterface) {
             $routeName = (string) $stringOrRoute;
-            if($tokens = $this->cache->fetch('tokens_'. $routeName)){
+            if ($tokens = $this->cache->fetch('tokens_' . $routeName)) {
                 return $tokens;
-            }else{
+            } else {
                 $tokens = $this->tokenizer->tokenize($stringOrRoute, $separator);
-                $this->cache->save('tokens_'. $routeName, $tokens);
+                $this->cache->save('tokens_' . $routeName, $tokens);
 
                 return $tokens;
             }

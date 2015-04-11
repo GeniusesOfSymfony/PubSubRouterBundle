@@ -31,7 +31,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
             foreach ($routes as $routeName => $route) {
                 $this->add($routeName, $route);
             }
-        }else{
+        } else {
             $this->routes = [];
         }
     }

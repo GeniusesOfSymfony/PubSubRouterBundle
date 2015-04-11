@@ -20,7 +20,7 @@ class GosPubSubRouterBundle extends Bundle
         $registeredRouter = $this->container->getParameter('gos_pubsub_registered_routers');
 
         foreach ($registeredRouter as $routerType) {
-            $routeLoader = $this->container->get('gos_pubsub_router.loader.'.$routerType);
+            $routeLoader = $this->container->get('gos_pubsub_router.loader.' . $routerType);
             $routeLoader->load();
         }
     }

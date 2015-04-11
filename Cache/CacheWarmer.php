@@ -44,10 +44,10 @@ class CacheWarmer implements CacheWarmerInterface
     {
         $registeredRouter = $this->container->getParameter('gos_pubsub_registered_routers');
 
-        foreach($registeredRouter as $routerType){
+        foreach ($registeredRouter as $routerType) {
 
             /** @var RouteCollection $collection */
-            $collection = $this->container->get('gos_pubsub_router.collection.'.$routerType);
+            $collection = $this->container->get('gos_pubsub_router.collection.' . $routerType);
 
             /** @var RouteLoader $loader */
             $loader = $this->container->get('gos_pubsub_router.loader.' . $routerType);

@@ -55,7 +55,7 @@ class Route implements RouteInterface
     {
         $route = new Route($data['pattern'], $data['callback'], $data['args'], $data['requirements']);
 
-        if(isset($data['name'])){
+        if (isset($data['name'])) {
             $route->setName($data['name']);
         }
 
@@ -99,7 +99,7 @@ class Route implements RouteInterface
      */
     public function __toString()
     {
-        if(null !== $this->name){
+        if (null !== $this->name) {
             return $this->name;
         }
 

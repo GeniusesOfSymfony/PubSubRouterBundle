@@ -17,9 +17,9 @@ class PubSubRequest
     protected $attributes;
 
     /**
-     * @param string $routeName
+     * @param string         $routeName
      * @param RouteInterface $route
-     * @param array $attributes
+     * @param array          $attributes
      */
     public function __construct($routeName, $route, $attributes)
     {

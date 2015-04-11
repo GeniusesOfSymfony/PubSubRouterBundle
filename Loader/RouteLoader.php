@@ -28,7 +28,7 @@ class RouteLoader
     /**
      * @param RouteCollection $collection
      * @param Cache           $cache
-     * @param string                $type
+     * @param string          $type
      */
     public function __construct(RouteCollection $collection, Cache $cache, $type)
     {
@@ -62,7 +62,7 @@ class RouteLoader
      */
     public function load()
     {
-        if($cachedCollection = $this->cache->fetch('collection.'.$this->type)){
+        if ($cachedCollection = $this->cache->fetch('collection.' . $this->type)) {
             $this->collection->addCollection($cachedCollection);
 
             return $this->collection;
@@ -75,7 +75,7 @@ class RouteLoader
             $this->collection->addCollection($delegatingLoader->load($resource));
         }
 
-        $this->cache->save('collection.'.$this->type, $this->collection);
+        $this->cache->save('collection.' . $this->type, $this->collection);
 
         return $this->collection;
     }

@@ -31,8 +31,6 @@ class RouterCompilerPass implements CompilerPassInterface
         //Replace default tokenizer by the decorated tokenizer
         $container->setAlias('gos_pubsub_router.tokenizer', 'gos_pubsub_router.tokenizer.cache_decorator');
 
-
-
         foreach ($configs['routers'] as $name => $routerConf) {
 
             //RouteCollection
@@ -58,7 +56,7 @@ class RouterCompilerPass implements CompilerPassInterface
             $routeLoaderDef->setArguments([
                 new Reference($collectionServiceName),
                 new Reference('gos_pubsub_router.php_file.cache'),
-                $name
+                $name,
             ]);
 
             foreach ($routerConf['resources'] as $resource) {
@@ -87,7 +85,7 @@ class RouterCompilerPass implements CompilerPassInterface
                 new Reference('gos_pubsub_router.matcher'),
                 new Reference('gos_pubsub_router.generator'),
                 new Reference($routeLoaderServiceName),
-                $name
+                $name,
             ]);
 
             $routerDef->addMethodCall('setContext', [new Reference($routerContextServiceName)]);
