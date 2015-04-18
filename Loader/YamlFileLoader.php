@@ -54,7 +54,7 @@ class YamlFileLoader extends AbstractRouteLoader
                 $routeConfig['channel'],
                 $handler['callback'],
                 isset($handler['args']) ? $handler['args'] : [],
-                $routeConfig['requirements']
+                isset($routeConfig['requirements']) ? $routeConfig['requirements'] : []
             ));
         }
 
