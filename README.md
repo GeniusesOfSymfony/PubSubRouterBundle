@@ -51,7 +51,7 @@ gos_pubsub_router:
                 - @GosNotificationBundle/Resources/config/pubsub/redis/notification.yml
 ```
 
-**NOTE** : Each router is insulated. If you several routers in the same class you will need to inject each router that you need.
+**NOTE** : Each router are insulated. If you have several routers in the same class you will need to inject each router that you need.
 
 Usage
 -----
