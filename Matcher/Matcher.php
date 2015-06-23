@@ -85,7 +85,7 @@ class Matcher implements MatcherInterface
         $hasRequirements = !empty($requirements);
         $validTokens = 0;
 
-        for ($i = $startIndex;$i >= 0;$i--) {
+        for ($i = $startIndex;$i >= 0;--$i) {
             /** @var Token $routeToken */
             $routeToken = $routeTokens[$i];
             /** @var Token $expectedToken */
@@ -108,6 +108,8 @@ class Matcher implements MatcherInterface
                             ++$validTokens;
                             $checkPattern = false;
                         }
+                    } else {
+                        ++$validTokens;
                     }
 
                     //Pattern requirements
@@ -116,6 +118,8 @@ class Matcher implements MatcherInterface
                         if (1 === preg_match("#^$pattern#i", $expectedToken->getExpression())) {
                             ++$validTokens;
                         }
+                    } else {
+                        ++$validTokens;
                     }
                 }
             } else {
