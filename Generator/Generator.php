@@ -94,6 +94,8 @@ class Generator implements GeneratorInterface
                             $pattern
                         ));
                     }
+                } else {
+                    $graph[] = $value;
                 }
             } else {
                 $graph[] = $token->getExpression();

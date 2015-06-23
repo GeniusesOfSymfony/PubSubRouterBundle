@@ -19,7 +19,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public static function __set_state($data)
     {
-        return new RouteCollection($data['routes']);
+        return new self($data['routes']);
     }
 
     /**

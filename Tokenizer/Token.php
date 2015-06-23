@@ -32,7 +32,7 @@ class Token
      */
     public static function __set_state(array $data)
     {
-        $token = new Token();
+        $token = new self();
 
         $token->setParameter($data['isParameter']);
         $token->setRequirements($data['requirements']);

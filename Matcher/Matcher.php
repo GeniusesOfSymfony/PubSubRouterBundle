@@ -73,7 +73,7 @@ class Matcher implements MatcherInterface
     protected function compare(Route $route, $expected, $tokenSeparator)
     {
         $this->attributes = [];
-        $expectedTokens =  $this->tokenizer->tokenize($expected, $tokenSeparator);
+        $expectedTokens = $this->tokenizer->tokenize($expected, $tokenSeparator);
         $routeTokens = $this->tokenizer->tokenize($route, $tokenSeparator);
 
         if (($length = count($routeTokens)) !== count($expectedTokens)) {

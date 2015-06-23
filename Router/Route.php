@@ -53,7 +53,7 @@ class Route implements RouteInterface
      */
     public static function __set_state($data)
     {
-        $route = new Route($data['pattern'], $data['callback'], $data['args'], $data['requirements']);
+        $route = new self($data['pattern'], $data['callback'], $data['args'], $data['requirements']);
 
         if (isset($data['name'])) {
             $route->setName($data['name']);
