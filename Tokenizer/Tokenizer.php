@@ -2,7 +2,6 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tokenizer;
 
-use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
 
 class Tokenizer implements TokenizerInterface
@@ -54,14 +53,6 @@ class Tokenizer implements TokenizerInterface
             }
 
             $tokens[$i] = $token;
-        }
-
-        if ($stringOrRoute instanceof RouteInterface && $requirementsSeen !== $parametersSeen) {
-            throw new InvalidArgumentException(sprintf(
-                'Unknown parameter %s in [ %s ]',
-                implode(', ', array_diff($parametersSeen, $requirementsSeen)),
-                implode(', ', $parametersSeen)
-            ));
         }
 
         return $tokens;
