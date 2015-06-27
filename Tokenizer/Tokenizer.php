@@ -19,7 +19,7 @@ class Tokenizer implements TokenizerInterface
         }
 
         if (false === strpos($pattern, $separator)) {
-            return false;
+            return [];
         }
 
         $rawTokens = explode($separator, $pattern);

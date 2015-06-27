@@ -29,4 +29,21 @@ interface RouterInterface extends MatcherInterface, GeneratorInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * @param string $routeName
+     * @param array  $parameters
+     * @param null   $tokenSeparator
+     *
+     * @return mixed
+     */
+    public function generate($routeName, Array $parameters = [], $tokenSeparator = null);
+
+    /**
+     * @param string $channel
+     * @param null   $tokenSeparator
+     *
+     * @return mixed
+     */
+    public function match($channel, $tokenSeparator = null);
 }

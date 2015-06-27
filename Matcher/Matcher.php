@@ -76,6 +76,10 @@ class Matcher implements MatcherInterface
         $expectedTokens = $this->tokenizer->tokenize($expected, $tokenSeparator);
         $routeTokens = $this->tokenizer->tokenize($route, $tokenSeparator);
 
+        if (empty($expectedTokens) && empty($routeTokens)) {
+            return $route->getPattern() === $expected;
+        }
+
         if (($length = count($routeTokens)) !== count($expectedTokens)) {
             return false;
         }
