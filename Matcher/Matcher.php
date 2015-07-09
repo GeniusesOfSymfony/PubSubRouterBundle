@@ -127,8 +127,12 @@ class Matcher implements MatcherInterface
                     }
                 }
             } else {
-                if ($routeToken->getExpression() === $expectedToken->getExpression()) {
-                    $validTokens = $length;
+                if($routeToken->isParameter()){
+                    $validTokens++;
+                }else{
+                    if ($routeToken->getExpression() === $expectedToken->getExpression()) {
+                        $validTokens++;
+                    }
                 }
             }
         }
