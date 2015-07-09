@@ -28,6 +28,9 @@ class Matcher implements MatcherInterface
      */
     protected $collection;
 
+    /** @var  bool */
+    protected $evaluateBuffer;
+
     /**
      * @param TokenizerInterface $tokenizer
      */
@@ -49,6 +52,8 @@ class Matcher implements MatcherInterface
      */
     public function match($channel, $tokenSeparator = null)
     {
+        $routeSeen = [];
+
         /*
          * @var string
          * @var RouteInterface Route
@@ -59,9 +64,15 @@ class Matcher implements MatcherInterface
 
                 return [$routeName, $route, $this->attributes];
             }
+
+            $routeSeen[] = $route->getPattern();
         }
 
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(sprintf(
+            'channel %s not mathed, registered pattern [%s]',
+            $channel,
+            implode(', ', $routeSeen)
+        ));
     }
 
     /**
@@ -90,6 +101,7 @@ class Matcher implements MatcherInterface
         $validTokens = 0;
 
         for ($i = $startIndex;$i >= 0;--$i) {
+            $this->evaluateBuffer = false;
             /** @var Token $routeToken */
             $routeToken = $routeTokens[$i];
             /** @var Token $expectedToken */
@@ -101,7 +113,7 @@ class Matcher implements MatcherInterface
 
                 if (empty($tokenRequirements)) {
                     if ($routeToken->getExpression() === $expectedToken->getExpression()) {
-                        ++$validTokens;
+                        $this->validateToken($validTokens);
                     }
                 } else {
                     $checkPattern = true;
@@ -109,34 +121,46 @@ class Matcher implements MatcherInterface
                     //Wildcard requirements
                     if (isset($tokenRequirements['wildcard']) && true === $tokenRequirements['wildcard']) {
                         if ($expectedToken->getExpression() === '*' || $expectedToken->getExpression() === 'all') {
-                            ++$validTokens;
+                            $this->validateToken($validTokens);
                             $checkPattern = false;
                         }
                     } else {
-                        ++$validTokens;
+                        $this->validateToken($validTokens);
                     }
 
                     //Pattern requirements
                     if (true === $checkPattern && isset($tokenRequirements['pattern'])) {
                         $pattern = $tokenRequirements['pattern'];
                         if (1 === preg_match("#^$pattern#i", $expectedToken->getExpression())) {
-                            ++$validTokens;
+                            $this->validateToken($validTokens);
                         }
                     } else {
-                        ++$validTokens;
+                        $this->validateToken($validTokens);
                     }
                 }
             } else {
                 if($routeToken->isParameter()){
-                    $validTokens++;
+                    $this->validateToken($validTokens);
                 }else{
                     if ($routeToken->getExpression() === $expectedToken->getExpression()) {
-                        $validTokens++;
+                        $this->validateToken($validTokens);
                     }
                 }
             }
         }
 
+        dump($validTokens, $length);
         return $validTokens === $length && 0 !== $validTokens;
+    }
+
+    /**
+     * @param int $validTokens
+     */
+    protected function validateToken(&$validTokens)
+    {
+        if(false === $this->evaluateBuffer){
+            $validTokens++;
+            $this->evaluateBuffer = true;
+        }
     }
 }
