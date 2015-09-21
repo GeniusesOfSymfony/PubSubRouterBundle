@@ -1,10 +1,10 @@
 Gos PubSub Router Bundle
 ========================
 
-[![Join the chat at https://gitter.im/GeniusesOfSymfony/PubSubRouterBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GeniusesOfSymfony/PubSubRouterBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle)
+[![Join the chat at https://gitter.im/GeniusesOfSymfony/PubSubRouterBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GeniusesOfSymfony/PubSubRouterBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle) [![Latest Stable Version](https://poser.pugx.org/gos/pubsub-router-bundle/v/stable)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Total Downloads](https://poser.pugx.org/gos/pubsub-router-bundle/downloads)](https://packagist.org/packages/gos/pubsub-router-bundle) [![License](https://poser.pugx.org/gos/pubsub-router-bundle/license)](https://packagist.org/packages/gos/pubsub-router-bundle)
 
 About
---------------
+-----
 Gos PubSub Router is a Symfony2 Bundle, his goal is to plug any logic behind pubsub channel. When you use PubSub pattern you will make face to a problem, rely channels with business logic. PubSub router is here to make the junction between channel and business logic.
 
 Feature
