@@ -22,9 +22,9 @@ class YamlFileLoaderTest extends PubSubTestCase
 
     protected function setUp()
     {
-        $this->fileLocator = $this->prophesize(FileLocator::class);
+        $this->fileLocator = $this->prophesize(get_class(FileLocator));
         $this->fileLocator->locate('@Resource/routes.yml')->willReturn(__DIR__ . '/../Resources/Yaml/routes.yml');
-        $this->yamlParser = $yamlParser = $this->prophesize(Parser::CLASS);
+        $this->yamlParser = $yamlParser = $this->prophesize(get_class(Parser));
         $this->loader = new YamlFileLoader($this->fileLocator->reveal());
     }
 

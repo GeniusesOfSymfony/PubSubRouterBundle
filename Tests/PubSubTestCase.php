@@ -16,7 +16,7 @@ abstract class PubSubTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createToken($expression, $isParameter = false, $requirements = [])
     {
-        $token = $this->prophesize(Token::CLASS);
+        $token = $this->prophesize(get_class(Token));
         $token->isParameter()->willReturn($isParameter);
         $token->getExpression()->willReturn($expression);
         $token->getRequirements()->willReturn($requirements);
@@ -33,7 +33,7 @@ abstract class PubSubTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createRoute($pattern, $name, $requirements = [])
     {
-        $route = $this->prophesize(Route::CLASS);
+        $route = $this->prophesize(get_class(Route));
         $route->getPattern()->willReturn($pattern);
         $route->getRequirements()->willReturn($requirements);
         $route->__toString()->willReturn($name);
