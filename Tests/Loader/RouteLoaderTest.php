@@ -12,7 +12,7 @@ class RouteLoaderTest extends PubSubTestCase
 {
     public function testAddResources()
     {
-        $collection = $this->prophesize(RouteCollection::CLASS);
+        $collection = $this->prophesize(get_class(RouteCollection));
         $routeLoader = new RouteLoader($collection->reveal(), '', true);
         $routeLoader->addResource('foo');
         $this->assertEquals(['foo'], $this->readProperty($routeLoader, 'resources'));
@@ -22,21 +22,21 @@ class RouteLoaderTest extends PubSubTestCase
 
     public function testAddLoader()
     {
-        $collection = $this->prophesize(RouteCollection::CLASS);
-        $loader = $this->prophesize(AbstractRouteLoader::CLASS)->reveal();
+        $collection = $this->prophesize(get_class(RouteCollection));
+        $loader = $this->prophesize(get_class(AbstractRouteLoader))->reveal();
 
         $routeLoader = new RouteLoader($collection->reveal(), '', true);
         $routeLoader->addLoader($loader);
         $this->assertEquals([$loader], $this->readProperty($routeLoader, 'loaders'));
 
-        $loader2 = $this->prophesize(AbstractRouteLoader::CLASS)->reveal();
+        $loader2 = $this->prophesize(get_class(AbstractRouteLoader))->reveal();
         $routeLoader->addLoader($loader2);
         $this->assertEquals([$loader, $loader2], $this->readProperty($routeLoader, 'loaders'));
     }
 
     public function testConstruct()
     {
-        $collection = $this->prophesize(RouteCollection::CLASS)->reveal();
+        $collection = $this->prophesize(get_class(RouteCollection))->reveal();
         $routeLoader = new RouteLoader($collection, '/foo', true);
 
         $this->assertEquals([], $this->readProperty($routeLoader, 'loaders'));
@@ -48,7 +48,7 @@ class RouteLoaderTest extends PubSubTestCase
 
         $configCache = $this->readProperty($routeLoader, 'cache');
 
-        $this->assertInstanceOf(ConfigCache::CLASS, $configCache);
+        $this->assertInstanceOf(get_class(ConfigCache), $configCache);
         $this->assertEquals(true, $this->readProperty($configCache, 'debug'));
         $this->assertEquals('/foo/' . RouteLoader::CACHE_FILE_NAME, $this->readProperty($configCache, 'file'));
     }

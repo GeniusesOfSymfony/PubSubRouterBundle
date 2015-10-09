@@ -35,7 +35,7 @@ class RouterCompilerPass implements CompilerPassInterface
 
             //RouteCollection
             $collectionServiceName = 'gos_pubsub_router.collection.' . $name;
-            $collectionDef = new Definition(RouteCollection::CLASS);
+            $collectionDef = new Definition(get_class(RouteCollection));
             $container->setDefinition($collectionServiceName, $collectionDef);
 
             //Matcher
@@ -72,7 +72,7 @@ class RouterCompilerPass implements CompilerPassInterface
             //Router context
             $contextConf = $routerConf['context'];
             $routerContextServiceName = 'gos_pubsub_router.context.' . $name;
-            $routerContextDef = new Definition(RouterContext::CLASS);
+            $routerContextDef = new Definition(get_class(RouterContext));
             $routerContextDef->addMethodCall('setTokenSeparator', [$contextConf['tokenSeparator']]);
 
             $container->setDefinition($routerContextServiceName, $routerContextDef);

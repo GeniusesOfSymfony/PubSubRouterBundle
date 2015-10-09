@@ -21,8 +21,8 @@ class MatcherTest extends PubSubTestCase
 
     protected function setUp()
     {
-        $this->routeCollection = $this->prophesize(RouteCollection::CLASS);
-        $this->tokenizer = $this->prophesize(Tokenizer::CLASS);
+        $this->routeCollection = $this->prophesize(get_class(RouteCollection));
+        $this->tokenizer = $this->prophesize(get_class(Tokenizer));
     }
 
     protected function tearDown()
@@ -40,7 +40,7 @@ class MatcherTest extends PubSubTestCase
      */
     protected function createToken($expression, $isParameter = false, $requirements = [])
     {
-        $token = $this->prophesize(Token::CLASS);
+        $token = $this->prophesize(get_class(Token));
         $token->isParameter()->willReturn($isParameter);
         $token->getExpression()->willReturn($expression);
         $token->getRequirements()->willReturn($requirements);
@@ -57,7 +57,7 @@ class MatcherTest extends PubSubTestCase
      */
     protected function createRoute($pattern, $name, $requirements = [])
     {
-        $route = $this->prophesize(Route::CLASS);
+        $route = $this->prophesize(get_class(Route));
         $route->getPattern()->willReturn($pattern);
         $route->getRequirements()->willReturn($requirements);
         $route->__toString()->willReturn($name);
@@ -96,7 +96,7 @@ class MatcherTest extends PubSubTestCase
 
     public function testMissMatch()
     {
-        $this->setExpectedException(ResourceNotFoundException::CLASS);
+        $this->setExpectedException(get_class(ResourceNotFoundException));
         $this->routeCollection->getIterator()->willReturn(new \ArrayIterator([]));
         $matcher = new Matcher($this->routeCollection->reveal(), $this->tokenizer->reveal());
         $matcher->match('notification/user/123', '/');
@@ -176,7 +176,7 @@ class MatcherTest extends PubSubTestCase
         ];
 
         foreach ($tests as $routeName => $conf) {
-            $tokenizer = $this->prophesize(Tokenizer::CLASS);
+            $tokenizer = $this->prophesize(get_class(Tokenizer));
 
             switch ($routeName) {
                 case 'redis_user_notification':
