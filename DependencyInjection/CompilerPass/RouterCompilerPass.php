@@ -3,10 +3,6 @@
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection\CompilerPass;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\Configuration;
-use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
-use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
-use Gos\Bundle\PubSubRouterBundle\Router\RouterContext;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,7 +31,7 @@ class RouterCompilerPass implements CompilerPassInterface
 
             //RouteCollection
             $collectionServiceName = 'gos_pubsub_router.collection.' . $name;
-            $collectionDef = new Definition(RouteCollection::CLASS);
+            $collectionDef = new Definition('Gos\Bundle\PubSubRouterBundle\Router\RouteCollection');
             $container->setDefinition($collectionServiceName, $collectionDef);
 
             //Matcher
@@ -72,7 +68,7 @@ class RouterCompilerPass implements CompilerPassInterface
             //Router context
             $contextConf = $routerConf['context'];
             $routerContextServiceName = 'gos_pubsub_router.context.' . $name;
-            $routerContextDef = new Definition(RouterContext::CLASS);
+            $routerContextDef = new Definition('Gos\Bundle\PubSubRouterBundle\Router\RouterContext');
             $routerContextDef->addMethodCall('setTokenSeparator', [$contextConf['tokenSeparator']]);
 
             $container->setDefinition($routerContextServiceName, $routerContextDef);
