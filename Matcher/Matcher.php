@@ -149,7 +149,6 @@ class Matcher implements MatcherInterface
             }
         }
 
-        dump($validTokens, $length);
         return $validTokens === $length && 0 !== $validTokens;
     }
 
