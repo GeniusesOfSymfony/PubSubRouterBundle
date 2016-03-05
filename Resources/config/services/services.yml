@@ -12,28 +12,28 @@ services:
         class: Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerCacheDecorator
         public: false
         arguments:
-            - @gos_pubsub_router.tokenizer.default
-            - @gos_pubsub_router.php_file.cache
+            - '@gos_pubsub_router.tokenizer.default'
+            - '@gos_pubsub_router.php_file.cache'
 
     gos_pubsub_router.matcher:
         class: Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
         arguments:
-            - @gos_pubsub_router.tokenizer
+            - '@gos_pubsub_router.tokenizer'
 
     gos_pubsub_router.generator:
         class: Gos\Bundle\PubSubRouterBundle\Generator\Generator
         arguments:
-            - @gos_pubsub_router.tokenizer
+            - '@gos_pubsub_router.tokenizer'
 
     gos_pubsub_router.php_file.cache:
         class: Gos\Bundle\PubSubRouterBundle\Cache\PhpFileCacheDecorator
         public: false
         arguments:
-            - %kernel.cache_dir%
-            - %kernel.debug%
+            - '%kernel.cache_dir%'
+            - '%kernel.debug%'
 
     gos_pubsub_router.yaml.loader:
         class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
         public: false
         arguments:
-            - @file_locator
+            - '@file_locator'
