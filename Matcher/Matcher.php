@@ -124,8 +124,6 @@ class Matcher implements MatcherInterface
                             $this->validateToken($validTokens);
                             $checkPattern = false;
                         }
-                    } else {
-                        $this->validateToken($validTokens);
                     }
 
                     //Pattern requirements
