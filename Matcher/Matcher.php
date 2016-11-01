@@ -69,7 +69,7 @@ class Matcher implements MatcherInterface
         }
 
         throw new ResourceNotFoundException(sprintf(
-            'channel %s not mathed, registered pattern [%s]',
+            'channel %s not matched, registered pattern [%s]',
             $channel,
             implode(', ', $routeSeen)
         ));
