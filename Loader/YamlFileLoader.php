@@ -48,7 +48,9 @@ class YamlFileLoader extends AbstractRouteLoader
         foreach ($config as $routeName => $routeConfig) {
             $this->validate($routeConfig, $routeName, $resource);
 
-            $handler = $routeConfig['handler'];
+            $handler = array_key_exists('handler', $routeConfig) ? $routeConfig['handler'] : [
+                'callback' => ''
+            ];
 
             $routeCollection->add($routeName, new Route(
                 $routeConfig['channel'],
