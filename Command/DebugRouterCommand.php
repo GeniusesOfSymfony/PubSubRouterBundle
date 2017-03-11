@@ -49,7 +49,7 @@ class DebugRouterCommand extends Command
         $router = $this->routers[$rname];
 
         $collection = $router->getCollection();
-        $table = $this->getHelperSet()->get('table');
+        $table = new Table($output);
         $table->setHeaders(['Name', 'Pattern', 'Callback']);
 
         $rows = [];
