@@ -4,9 +4,12 @@ namespace Gos\Bundle\PubSubRouterBundle\Command;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouterInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\Kernel;
+
 
 class DebugRouterCommand extends Command
 {
@@ -49,7 +52,14 @@ class DebugRouterCommand extends Command
         $router = $this->routers[$rname];
 
         $collection = $router->getCollection();
-        $table = $this->getHelperSet()->get('table');
+        
+        $version = Kernel::VERSION_ID;
+        if ($version < 30000) {
+            $table = $this->getHelperSet()->get('table');
+        } else {
+            $table = new Table($output);
+        }
+        
         $table->setHeaders(['Name', 'Pattern', 'Callback']);
 
         $rows = [];
