@@ -49,6 +49,12 @@ class RouterCompilerPass implements CompilerPassInterface
             //RouterLoader
             $routeLoaderServiceName = 'gos_pubsub_router.loader.' . $name;
             $routeLoaderDef = new Definition($configs['route_loader_class']);
+            /**
+            * Make it public for symfony 4
+            * @author Randy Téllez Galán <kronhyx@gmail.com>
+            */
+            $routeLoaderDef->setPublic(true);
+            
             $routeLoaderDef->setArguments([
                 new Reference($collectionServiceName),
                 new Reference('gos_pubsub_router.php_file.cache'),
