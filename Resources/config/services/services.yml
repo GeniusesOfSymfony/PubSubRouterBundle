@@ -2,7 +2,7 @@ services:
     gos_pubsub_router.debug.command:
         class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
         tags:
-            - { name: console.command }
+            - { name: console.command, command: gos:prouter:debug }
 
     gos_pubsub_router.tokenizer.default:
         class: Gos\Bundle\PubSubRouterBundle\Tokenizer\Tokenizer
