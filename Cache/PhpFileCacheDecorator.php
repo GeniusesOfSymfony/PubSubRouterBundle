@@ -3,10 +3,11 @@
 namespace Gos\Bundle\PubSubRouterBundle\Cache;
 
 use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\PhpFileCache;
 
 class PhpFileCacheDecorator implements Cache
 {
-    /** @var \Doctrine\Common\Cache\PhpFileCache */
+    /** @var PhpFileCache */
     protected $cache;
 
     /** @var  bool */
@@ -19,7 +20,7 @@ class PhpFileCacheDecorator implements Cache
     public function __construct($cacheDir, $debug)
     {
         $this->debug = $debug;
-        $this->cache = new \Doctrine\Common\Cache\PhpFileCache($cacheDir, '.pubSubRouter.php');
+        $this->cache = new PhpFileCache($cacheDir, '.pubSubRouter.php');
         $this->cache->setNamespace('pubsub_router');
     }
 

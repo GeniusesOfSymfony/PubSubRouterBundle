@@ -10,7 +10,7 @@ interface RouteInterface
     public function getPattern();
 
     /**
-     * @return Callable|string
+     * @return callable|string
      */
     public function getCallback();
 
