@@ -12,12 +12,13 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "symfony/framework-bundle": "~2.3|~3.0|~4.0",
-        "doctrine/cache": "~1.4"
+        "php": ">=5.5",
+        "doctrine/cache": "~1.4",
+        "symfony/console": "~3.4|~4.0",
+        "symfony/framework-bundle": "~3.4|~4.0"
     },
     "require-dev":{
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "^4.8.35"
     },
     "autoload": {
         "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" }
@@ -27,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     }
 }

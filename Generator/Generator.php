@@ -47,7 +47,7 @@ class Generator implements GeneratorInterface
 
         if (false === $route) {
             throw new ResourceNotFoundException(sprintf(
-                'Route %s not exists in [%s]',
+                'Route %s does not exist in [%s]',
                 $routeName,
                 implode(', ', array_keys($this->collection->all()))
             ));

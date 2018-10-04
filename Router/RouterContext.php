@@ -23,7 +23,7 @@ class RouterContext
     /**
      * @param string $tokenSeparator
      *
-     * @return $this|RouterContext
+     * @return $this
      */
     public function setTokenSeparator($tokenSeparator)
     {

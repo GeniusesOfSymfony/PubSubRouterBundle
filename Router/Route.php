@@ -38,7 +38,7 @@ class Route implements RouteInterface
      * @param array           $args
      * @param array           $requirements
      */
-    public function __construct($pattern, $callback, Array $args = [], Array $requirements = [])
+    public function __construct($pattern, $callback, array $args = [], array $requirements = [])
     {
         $this->pattern = $pattern;
         $this->callback = $callback;

@@ -15,7 +15,7 @@ class Token
     protected $expression;
 
     /**
-     * @var Array
+     * @var array
      */
     protected $requirements;
 
@@ -76,13 +76,13 @@ class Token
     /**
      * @param array $requirements
      */
-    public function setRequirements(Array $requirements)
+    public function setRequirements(array $requirements)
     {
         $this->requirements = $requirements;
     }
 
     /**
-     * @return Array
+     * @return array
      */
     public function getRequirements()
     {
