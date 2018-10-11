@@ -10,7 +10,7 @@ class Route implements RouteInterface
     /**
      * @var string
      */
-    protected $pattern;
+    protected $pattern = '';
 
     /**
      * @var callable|string
@@ -20,46 +20,44 @@ class Route implements RouteInterface
     /**
      * @var array
      */
-    protected $args;
-
-    /**
-     * @var array
-     */
-    protected $requirements;
-
-    /**
-     * @var string
-     */
-    protected $name;
+    protected $requirements = [];
 
     /**
      * @param string          $pattern
      * @param callable|string $callback
-     * @param array           $args
      * @param array           $requirements
      */
-    public function __construct($pattern, $callback, array $args = [], array $requirements = [])
+    public function __construct($pattern, $callback, array $requirements = [])
     {
         $this->pattern = $pattern;
         $this->callback = $callback;
-        $this->args = $args;
         $this->requirements = $requirements;
     }
 
     /**
-     * @param array $data
-     *
-     * @return Route
+     * {@inheritdoc}
      */
-    public static function __set_state($data)
+    public function serialize()
     {
-        $route = new self($data['pattern'], $data['callback'], $data['args'], $data['requirements']);
+        return serialize(
+            [
+                'pattern' => $this->pattern,
+                'callback' => $this->callback,
+                'requirements' => $this->requirements,
+            ]
+        );
+    }
 
-        if (isset($data['name'])) {
-            $route->setName($data['name']);
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
 
-        return $route;
+        $this->pattern = $data['pattern'];
+        $this->callback = $data['callback'];
+        $this->requirements = $data['requirements'];
     }
 
     /**
@@ -84,33 +82,5 @@ class Route implements RouteInterface
     public function getRequirements()
     {
         return $this->requirements;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArgs()
-    {
-        return $this->args;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        if (null !== $this->name) {
-            return $this->name;
-        }
-
-        return spl_object_hash($this);
-    }
-
-    /**
-     * @param $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 }

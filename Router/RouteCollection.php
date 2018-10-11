@@ -2,6 +2,8 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Symfony\Component\Config\Resource\ResourceInterface;
+
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
@@ -10,7 +12,12 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @var RouteInterface[]
      */
-    protected $routes;
+    protected $routes = [];
+
+    /**
+     * @var ResourceInterface[]
+     */
+    private $resources = [];
 
     /**
      * @param array $data
@@ -25,14 +32,10 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @param RouteInterface[] $routes
      */
-    public function __construct(array $routes = null)
+    public function __construct(array $routes = [])
     {
-        if (null !== $routes) {
-            foreach ($routes as $routeName => $route) {
-                $this->add($routeName, $route);
-            }
-        } else {
-            $this->routes = [];
+        foreach ($routes as $routeName => $route) {
+            $this->add($routeName, $route);
         }
     }
 
@@ -73,19 +76,17 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param string $name
+     * @return RouteInterface[]
      */
-    public function remove($name)
+    public function all()
     {
-        foreach ((array) $name as $n) {
-            unset($this->routes[$n]);
-        }
+        return $this->routes;
     }
 
     /**
      * @param string $name
      *
-     * @return Route|null
+     * @return RouteInterface|null
      */
     public function get($name)
     {
@@ -96,15 +97,17 @@ class RouteCollection implements \Countable, \IteratorAggregate
             return $route;
         }
 
-        return false;
+        return null;
     }
 
     /**
-     * @return Route[]
+     * @param string $name
      */
-    public function all()
+    public function remove($name)
     {
-        return $this->routes;
+        foreach ((array) $name as $n) {
+            unset($this->routes[$n]);
+        }
     }
 
     /**
@@ -112,8 +115,35 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public function addCollection(RouteCollection $collection)
     {
+        // we need to remove all routes with the same names first because just replacing them
+        // would not place the new route at the end of the merged array
         foreach ($collection->all() as $name => $route) {
-            $this->add($name, $route);
+            unset($this->routes[$name]);
+            $this->routes[$name] = $route;
+        }
+
+        foreach ($collection->getResources() as $resource) {
+            $this->addResource($resource);
+        }
+    }
+
+    /**
+     * @return ResourceInterface[] An array of resources
+     */
+    public function getResources()
+    {
+        return array_values($this->resources);
+    }
+
+    /**
+     * Adds a resource for this collection. If the resource already exists it is not added.
+     */
+    public function addResource(ResourceInterface $resource)
+    {
+        $key = (string) $resource;
+
+        if (!isset($this->resources[$key])) {
+            $this->resources[$key] = $resource;
         }
     }
 }

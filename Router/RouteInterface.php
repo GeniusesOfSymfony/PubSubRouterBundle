@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-interface RouteInterface
+interface RouteInterface extends \Serializable
 {
     /**
      * @return string
@@ -23,9 +23,4 @@ interface RouteInterface
      * @return array
      */
     public function getArgs();
-
-    /**
-     * @param string $name
-     */
-    public function setName($name);
 }
