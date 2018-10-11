@@ -18,9 +18,4 @@ interface RouteInterface extends \Serializable
      * @return array
      */
     public function getRequirements();
-
-    /**
-     * @return array
-     */
-    public function getArgs();
 }

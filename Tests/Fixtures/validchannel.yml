@@ -1,0 +1,6 @@
+user_chat:
+    channel: chat/{user}
+    handler: 'strlen'
+    requirements:
+        user:
+            pattern: "\\d+"
