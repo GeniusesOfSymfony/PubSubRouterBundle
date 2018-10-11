@@ -16,20 +16,21 @@
         "doctrine/cache": "~1.4",
         "symfony/console": "~3.4|~4.0",
         "symfony/framework-bundle": "~3.4|~4.0",
+        "symfony/http-foundation": "~3.4|~4.0",
         "symfony/yaml": "~3.4|~4.0"
     },
     "require-dev":{
         "phpunit/phpunit": "^4.8.35"
     },
     "autoload": {
-        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" }
-    },
-    "autoload-dev" : {
-      "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\Tests\\" : "" }
+        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3.x-dev"
+            "dev-master": "0.4.x-dev"
         }
     }
 }
