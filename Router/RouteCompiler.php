@@ -24,31 +24,19 @@ class RouteCompiler implements RouteCompilerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException if a path variable is named _fragment
-     * @throws \LogicException           if a variable is referenced more than once
-     * @throws \DomainException          if a variable name starts with a digit or if it is too long to be successfully used as
-     *                                   a PCRE subpattern
+     * @throws \LogicException  if a variable is referenced more than once
+     * @throws \DomainException if a variable name starts with a digit or if it is too long to be successfully used as
+     *                          a PCRE subpattern
      */
     public static function compile(Route $route)
     {
         $result = self::compilePattern($route, $route->getPattern());
 
-        $variables = $result['variables'];
-
-        foreach ($variables as $pathParam) {
-            if ('_fragment' === $pathParam) {
-                throw new \InvalidArgumentException(sprintf('Route pattern "%s" cannot contain "_fragment" as a path parameter.', $route->getPath()));
-            }
-        }
-
-        $tokens = $result['tokens'];
-        $regex = $result['regex'];
-
         return new CompiledRoute(
             $result['staticPrefix'],
             $result['regex'],
             $result['tokens'],
-            $variables
+            $result['variables']
         );
     }
 
