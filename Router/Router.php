@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
@@ -99,7 +100,7 @@ class Router implements RouterInterface
             'debug' => false,
             'generator_class' => Generator::class,
             'generator_base_class' => Generator::class,
-            'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper',
+            'generator_dumper_class' => PhpGeneratorDumper::class,
             'generator_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Generator',
             'matcher_class' => Matcher::class,
             'matcher_base_class' => Matcher::class,
@@ -194,15 +195,9 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function match($channel, $tokenSeparator = null)
+    public function match($channel)
     {
-        $this->matcher->setCollection($this->collection);
-
-        if (null === $tokenSeparator && null !== $this->context) {
-            $tokenSeparator = $this->context->getTokenSeparator();
-        }
-
-        return $this->matcher->match($channel, $tokenSeparator);
+        return $this->getMatcher()->match($channel);
     }
 
     /**
@@ -252,11 +247,56 @@ class Router implements RouterInterface
     }
 
     /**
+     * Gets the Matcher instance associated with this Router.
+     *
+     * @return MatcherInterface A UrlMatcherInterface instance
+     */
+    public function getMatcher()
+    {
+        if (null !== $this->matcher) {
+            return $this->matcher;
+        }
+
+        if (null === $this->options['cache_dir'] || null === $this->options['matcher_cache_class']) {
+            $this->matcher = new $this->options['matcher_class']($this->getCollection());
+
+            return $this->matcher;
+        }
+
+        $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['matcher_cache_class'].'.php',
+            function (ConfigCacheInterface $cache) {
+                $dumper = $this->getMatcherDumperInstance();
+
+                $options = [
+                    'class' => $this->options['matcher_cache_class'],
+                    'base_class' => $this->options['matcher_base_class'],
+                ];
+
+                $cache->write($dumper->dump($options), $this->getCollection()->getResources());
+            }
+        );
+
+        if (!class_exists($this->options['matcher_cache_class'], false)) {
+            require_once $cache->getPath();
+        }
+
+        return $this->matcher = new $this->options['matcher_cache_class']($this->context);
+    }
+
+    /**
      * @return GeneratorDumperInterface
      */
     protected function getGeneratorDumperInstance()
     {
         return new $this->options['generator_dumper_class']($this->getRouteCollection());
+    }
+
+    /**
+     * @return MatcherDumperInterface
+     */
+    protected function getMatcherDumperInstance()
+    {
+        return new $this->options['matcher_dumper_class']($this->getRouteCollection());
     }
 
     /**

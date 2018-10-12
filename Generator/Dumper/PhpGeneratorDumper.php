@@ -3,7 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle\Generator\Dumper;
 
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
-use Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 
 class PhpGeneratorDumper extends GeneratorDumper
 {
