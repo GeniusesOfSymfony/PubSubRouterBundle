@@ -20,16 +20,6 @@ class RouteCollection implements \Countable, \IteratorAggregate
     private $resources = [];
 
     /**
-     * @param array $data
-     *
-     * @return RouteCollection
-     */
-    public static function __set_state($data)
-    {
-        return new self($data['routes']);
-    }
-
-    /**
      * @param Route[] $routes
      */
     public function __construct(array $routes = [])
