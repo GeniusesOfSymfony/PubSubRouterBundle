@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Command;
 
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -60,7 +60,7 @@ class DebugRouterCommand extends Command
 
         /**
          * @var string $name
-         * @var RouteInterface $route
+         * @var Route  $route
          */
         foreach ($router->getCollection() as $name => $route) {
             if (is_array($route->getCallback())) {

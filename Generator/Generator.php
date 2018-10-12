@@ -6,7 +6,6 @@ use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
 
@@ -61,7 +60,7 @@ class Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generateFromTokens(RouteInterface $route, Array $tokens, Array $parameters = [], $tokenSeparator)
+    public function generateFromTokens(Route $route, array $tokens, array $parameters = [], $tokenSeparator)
     {
         $graph = [];
 

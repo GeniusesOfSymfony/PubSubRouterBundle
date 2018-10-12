@@ -18,9 +18,13 @@ class YamlFileLoader extends FileLoader
     /**
      * @var array
      */
-    private static $availableKeys = array(
-        'channel', 'handler', 'requirements',
-    );
+    private static $availableKeys = [
+        'channel',
+        'handler',
+        'defaults',
+        'requirements',
+        'options',
+    ];
 
     /**
      * @var YamlParser
@@ -77,7 +81,9 @@ class YamlFileLoader extends FileLoader
                 new Route(
                     $routeConfig['channel'],
                     $routeConfig['handler'],
-                    isset($routeConfig['requirements']) ? $routeConfig['requirements'] : []
+                    isset($routeConfig['defaults']) ? $routeConfig['defaults'] : [],
+                    isset($routeConfig['requirements']) ? $routeConfig['requirements'] : [],
+                    isset($routeConfig['options']) ? $routeConfig['options'] : []
                 )
             );
         }

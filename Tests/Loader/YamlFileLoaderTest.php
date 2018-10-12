@@ -3,7 +3,8 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
@@ -50,9 +51,11 @@ class YamlFileLoaderTest extends TestCase
         $routeCollection = $loader->load('validchannel.yml');
         $route = $routeCollection->get('user_chat');
 
-        $this->assertInstanceOf(RouteInterface::class, $route);
+        $this->assertInstanceOf(Route::class, $route);
         $this->assertSame('chat/{user}', $route->getPattern());
         $this->assertSame('strlen', $route->getCallback());
-        $this->assertSame(['user' => ['pattern' => '\\d+']], $route->getRequirements());
+        $this->assertSame(['user' => 42], $route->getDefaults());
+        $this->assertSame(['user' => '\\d+'], $route->getRequirements());
+        $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 }

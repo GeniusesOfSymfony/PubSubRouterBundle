@@ -103,7 +103,7 @@ class Router implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function generateFromTokens(RouteInterface $route, array $tokens, array $parameters = [], $tokenSeparator = null)
+    public function generateFromTokens(Route $route, array $tokens, array $parameters = [], $tokenSeparator = null)
     {
         if (null === $tokenSeparator && null !== $this->context) {
             $tokenSeparator = $this->context->getTokenSeparator();

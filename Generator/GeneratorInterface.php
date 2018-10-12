@@ -3,8 +3,8 @@
 namespace Gos\Bundle\PubSubRouterBundle\Generator;
 
 use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
 use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
 
 interface GeneratorInterface
@@ -17,7 +17,7 @@ interface GeneratorInterface
      *
      * @return mixed
      */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator);
+    public function generate($routeName, array $parameters = [], $tokenSeparator);
 
     /**
      * @param Token[]     $tokens
@@ -28,7 +28,7 @@ interface GeneratorInterface
      *
      * @return string
      */
-    public function generateFromTokens(RouteInterface $route, Array $tokens, Array $parameters = [], $tokenSeparator);
+    public function generateFromTokens(Route $route, array $tokens, array $parameters = [], $tokenSeparator);
 
     /**
      * @param RouteCollection $collection

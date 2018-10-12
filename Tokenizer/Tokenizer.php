@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tokenizer;
 
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 
 class Tokenizer implements TokenizerInterface
 {
@@ -11,7 +11,7 @@ class Tokenizer implements TokenizerInterface
      */
     public function tokenize($stringOrRoute, $separator)
     {
-        if ($stringOrRoute instanceof RouteInterface) {
+        if ($stringOrRoute instanceof Route) {
             $pattern = $stringOrRoute->getPattern();
             $requirements = $stringOrRoute->getRequirements();
         } else {
@@ -44,7 +44,7 @@ class Tokenizer implements TokenizerInterface
             }
 
             if (
-                $stringOrRoute instanceof RouteInterface &&
+                $stringOrRoute instanceof Route &&
                 count($stringOrRoute->getRequirements()) >= 1 &&
                 isset($requirements[$token->getExpression()])
             ) {

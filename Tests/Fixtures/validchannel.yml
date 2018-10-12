@@ -1,6 +1,9 @@
 user_chat:
     channel: chat/{user}
     handler: 'strlen'
+    defaults:
+        user: 42
     requirements:
-        user:
-            pattern: "\\d+"
+        user: "\\d+"
+    options:
+        foo: bar

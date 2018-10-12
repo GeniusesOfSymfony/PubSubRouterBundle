@@ -3,7 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tokenizer;
 
 use Doctrine\Common\Cache\Cache;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 
 class TokenizerCacheDecorator implements TokenizerInterface
 {
@@ -32,7 +32,7 @@ class TokenizerCacheDecorator implements TokenizerInterface
      */
     public function tokenize($stringOrRoute, $separator)
     {
-        if ($stringOrRoute instanceof RouteInterface) {
+        if ($stringOrRoute instanceof Route) {
             $routeName = (string) $stringOrRoute;
             if ($tokens = $this->cache->fetch('tokens_' . $routeName)) {
                 return $tokens;

@@ -10,7 +10,7 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 class RouteCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var RouteInterface[]
+     * @var Route[]
      */
     protected $routes = [];
 
@@ -30,7 +30,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param RouteInterface[] $routes
+     * @param Route[] $routes
      */
     public function __construct(array $routes = [])
     {
@@ -43,7 +43,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     {
         /**
          * @var string $name
-         * @var RouteInterface $route
+         * @var Route  $route
          */
         foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
@@ -67,16 +67,16 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param string         $name
-     * @param RouteInterface $route
+     * @param string $name
+     * @param Route  $route
      */
-    public function add($name, RouteInterface $route)
+    public function add($name, Route $route)
     {
         $this->routes[$name] = $route;
     }
 
     /**
-     * @return RouteInterface[]
+     * @return Route[]
      */
     public function all()
     {
@@ -86,7 +86,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @param string $name
      *
-     * @return RouteInterface|null
+     * @return Route|null
      */
     public function get($name)
     {
