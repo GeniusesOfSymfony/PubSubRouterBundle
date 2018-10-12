@@ -13,7 +13,7 @@ class RouteTest extends TestCase
     {
         $route = new Route('{foo}', 'strlen', ['foo' => 'bar'], ['foo' => '\d+'], ['foo' => 'bar']);
         $this->assertEquals('{foo}', $route->getPattern(), '__construct() takes a pattern as its first argument');
-        $this->assertEquals('strlen', $route->getCallback(), '__construct() takes a callback as its second argument');
+        $this->assertEquals('strlen', $route->getCallback(), '__construct() takes a callback or string as its second argument');
         $this->assertEquals(
             ['foo' => 'bar'],
             $route->getDefaults(),

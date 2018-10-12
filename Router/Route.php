@@ -13,7 +13,7 @@ class Route
     protected $pattern = '';
 
     /**
-     * @var callable
+     * @var callable|string
      */
     protected $callback;
 
@@ -45,13 +45,13 @@ class Route
      *  * compiler_class: A class name able to compile this route instance (RouteCompiler by default)
      *  * utf8:           Whether UTF-8 matching is enforced ot not
      *
-     * @param string   $pattern      The path pattern to match
-     * @param callable $callback     The callable this route executes
-     * @param array    $defaults     An array of default parameter values
-     * @param array    $requirements An array of requirements for parameters (regexes)
-     * @param array    $options      An array of options
+     * @param string   $pattern         The path pattern to match
+     * @param callable $callback|string A callable function that handles this route or a string to be used with a service locator
+     * @param array    $defaults        An array of default parameter values
+     * @param array    $requirements    An array of requirements for parameters (regexes)
+     * @param array    $options         An array of options
      */
-    public function __construct($pattern, callable $callback, array $defaults = [], array $requirements = [], array $options = [])
+    public function __construct($pattern, $callback, array $defaults = [], array $requirements = [], array $options = [])
     {
         $this->setPattern($pattern);
         $this->setCallback($callback);
@@ -126,7 +126,7 @@ class Route
     }
 
     /**
-     * @return callable
+     * @return $callback|string
      */
     public function getCallback()
     {
@@ -134,10 +134,19 @@ class Route
     }
 
     /**
-     * @param callable $callback
+     * @param $callback|string $callback
      */
-    public function setCallback(callable $callback)
+    public function setCallback($callback)
     {
+        if (!is_callable($callback) && !is_string($callback)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'The callback for a route must be a PHP callable or a string, a "%s" was given.',
+                    gettype($callback)
+                )
+            );
+        }
+
         $this->callback = $callback;
 
         return $this;
