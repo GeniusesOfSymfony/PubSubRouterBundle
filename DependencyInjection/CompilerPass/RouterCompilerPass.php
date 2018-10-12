@@ -54,7 +54,7 @@ class RouterCompilerPass implements CompilerPassInterface
             * @author Randy Téllez Galán <kronhyx@gmail.com>
             */
             $routeLoaderDef->setPublic(true);
-            
+
             $routeLoaderDef->setArguments([
                 new Reference($collectionServiceName),
                 new Reference('gos_pubsub_router.php_file.cache'),
@@ -71,14 +71,6 @@ class RouterCompilerPass implements CompilerPassInterface
 
             $container->setDefinition($routeLoaderServiceName, $routeLoaderDef);
 
-            //Router context
-            $contextConf = $routerConf['context'];
-            $routerContextServiceName = 'gos_pubsub_router.context.' . $name;
-            $routerContextDef = new Definition('Gos\Bundle\PubSubRouterBundle\Router\RouterContext');
-            $routerContextDef->addMethodCall('setTokenSeparator', [$contextConf['tokenSeparator']]);
-
-            $container->setDefinition($routerContextServiceName, $routerContextDef);
-
             //Router
             $routerServiceName = 'gos_pubsub_router.' . $name;
 
@@ -89,8 +81,6 @@ class RouterCompilerPass implements CompilerPassInterface
                 new Reference($routeLoaderServiceName),
                 $name,
             ]);
-
-            $routerDef->addMethodCall('setContext', [new Reference($routerContextServiceName)]);
 
             $container->setDefinition($routerServiceName, $routerDef);
 
