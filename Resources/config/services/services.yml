@@ -1,4 +1,12 @@
 services:
+    gos_pubsub_router.router.cache_warmer:
+        class: Gos\Bundle\PubSubRouterBundle\CacheWarmer\RouterCacheWarmer
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+        tags:
+            - { name: container.service_subscriber, id: 'gos_pubsub_router.router.registry' }
+            - { name: kernel.cache_warmer }
+
     gos_pubsub_router.debug.command:
         class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
         arguments:
