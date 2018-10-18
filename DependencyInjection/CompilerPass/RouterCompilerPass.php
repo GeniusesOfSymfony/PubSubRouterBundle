@@ -22,8 +22,6 @@ class RouterCompilerPass implements CompilerPassInterface
         $configs['loaders'][] = '@gos_pubsub_router.yaml.loader';
         $container->setParameter('gos_pubsub_registered_routers', array_keys($configs['routers']));
 
-        $debugCmdDef = $container->getDefinition('gos_pubsub_router.debug.command');
-
         foreach ($configs['routers'] as $name => $routerConf) {
 
             //RouteCollection
@@ -80,8 +78,6 @@ class RouterCompilerPass implements CompilerPassInterface
             ]);
 
             $container->setDefinition($routerServiceName, $routerDef);
-
-            $debugCmdDef->addMethodCall('addRouter', [new Reference($routerServiceName)]);
         }
     }
 }
