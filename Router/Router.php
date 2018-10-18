@@ -69,7 +69,7 @@ class Router implements RouterInterface, WarmableInterface
     {
         $this->name = $name;
         $this->loader = $loader;
-        $this->resource = $resource;
+        $this->resources = $resources;
         $this->setOptions($options);
     }
 
