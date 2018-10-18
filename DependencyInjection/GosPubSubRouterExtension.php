@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
-use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumper;
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,14 +28,12 @@ class GosPubSubRouterExtension extends Extension
 
         $container->setParameter('gos_pubsub_router.cache_class_prefix', $container->getParameter('kernel.container_class'));
 
-        // <argument key="generator_cache_class">%router.cache_class_prefix%UrlGenerator</argument>
-        // <argument key="matcher_cache_class">%router.cache_class_prefix%UrlMatcher</argument>
         $baseRouterOptions = [
             'cache_dir' => $container->getParameter('kernel.cache_dir'),
             'debug' => $container->getParameter('kernel.debug'),
             'generator_class' => $config['generator_class'],
             'generator_base_class' => $config['generator_class'],
-            'generator_dumper_class' => GeneratorDumper::class,
+            'generator_dumper_class' => PhpGeneratorDumper::class,
             'matcher_class' => $config['matcher_class'],
             'matcher_base_class' => $config['matcher_class'],
             'matcher_dumper_class' => PhpMatcherDumper::class,

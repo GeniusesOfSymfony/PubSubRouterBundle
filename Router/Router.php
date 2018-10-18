@@ -6,6 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
@@ -105,7 +106,7 @@ class Router implements RouterInterface, WarmableInterface
             'generator_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Generator',
             'matcher_class' => Matcher::class,
             'matcher_base_class' => Matcher::class,
-            'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper',
+            'matcher_dumper_class' => PhpMatcherDumper::class,
             'matcher_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Matcher',
             'resource_type' => null,
         ];
@@ -296,7 +297,7 @@ class Router implements RouterInterface, WarmableInterface
             require_once $cache->getPath();
         }
 
-        return $this->matcher = new $this->options['matcher_cache_class']($this->context);
+        return $this->matcher = new $this->options['matcher_cache_class']();
     }
 
     /**
@@ -304,7 +305,7 @@ class Router implements RouterInterface, WarmableInterface
      */
     protected function getGeneratorDumperInstance()
     {
-        return new $this->options['generator_dumper_class']($this->getRouteCollection());
+        return new $this->options['generator_dumper_class']($this->getCollection());
     }
 
     /**
@@ -312,7 +313,7 @@ class Router implements RouterInterface, WarmableInterface
      */
     protected function getMatcherDumperInstance()
     {
-        return new $this->options['matcher_dumper_class']($this->getRouteCollection());
+        return new $this->options['matcher_dumper_class']($this->getCollection());
     }
 
     /**
