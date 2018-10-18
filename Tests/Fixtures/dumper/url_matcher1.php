@@ -68,7 +68,7 @@ class ProjectMatcher extends Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
         while (preg_match($regex, $matchedChannel, $matches)) {
             switch ($m = (int) $matches['MARK']) {
                 case 48:
-                    $matches = array('foo' => $matches[1] ?? null);
+                    $matches = array('foo' => isset($matches[1]) ? $matches[1] : null);
 
                     // baz4
                     return array('baz4', new Route('test/{foo}/', 'strlen', array(), array(), array('compiler_class' => 'Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCompiler')), $this->mergeDefaults(array('baz4') + $matches, array()));

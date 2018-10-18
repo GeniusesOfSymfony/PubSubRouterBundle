@@ -226,8 +226,10 @@ class RouteCompiler implements RouteCompilerInterface
 
     /**
      * Determines the longest static prefix possible for a route.
+     *
+     * @return string
      */
-    private static function determineStaticPrefix(Route $route, array $tokens): string
+    private static function determineStaticPrefix(Route $route, array $tokens)
     {
         if (!$tokens) {
             return '';
@@ -248,8 +250,11 @@ class RouteCompiler implements RouteCompilerInterface
 
     /**
      * Returns the next static character in the Route pattern that will serve as a separator (or the empty string when none available).
+     *
+     * @param string $pattern
+     * @param bool   $useUtf8
      */
-    private static function findNextSeparator(string $pattern, bool $useUtf8): string
+    private static function findNextSeparator($pattern, $useUtf8)
     {
         if ('' == $pattern) {
             // return empty string if pattern is empty or false (false which can be returned by substr)
@@ -277,7 +282,7 @@ class RouteCompiler implements RouteCompilerInterface
      *
      * @return string The regexp pattern for a single token
      */
-    private static function computeRegexp(array $tokens, int $index, int $firstOptional): string
+    private static function computeRegexp(array $tokens, $index, $firstOptional)
     {
         $token = $tokens[$index];
 
@@ -310,7 +315,12 @@ class RouteCompiler implements RouteCompilerInterface
         }
     }
 
-    private static function transformCapturingGroupsToNonCapturings(string $regexp): string
+    /**
+     * @param string $regexp
+     *
+     * @return string
+     */
+    private static function transformCapturingGroupsToNonCapturings($regexp)
     {
         for ($i = 0; $i < \strlen($regexp); ++$i) {
             if ('\\' === $regexp[$i]) {

@@ -112,14 +112,15 @@ class StaticPrefixCollection
 
     /**
      * Linearizes back a set of nested routes into a collection.
+     *
+     * @return RouteCollection
      */
-    public function populateCollection(RouteCollection $routes): RouteCollection
+    public function populateCollection(RouteCollection $routes)
     {
         foreach ($this->items as $route) {
             if ($route instanceof self) {
                 $route->populateCollection($routes);
             } else {
-                var_dump($route);die;
                 $routes->add(...$route);
             }
         }
@@ -131,17 +132,22 @@ class StaticPrefixCollection
      * Gets the full and static common prefixes between two route patterns.
      *
      * The static prefix stops at last at the first opening bracket.
+     *
+     * @param string $prefix
+     * @param string $anotherPrefix
+     *
+     * @return array
      */
-    private function getCommonPrefix(string $prefix, string $anotherPrefix): array
+    private function getCommonPrefix($prefix, $anotherPrefix)
     {
         $baseLength = \strlen($this->prefix);
         $end = min(\strlen($prefix), \strlen($anotherPrefix));
         $staticLength = null;
-        set_error_handler(array(__CLASS__, 'handleError'));
+        set_error_handler([__CLASS__, 'handleError']);
 
         for ($i = $baseLength; $i < $end && $prefix[$i] === $anotherPrefix[$i]; ++$i) {
             if ('(' === $prefix[$i]) {
-                $staticLength = $staticLength ?? $i;
+                $staticLength = !empty($staticLength) ? $staticLength : $i;
                 for ($j = 1 + $i, $n = 1; $j < $end && 0 < $n; ++$j) {
                     if ($prefix[$j] !== $anotherPrefix[$j]) {
                         break 2;
@@ -158,7 +164,7 @@ class StaticPrefixCollection
                 if (0 < $n) {
                     break;
                 }
-                if (('?' === ($prefix[$j] ?? '') || '?' === ($anotherPrefix[$j] ?? '')) && ($prefix[$j] ?? '') !== ($anotherPrefix[$j] ?? '')) {
+                if (('?' === (isset($prefix[$j]) ? $prefix[$j] : '') || '?' === (isset($anotherPrefix[$j]) ? $anotherPrefix[$j] : '')) && (isset($prefix[$j]) ? $prefix[$j] : '') !== (isset($anotherPrefix[$j]) ? $anotherPrefix[$j] : '')) {
                     break;
                 }
                 $subPattern = substr($prefix, $i, $j - $i);
@@ -180,7 +186,7 @@ class StaticPrefixCollection
             } while (0b10 === (\ord($prefix[$i]) >> 6));
         }
 
-        return array(substr($prefix, 0, $i), substr($prefix, 0, $staticLength ?? $i));
+        return array(substr($prefix, 0, $i), substr($prefix, 0, !empty($staticLength) ? $staticLength : $i));
     }
 
     public static function handleError($type, $msg)

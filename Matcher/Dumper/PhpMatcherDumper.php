@@ -58,9 +58,11 @@ EOF;
     }
 
     /**
-     * Generates the code for the match method implementing UrlMatcherInterface.
+     * Generates the code for the match method implementing MatcherInterface.
+     *
+     * @return string
      */
-    private function generateMatchMethod(): string
+    private function generateMatchMethod()
     {
         // Group hosts by same-suffix, re-order when possible
         $routes = new StaticPrefixCollection();
@@ -83,6 +85,8 @@ EOF;
 
     /**
      * Generates PHP code to match a RouteCollection with all its routes.
+     *
+     * @return string
      */
     private function compileRoutes(RouteCollection $routes)
     {
@@ -110,8 +114,10 @@ EOF;
 
     /**
      * Splits static routes from dynamic routes, so that they can be matched first, using a simple switch.
+     *
+     * @return array
      */
-    private function groupStaticRoutes(RouteCollection $collection): array
+    private function groupStaticRoutes(RouteCollection $collection)
     {
         $staticRoutes = $dynamicRegex = [];
         $dynamicRoutes = new RouteCollection();
@@ -147,9 +153,10 @@ EOF;
      * Condition-less paths are put in a static array in the switch's default, with generic matching logic.
      * Paths that can match two or more routes, or have user-specified conditions are put in separate switch's cases.
      *
+     * @return string
      * @throws \LogicException
      */
-    private function compileStaticRoutes(array $staticRoutes): string
+    private function compileStaticRoutes(array $staticRoutes)
     {
         if (!$staticRoutes) {
             return '';
@@ -192,8 +199,8 @@ EOF;
     /**
      * Compiles a regular expression followed by a switch statement to match dynamic routes.
      *
-     * The regular expression matches both the host and the pathinfo at the same time. For stellar performance,
-     * it is built as a tree of patterns, with re-ordering logic to group same-prefix routes together when possible.
+     * The regular expression matches the channel pattern. For stellar performance, it is built as a tree of patterns,
+     * with re-ordering logic to group same-prefix routes together when possible.
      *
      * Patterns are named so that we know which one matched (https://pcre.org/current/doc/html/pcre2syntax.html#SEC23).
      * This name is used to "switch" to the additional logic required to match the final route.
@@ -202,12 +209,17 @@ EOF;
      * Paths that can match two or more routes, or have user-specified conditions are put in separate switch's cases.
      *
      * Last but not least:
-     *  - Because it is not possibe to mix unicode/non-unicode patterns in a single regexp, several of them can be generated.
+     *  - Because it is not possible to mix unicode/non-unicode patterns in a single regexp, several of them can be generated.
      *  - The same regexp can be used several times when the logic in the switch rejects the match. When this happens, the
      *    matching-but-failing subpattern is blacklisted by replacing its name by "(*F)", which forces a failure-to-match.
      *    To ease this backlisting operation, the name of subpatterns is also the string offset where the replacement should occur.
+     *
+     * @param RouteCollection $collection
+     * @param int             $chunkLimit
+     *
+     * @return string
      */
-    private function compileDynamicRoutes(RouteCollection $collection, int $chunkLimit): string
+    private function compileDynamicRoutes(RouteCollection $collection, $chunkLimit)
     {
         if (!$collection->all()) {
             return '';
@@ -319,7 +331,7 @@ EOF;
      * @param \stdClass $state A simple state object that keeps track of the progress of the compilation,
      *                         and gathers the generated switch's "case" and "default" statements
      */
-    private function compileStaticPrefixCollection(StaticPrefixCollection $tree, \stdClass $state, $prefixLen = 0): string
+    private function compileStaticPrefixCollection(StaticPrefixCollection $tree, \stdClass $state, $prefixLen = 0)
     {
         $code = '';
         $prevRegex = null;
@@ -356,7 +368,7 @@ EOF;
             $code .= "\n                    .".self::export($rx);
             $state->regex .= $rx;
 
-            if (!\is_array($next = $routes[1 + $i] ?? null) || $regex !== $next[1]) {
+            if (!\is_array($next = isset($routes[1 + $i]) ? $routes[1 + $i] : null) || $regex !== $next[1]) {
                 $prevRegex = null;
                 $defaults = $route->getDefaults();
 
@@ -378,7 +390,7 @@ EOF;
                 $prevRegex = $compiledRoute->getRegex();
                 $combine = '            $matches = array(';
                 foreach ($vars as $j => $m) {
-                    $combine .= sprintf('%s => $matches[%d] ?? null, ', self::export($m), 1 + $j);
+                    $combine .= sprintf('%s => isset($matches[%d]) ? $matches[%d] : null, ', self::export($m), 1 + $j, 1 + $j);
                 }
                 $combine = $vars ? substr_replace($combine, ");\n\n", -2) : '';
 
@@ -396,8 +408,12 @@ EOF;
 
     /**
      * A simple helper to compiles the switch's "default" for both static and dynamic routes.
+     *
+     * @param bool $hasVars
+     *
+     * @return string
      */
-    private function compileSwitchDefault(bool $hasVars): string
+    private function compileSwitchDefault($hasVars)
     {
         if ($hasVars) {
             $code = <<<EOF
@@ -436,7 +452,7 @@ EOF;
      *
      * @throws \LogicException
      */
-    private function compileRoute(Route $route, $name): string
+    private function compileRoute(Route $route, $name)
     {
         $compiledRoute = $route->compile();
         $matches = (bool) $compiledRoute->getVariables();
@@ -498,7 +514,7 @@ EOF;
     /**
      * @internal
      */
-    public static function export($value): string
+    public static function export($value)
     {
         if (null === $value) {
             return 'null';
