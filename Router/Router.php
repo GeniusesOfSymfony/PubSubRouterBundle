@@ -12,11 +12,12 @@ use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
 use Symfony\Component\Config\ConfigCacheInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-class Router implements RouterInterface
+class Router implements RouterInterface, WarmableInterface
 {
     /**
      * @var MatcherInterface|null
@@ -174,6 +175,21 @@ class Router implements RouterInterface
         }
 
         return $this->collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function warmUp($cacheDir)
+    {
+        $currentDir = $this->getOption('cache_dir');
+
+        // force cache generation
+        $this->setOption('cache_dir', $cacheDir);
+        $this->getMatcher();
+        $this->getGenerator();
+
+        $this->setOption('cache_dir', $currentDir);
     }
 
     /**
