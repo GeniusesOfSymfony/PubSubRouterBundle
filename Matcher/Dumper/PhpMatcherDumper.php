@@ -84,7 +84,7 @@ EOF;
     /**
      * Generates PHP code to match a RouteCollection with all its routes.
      */
-    private function compileRoutes(RouteCollection $routes)
+    private function compileRoutes(RouteCollection $routes): string
     {
         list($staticRoutes, $dynamicRoutes) = $this->groupStaticRoutes($routes);
 
@@ -319,7 +319,7 @@ EOF;
      * @param \stdClass $state A simple state object that keeps track of the progress of the compilation,
      *                         and gathers the generated switch's "case" and "default" statements
      */
-    private function compileStaticPrefixCollection(StaticPrefixCollection $tree, \stdClass $state, $prefixLen = 0): string
+    private function compileStaticPrefixCollection(StaticPrefixCollection $tree, \stdClass $state, int $prefixLen = 0): string
     {
         $code = '';
         $prevRegex = null;
@@ -436,7 +436,7 @@ EOF;
      *
      * @throws \LogicException
      */
-    private function compileRoute(Route $route, $name): string
+    private function compileRoute(Route $route, string $name): string
     {
         $compiledRoute = $route->compile();
         $matches = (bool) $compiledRoute->getVariables();
