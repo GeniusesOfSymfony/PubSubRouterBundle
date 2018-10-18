@@ -15,22 +15,10 @@ class GosPubSubRouterBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function boot()
-    {
-        $registeredRouter = $this->container->getParameter('gos_pubsub_registered_routers');
-
-        foreach ($registeredRouter as $routerType) {
-            $routeLoader = $this->container->get('gos_pubsub_router.loader.' . $routerType);
-            $routeLoader->load();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
         $container->addCompilerPass(new RouterCompilerPass());
     }
 
@@ -39,6 +27,10 @@ class GosPubSubRouterBundle extends Bundle
      */
     public function getContainerExtension()
     {
-        return new GosPubSubRouterExtension();
+        if (null === $this->extension) {
+            $this->extension = new GosPubSubRouterExtension();
+        }
+
+        return parent::getContainerExtension();
     }
 }
