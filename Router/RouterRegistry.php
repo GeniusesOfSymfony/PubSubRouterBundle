@@ -19,10 +19,34 @@ final class RouterRegistry
     }
 
     /**
+     * @param string $name
+     *
+     * @return RouterInterface
+     */
+    public function getRouter($name)
+    {
+        if (!$this->hasRouter($name)) {
+            throw new \InvalidArgumentException(sprintf('A router named "%s" has not been registered.', $name));
+        }
+
+        return $this->routers[$name];
+    }
+
+    /**
      * @return RouterInterface[]
      */
     public function getRouters()
     {
         return $this->routers;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasRouter($name)
+    {
+        return isset($this->routers[$name]);
     }
 }

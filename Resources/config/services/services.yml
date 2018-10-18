@@ -1,6 +1,8 @@
 services:
     gos_pubsub_router.debug.command:
         class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
+        arguments:
+            - '@gos_pubsub_router.router.registry'
         tags:
             - { name: console.command, command: gos:prouter:debug }
 
@@ -37,3 +39,7 @@ services:
         public: false
         arguments:
             - '@file_locator'
+
+    gos_pubsub_router.router.registry:
+        class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
+        public: false
