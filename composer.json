@@ -13,7 +13,6 @@
     ],
     "require": {
         "php": ">=5.5",
-        "doctrine/cache": "~1.4",
         "symfony/config": "~3.4|~4.0",
         "symfony/console": "~3.4|~4.0",
         "symfony/framework-bundle": "~3.4|~4.0",
