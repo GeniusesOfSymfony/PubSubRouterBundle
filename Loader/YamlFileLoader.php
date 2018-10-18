@@ -18,7 +18,7 @@ class YamlFileLoader extends FileLoader
     /**
      * @var array
      */
-    private static $availableKeys = [
+    private const AVAILABLE_KEYS = [
         'channel',
         'handler',
         'defaults',
@@ -91,21 +91,16 @@ class YamlFileLoader extends FileLoader
         return $routeCollection;
     }
 
-    /**
-     * @param array  $config
-     * @param string $name
-     * @param string $path
-     */
-    protected function validate($config, $name, $path)
+    protected function validate(array $config, string $name, string $path): void
     {
         if (!is_array($config)) {
             throw new \InvalidArgumentException(sprintf('The definition of "%s" in "%s" must be a YAML array.', $name, $path));
         }
 
-        if ($extraKeys = array_diff(array_keys($config), self::$availableKeys)) {
+        if ($extraKeys = array_diff(array_keys($config), self::AVAILABLE_KEYS)) {
             throw new \InvalidArgumentException(sprintf(
                 'The routing file "%s" contains unsupported keys for "%s": "%s". Expected one of: "%s".',
-                $path, $name, implode('", "', $extraKeys), implode('", "', self::$availableKeys)
+                $path, $name, implode('", "', $extraKeys), implode('", "', self::AVAILABLE_KEYS)
             ));
         }
 

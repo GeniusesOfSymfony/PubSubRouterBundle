@@ -10,13 +10,7 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
  */
 interface RouterInterface extends MatcherInterface, GeneratorInterface
 {
-    /**
-     * @return RouteCollection
-     */
-    public function getCollection();
+    public function getCollection(): RouteCollection;
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 }

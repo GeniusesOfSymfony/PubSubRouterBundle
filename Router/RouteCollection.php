@@ -56,11 +56,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
         return count($this->routes);
     }
 
-    /**
-     * @param string $name
-     * @param Route  $route
-     */
-    public function add($name, Route $route)
+    public function add(string $name, Route $route): void
     {
         $this->routes[$name] = $route;
     }
@@ -68,25 +64,17 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @return Route[]
      */
-    public function all()
+    public function all(): array
     {
         return $this->routes;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Route|null
-     */
-    public function get($name)
+    public function get(string $name): ?Route
     {
-        return isset($this->routes[$name]) ? $this->routes[$name] : null;
+        return $this->routes[$name] ?? null;
     }
 
-    /**
-     * @param string $name
-     */
-    public function remove($name)
+    public function remove(string $name): void
     {
         foreach ((array) $name as $n) {
             unset($this->routes[$n]);
@@ -113,7 +101,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @return ResourceInterface[] An array of resources
      */
-    public function getResources()
+    public function getResources(): array
     {
         return array_values($this->resources);
     }
@@ -121,7 +109,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * Adds a resource for this collection. If the resource already exists it is not added.
      */
-    public function addResource(ResourceInterface $resource)
+    public function addResource(ResourceInterface $resource): void
     {
         $key = (string) $resource;
 

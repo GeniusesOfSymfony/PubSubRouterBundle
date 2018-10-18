@@ -4,14 +4,14 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 
 class RouteCompiler implements RouteCompilerInterface
 {
-    const REGEX_DELIMITER = '#';
+    private const REGEX_DELIMITER = '#';
 
     /**
      * This string defines the characters that are automatically considered separators in front of
      * optional placeholders (with default and no static text following). Such a single separator
      * can be left out together with the optional placeholder from matching and generating URLs.
      */
-    const SEPARATORS = '/,;.:-_~+*=@|';
+    private const SEPARATORS = '/,;.:-_~+*=@|';
 
     /**
      * The maximum supported length of a PCRE subpattern name
@@ -19,16 +19,14 @@ class RouteCompiler implements RouteCompilerInterface
      *
      * @internal
      */
-    const VARIABLE_MAXIMUM_LENGTH = 32;
+    private const VARIABLE_MAXIMUM_LENGTH = 32;
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \LogicException  if a variable is referenced more than once
      * @throws \DomainException if a variable name starts with a digit or if it is too long to be successfully used as
      *                          a PCRE subpattern
      */
-    public static function compile(Route $route)
+    public static function compile(Route $route): CompiledRoute
     {
         $result = self::compilePattern($route, $route->getPattern());
 
@@ -40,7 +38,7 @@ class RouteCompiler implements RouteCompilerInterface
         );
     }
 
-    private static function compilePattern(Route $route, $pattern)
+    private static function compilePattern(Route $route, string $pattern): array
     {
         $tokens = [];
         $variables = [];

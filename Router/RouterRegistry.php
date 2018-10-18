@@ -9,7 +9,7 @@ final class RouterRegistry
      */
     private $routers = [];
 
-    public function addRouter(RouterInterface $router)
+    public function addRouter(RouterInterface $router): void
     {
         if (isset($this->routers[$router->getName()])) {
             throw new \RuntimeException(sprintf('A router named "%s" is already registered.', $router->getName()));
@@ -18,12 +18,7 @@ final class RouterRegistry
         $this->routers[$router->getName()] = $router;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return RouterInterface
-     */
-    public function getRouter($name)
+    public function getRouter(string $name): RouterInterface
     {
         if (!$this->hasRouter($name)) {
             throw new \InvalidArgumentException(sprintf('A router named "%s" has not been registered.', $name));
@@ -35,7 +30,7 @@ final class RouterRegistry
     /**
      * @return RouterInterface[]
      */
-    public function getRouters()
+    public function getRouters(): array
     {
         return $this->routers;
     }
@@ -45,7 +40,7 @@ final class RouterRegistry
      *
      * @return bool
      */
-    public function hasRouter($name)
+    public function hasRouter(string $name): bool
     {
         return isset($this->routers[$name]);
     }

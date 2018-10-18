@@ -6,15 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 interface MatcherDumperInterface
 {
-    /**
-     * @param array $options
-     *
-     * @return string
-     */
-    public function dump(array $options = []);
+    public function dump(array $options = []): string;
 
-    /**
-     * @return RouteCollection
-     */
-    public function getRoutes();
+    public function getRoutes(): RouteCollection;
 }

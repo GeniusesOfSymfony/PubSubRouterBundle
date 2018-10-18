@@ -6,6 +6,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 abstract class MatcherDumper implements MatcherDumperInterface
 {
+    /**
+     * @var RouteCollection
+     */
     private $routes;
 
     public function __construct(RouteCollection $routes)
@@ -13,10 +16,7 @@ abstract class MatcherDumper implements MatcherDumperInterface
         $this->routes = $routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRoutes()
+    public function getRoutes(): RouteCollection
     {
         return $this->routes;
     }

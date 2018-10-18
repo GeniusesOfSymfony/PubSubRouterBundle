@@ -51,7 +51,7 @@ class Route
      * @param array    $requirements    An array of requirements for parameters (regexes)
      * @param array    $options         An array of options
      */
-    public function __construct($pattern, $callback, array $defaults = [], array $requirements = [], array $options = [])
+    public function __construct(string $pattern, $callback, array $defaults = [], array $requirements = [], array $options = [])
     {
         $this->setPattern($pattern);
         $this->setCallback($callback);
@@ -92,18 +92,12 @@ class Route
         $this->compiled = $data['compiled'];
     }
 
-    /**
-     * @return string
-     */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
 
-    /**
-     * @param string $pattern
-     */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern): self
     {
         if (false !== strpbrk($pattern, '?<')) {
             $pattern = preg_replace_callback('#\{(\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
@@ -126,7 +120,7 @@ class Route
     }
 
     /**
-     * @return $callback|string
+     * @return callable|string
      */
     public function getCallback()
     {
@@ -134,9 +128,9 @@ class Route
     }
 
     /**
-     * @param $callback|string $callback
+     * @param callable|string $callback
      */
-    public function setCallback($callback)
+    public function setCallback($callback): self
     {
         if (!is_callable($callback) && !is_string($callback)) {
             throw new \InvalidArgumentException(
@@ -152,28 +146,19 @@ class Route
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getDefaults()
+    public function getDefaults(): array
     {
         return $this->defaults;
     }
 
-    /**
-     * @param array $defaults
-     */
-    public function setDefaults(array $defaults)
+    public function setDefaults(array $defaults): self
     {
         $this->defaults = [];
 
         return $this->addDefaults($defaults);
     }
 
-    /**
-     * @param array $defaults
-     */
-    public function addDefaults(array $defaults)
+    public function addDefaults(array $defaults): self
     {
         foreach ($defaults as $name => $default) {
             $this->defaults[$name] = $default;
@@ -184,31 +169,17 @@ class Route
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return mixed The default value or null when not given
-     */
-    public function getDefault($name)
+    public function getDefault(string $name)
     {
-        return isset($this->defaults[$name]) ? $this->defaults[$name] : null;
+        return $this->defaults[$name] ?? null;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasDefault($name)
+    public function hasDefault(string $name): bool
     {
         return isset($this->defaults[$name]);
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $default
-     */
-    public function setDefault($name, $default)
+    public function setDefault(string $name, $default): self
     {
         $this->defaults[$name] = $default;
         $this->compiled = null;
@@ -216,28 +187,19 @@ class Route
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getRequirements()
+    public function getRequirements(): array
     {
         return $this->requirements;
     }
 
-    /**
-     * @param array $requirements
-     */
-    public function setRequirements(array $requirements)
+    public function setRequirements(array $requirements): self
     {
         $this->requirements = [];
 
         return $this->addRequirements($requirements);
     }
 
-    /**
-     * @param array $requirements
-     */
-    public function addRequirements(array $requirements)
+    public function addRequirements(array $requirements): self
     {
         foreach ($requirements as $key => $regex) {
             $this->requirements[$key] = $this->sanitizeRequirement($key, $regex);
@@ -248,31 +210,17 @@ class Route
         return $this;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return string|null
-     */
-    public function getRequirement($key)
+    public function getRequirement(string $key): ?string
     {
-        return isset($this->requirements[$key]) ? $this->requirements[$key] : null;
+        return $this->requirements[$key] ?? null;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasRequirement($key)
+    public function hasRequirement(string $key): bool
     {
         return isset($this->requirements[$key]);
     }
 
-    /**
-     * @param string $key
-     * @param string $regex
-     */
-    public function setRequirement($key, $regex)
+    public function setRequirement(string $key, string $regex): self
     {
         $this->requirements[$key] = $this->sanitizeRequirement($key, $regex);
         $this->compiled = null;
@@ -280,18 +228,12 @@ class Route
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @param array $options
-     */
-    public function setOptions(array $options)
+    public function setOptions(array $options): self
     {
         $this->options = [
             'compiler_class' => RouteCompiler::class,
@@ -300,10 +242,7 @@ class Route
         return $this->addOptions($options);
     }
 
-    /**
-     * @param array $options
-     */
-    public function addOptions(array $options)
+    public function addOptions(array $options): self
     {
         foreach ($options as $name => $option) {
             $this->options[$name] = $option;
@@ -314,11 +253,7 @@ class Route
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function setOption($name, $value)
+    public function setOption(string $name, $value): self
     {
         $this->options[$name] = $value;
         $this->compiled = null;
@@ -327,31 +262,22 @@ class Route
     }
 
     /**
-     * @param string $name
-     *
      * @return mixed The option value or null when not given
      */
-    public function getOption($name)
+    public function getOption(string $name)
     {
-        return isset($this->options[$name]) ? $this->options[$name] : null;
+        return $this->options[$name] ?? null;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasOption($name)
+    public function hasOption(string $name): bool
     {
         return isset($this->options[$name]);
     }
 
     /**
-     * @return CompiledRoute
-     *
      * @throws \LogicException If the Route cannot be compiled because the pattern is invalid
      */
-    public function compile()
+    public function compile(): CompiledRoute
     {
         if (null !== $this->compiled) {
             return $this->compiled;
@@ -362,12 +288,8 @@ class Route
         return $this->compiled = $class::compile($this);
     }
 
-    private function sanitizeRequirement($key, $regex)
+    private function sanitizeRequirement(string $key, string $regex): string
     {
-        if (!\is_string($regex)) {
-            throw new \InvalidArgumentException(sprintf('Routing requirement for "%s" must be a string.', $key));
-        }
-
         if ('' !== $regex && '^' === $regex[0]) {
             $regex = (string) substr($regex, 1); // returns false for a single character
         }

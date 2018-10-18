@@ -4,10 +4,25 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 
 class CompiledRoute implements \Serializable
 {
+    /**
+     * @var string
+     */
     private $staticPrefix;
+
+    /**
+     * @var string
+     */
     private $regex;
-    private $tokens;
-    private $variables;
+
+    /**
+     * @var array
+     */
+    private $tokens = [];
+
+    /**
+     * @var array
+     */
+    private $variables = [];
 
     /**
      * @param string $staticPrefix The static prefix of the compiled route
@@ -51,34 +66,22 @@ class CompiledRoute implements \Serializable
         $this->variables = $data['variables'];
     }
 
-    /**
-     * @return string
-     */
-    public function getStaticPrefix()
+    public function getStaticPrefix(): string
     {
         return $this->staticPrefix;
     }
 
-    /**
-     * @return string
-     */
-    public function getRegex()
+    public function getRegex(): string
     {
         return $this->regex;
     }
 
-    /**
-     * @return array
-     */
-    public function getTokens()
+    public function getTokens(): array
     {
         return $this->tokens;
     }
 
-    /**
-     * @return array
-     */
-    public function getVariables()
+    public function getVariables(): array
     {
         return $this->variables;
     }

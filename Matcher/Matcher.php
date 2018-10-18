@@ -11,9 +11,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
  */
 class Matcher implements MatcherInterface
 {
-    const REQUIREMENT_MATCH = 0;
-    const REQUIREMENT_MISMATCH = 1;
-    const ROUTE_MATCH = 2;
+    public const REQUIREMENT_MATCH = 0;
+    public const REQUIREMENT_MISMATCH = 1;
+    public const ROUTE_MATCH = 2;
 
     /**
      * @var RouteCollection
@@ -28,18 +28,7 @@ class Matcher implements MatcherInterface
         $this->routes = $routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCollection(RouteCollection $collection)
-    {
-        $this->collection = $collection;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function match($channel)
+    public function match(string $channel): array
     {
         if ($ret = $this->matchCollection($channel, $this->routes)) {
             return $ret;
@@ -49,14 +38,9 @@ class Matcher implements MatcherInterface
     }
 
     /**
-     * Tries to match a URL with a set of routes.
-     *
-     * @param string          $channel
-     * @param RouteCollection $routes
-     *
-     * @return array
+     * @return array containing the matched route name, the Route object, and the request attributes
      */
-    protected function matchCollection($channel, RouteCollection $routes)
+    protected function matchCollection(string $channel, RouteCollection $routes): array
     {
         /**
          * @var string $name
@@ -76,7 +60,7 @@ class Matcher implements MatcherInterface
 
             $status = [self::REQUIREMENT_MATCH, null];
 
-            return [$name, $route, $this->getAttributes($route, $name, array_replace($matches, isset($status[1]) ? $status[1] : []))];
+            return [$name, $route, $this->getAttributes($route, $name, array_replace($matches, $status[1] ?? []))];
         }
     }
 
@@ -93,7 +77,7 @@ class Matcher implements MatcherInterface
      *
      * @return array An array of parameters
      */
-    protected function getAttributes(Route $route, $name, array $attributes)
+    protected function getAttributes(Route $route, string $name, array $attributes): array
     {
         return $this->mergeDefaults($attributes, $route->getDefaults());
     }
@@ -106,7 +90,7 @@ class Matcher implements MatcherInterface
      *
      * @return array
      */
-    protected function mergeDefaults($params, $defaults)
+    protected function mergeDefaults(array $params, array $defaults): array
     {
         foreach ($params as $key => $value) {
             if (!\is_int($key) && null !== $value) {

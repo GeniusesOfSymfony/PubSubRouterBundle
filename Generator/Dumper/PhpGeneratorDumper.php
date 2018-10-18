@@ -14,12 +14,8 @@ class PhpGeneratorDumper extends GeneratorDumper
      *
      *  * class:      The class name
      *  * base_class: The base class name
-     *
-     * @param array $options An array of options
-     *
-     * @return string A PHP class representing the generator class
      */
-    public function dump(array $options = array())
+    public function dump(array $options = []): string
     {
         $options = array_merge(
             [
@@ -55,10 +51,7 @@ class {$options['class']} extends {$options['base_class']}
 EOF;
     }
 
-    /**
-     * @return string
-     */
-    private function generateDeclaredRoutes()
+    private function generateDeclaredRoutes(): string
     {
         $routes = "array(\n";
         foreach ($this->getRoutes()->all() as $name => $route) {
@@ -79,10 +72,8 @@ EOF;
 
     /**
      * Generates PHP code representing the `generate` method that implements the GeneratorInterface.
-     *
-     * @return string
      */
-    private function generateGenerateMethod()
+    private function generateGenerateMethod(): string
     {
         return <<<'EOF'
     public function generate($name, array $parameters = [])

@@ -10,11 +10,7 @@ use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 interface MatcherInterface
 {
     /**
-     * @param string $channel
-     *
-     * @return array
-     *
      * @throws ResourceNotFoundException
      */
-    public function match($channel);
+    public function match(string $channel): array;
 }

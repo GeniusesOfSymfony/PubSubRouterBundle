@@ -14,18 +14,12 @@ class Generator implements GeneratorInterface
      */
     protected $routes;
 
-    /**
-     * @param RouteCollection $routes
-     */
     public function __construct(RouteCollection $routes)
     {
         $this->routes = $routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($routeName, array $parameters = [])
+    public function generate(string $routeName, array $parameters = []): string
     {
         if (null === $route = $this->routes->get($routeName)) {
             throw new ResourceNotFoundException(sprintf('Unable to generate a path for the named route "%s" as such route does not exist.', $routeName));
@@ -38,19 +32,10 @@ class Generator implements GeneratorInterface
     }
 
     /**
-     * @param array $variables
-     * @param array $defaults
-     * @param array $requirements
-     * @param array $tokens
-     * @param array $parameters
-     * @param string $routeName
-     *
-     * @return string
-     *
      * @throws MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
      * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because it does not match the requirement
      */
-    protected function doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $routeName)
+    protected function doGenerate(array $variables, array $defaults, array $requirements, array $tokens, array $parameters, string $routeName): string
     {
         $variables = array_flip($variables);
         $mergedParams = array_replace($defaults, $parameters);

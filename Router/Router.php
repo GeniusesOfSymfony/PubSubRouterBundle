@@ -2,10 +2,12 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\MatcherDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
@@ -66,7 +68,7 @@ class Router implements RouterInterface, WarmableInterface
      * @param array           $resources
      * @param array           $options
      */
-    public function __construct($name, LoaderInterface $loader, $resources, array $options = array())
+    public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = array())
     {
         $this->name = $name;
         $this->loader = $loader;
@@ -95,7 +97,7 @@ class Router implements RouterInterface, WarmableInterface
      *
      * @throws \InvalidArgumentException When unsupported option is provided
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = [
             'cache_dir' => null,
@@ -130,12 +132,9 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param string $key
-     * @param mixed  $value
-     *
      * @throws \InvalidArgumentException
      */
-    public function setOption($key, $value)
+    public function setOption(string $key, $value): void
     {
         if (!array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -145,13 +144,9 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param string $key
-     *
-     * @return mixed
-     *
      * @throws \InvalidArgumentException
      */
-    public function getOption($key)
+    public function getOption(string $key)
     {
         if (!array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -160,10 +155,7 @@ class Router implements RouterInterface, WarmableInterface
         return $this->options[$key];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCollection()
+    public function getCollection(): RouteCollection
     {
         if (null === $this->collection) {
             foreach ($this->resources as $resource) {
@@ -193,44 +185,27 @@ class Router implements RouterInterface, WarmableInterface
         $this->setOption('cache_dir', $currentDir);
     }
 
-    /**
-     * Sets the ConfigCache factory to use.
-     */
-    public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory)
+    public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory): void
     {
         $this->configCacheFactory = $configCacheFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($routeName, array $parameters = [])
+    public function generate(string $routeName, array $parameters = []): string
     {
         return $this->getGenerator()->generate($routeName, $parameters);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function match($channel)
+    public function match(string $channel): array
     {
         return $this->getMatcher()->match($channel);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Gets the Generator instance associated with this Router.
-     *
-     * @return GeneratorInterface
-     */
-    public function getGenerator()
+    public function getGenerator(): GeneratorInterface
     {
         if (null !== $this->generator) {
             return $this->generator;
@@ -263,12 +238,7 @@ class Router implements RouterInterface, WarmableInterface
         return $this->generator;
     }
 
-    /**
-     * Gets the Matcher instance associated with this Router.
-     *
-     * @return MatcherInterface A UrlMatcherInterface instance
-     */
-    public function getMatcher()
+    public function getMatcher(): MatcherInterface
     {
         if (null !== $this->matcher) {
             return $this->matcher;
@@ -300,28 +270,20 @@ class Router implements RouterInterface, WarmableInterface
         return $this->matcher = new $this->options['matcher_cache_class']();
     }
 
-    /**
-     * @return GeneratorDumperInterface
-     */
-    protected function getGeneratorDumperInstance()
+    protected function getGeneratorDumperInstance(): GeneratorDumperInterface
     {
         return new $this->options['generator_dumper_class']($this->getCollection());
     }
 
-    /**
-     * @return MatcherDumperInterface
-     */
-    protected function getMatcherDumperInstance()
+    protected function getMatcherDumperInstance(): MatcherDumperInterface
     {
         return new $this->options['matcher_dumper_class']($this->getCollection());
     }
 
     /**
      * Provides the ConfigCache factory implementation, falling back to a default implementation if necessary.
-     *
-     * @return ConfigCacheFactoryInterface $configCacheFactory
      */
-    private function getConfigCacheFactory()
+    private function getConfigCacheFactory(): ConfigCacheFactoryInterface
     {
         if (null === $this->configCacheFactory) {
             $this->configCacheFactory = new ConfigCacheFactory($this->options['debug']);

@@ -17,12 +17,8 @@ class PhpMatcherDumper extends MatcherDumper
      *
      *  * class:      The class name
      *  * base_class: The base class name
-     *
-     * @param array $options An array of options
-     *
-     * @return string A PHP class representing the matcher class
      */
-    public function dump(array $options = [])
+    public function dump(array $options = []): string
     {
         $options = array_replace(
             [
@@ -58,7 +54,7 @@ EOF;
     }
 
     /**
-     * Generates the code for the match method implementing UrlMatcherInterface.
+     * Generates the code for the match method implementing MatcherInterface.
      */
     private function generateMatchMethod(): string
     {
@@ -490,7 +486,7 @@ EOF;
         return $code;
     }
 
-    private function indent($code, $level = 1)
+    private function indent(string $code, int $level = 1): string
     {
         return preg_replace('/^./m', str_repeat('    ', $level).'$0', $code);
     }

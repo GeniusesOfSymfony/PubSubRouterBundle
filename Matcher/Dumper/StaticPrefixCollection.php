@@ -6,7 +6,10 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class StaticPrefixCollection
 {
-    private $prefix;
+    /**
+     * @var string
+     */
+    private $prefix = '';
 
     /**
      * @var string[]
@@ -23,15 +26,12 @@ class StaticPrefixCollection
      */
     private $items = [];
 
-    public function __construct($prefix = '')
+    public function __construct(string $prefix = '')
     {
         $this->prefix = $prefix;
     }
 
-    /**
-     * @return string
-     */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
@@ -50,7 +50,7 @@ class StaticPrefixCollection
      * @param string     $prefix
      * @param array|self $route
      */
-    public function addRoute($prefix, $route)
+    public function addRoute(string $prefix, $route): void
     {
         list($prefix, $staticPrefix) = $this->getCommonPrefix($prefix, $prefix);
 
