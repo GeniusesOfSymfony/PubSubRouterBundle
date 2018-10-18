@@ -34,6 +34,33 @@ class PhpMatcherDumperTest extends TestCase
         @unlink($this->dumpPath);
     }
 
+    public function testMatchDumpedMatcher()
+    {
+        $basePath = __DIR__.'/../../Fixtures/dumper/';
+
+        include $basePath.'/url_matcher1.php';
+
+        $dumper = new \ProjectMatcher();
+
+        list($name, $route, $attributes) = $dumper->match('overridden');
+
+        $this->assertSame('overridden', $name, 'The matched route name is returned');
+        $this->assertEquals(new Route('overridden', 'strlen'), $route, 'The Route object is in the expected state');
+        $this->assertSame([], $attributes, 'The route attributes are returned after merging defaults');
+
+        list($name, $route, $attributes) = $dumper->match('test/gos/');
+
+        $this->assertSame('baz4', $name, 'The matched route name is returned');
+        $this->assertEquals(new Route('test/{foo}/', 'strlen'), $route, 'The Route object is in the expected state');
+        $this->assertSame(['foo' => 'gos'], $attributes, 'The route attributes are returned after merging defaults');
+
+        list($name, $route, $attributes) = $dumper->match('hello/gos');
+
+        $this->assertSame('helloWorld', $name, 'The matched route name is returned');
+        $this->assertEquals(new Route('hello/{who}', 'strlen', array('who' => 'World!')), $route, 'The Route object is in the expected state');
+        $this->assertSame(['who' => 'gos'], $attributes, 'The route attributes are returned after merging defaults');
+    }
+
     /**
      * @dataProvider getRouteCollections
      */
@@ -152,8 +179,8 @@ class PhpMatcherDumperTest extends TestCase
         $collection->addCollection($collection1);
 
         return array(
-           array(new RouteCollection(), 'url_matcher0.php', array()),
-           array($collection, 'url_matcher1.php', array()),
+            array(new RouteCollection(), 'url_matcher0.php', array()),
+            array($collection, 'url_matcher1.php', array()),
         );
     }
 }

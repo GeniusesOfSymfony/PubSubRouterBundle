@@ -1,6 +1,7 @@
 <?php
 
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 
 /**
  * This class has been auto-generated
@@ -8,6 +9,10 @@ use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
  */
 class ProjectMatcher extends Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
 {
+    public function __construct()
+    {
+    }
+
     public function match($channel)
     {
 
