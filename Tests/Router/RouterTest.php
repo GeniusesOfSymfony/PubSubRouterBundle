@@ -3,10 +3,12 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
+use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
 class RouterTest extends TestCase
@@ -141,5 +143,22 @@ class RouterTest extends TestCase
             array('cache_dir'),
             array('generator_cache_class'),
         );
+    }
+
+    public function testResourcesAreLoadedToCollection()
+    {
+        $router = new Router(
+            'test',
+            new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures'))),
+            [
+                'empty.yml',
+                'validchannel.yml',
+            ]
+        );
+
+        $collection = $router->getCollection();
+
+        $this->assertCount(2, $collection->getResources(), 'The loader should process all resources');
+        $this->assertCount(1, $collection, 'The loader should register all routes');
     }
 }
