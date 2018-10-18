@@ -74,7 +74,10 @@ class RouteCollection implements \Countable, \IteratorAggregate
         return $this->routes[$name] ?? null;
     }
 
-    public function remove(string $name): void
+    /**
+     * @param string|string[] $name
+     */
+    public function remove($name): void
     {
         foreach ((array) $name as $n) {
             unset($this->routes[$n]);

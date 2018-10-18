@@ -74,7 +74,7 @@ $code
 
 EOF;
 
-        return "    public function match(\$channel)\n".$code."\n        throw new ResourceNotFoundException();\n    }";
+        return "    public function match(string \$channel): array\n".$code."\n        throw new ResourceNotFoundException();\n    }";
     }
 
     /**

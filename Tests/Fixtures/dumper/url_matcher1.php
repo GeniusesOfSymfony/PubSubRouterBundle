@@ -13,7 +13,7 @@ class ProjectMatcher extends Gos\Bundle\PubSubRouterBundle\Matcher\Matcher
     {
     }
 
-    public function match($channel)
+    public function match(string $channel): array
     {
         switch ($channel) {
             case 'overridden':

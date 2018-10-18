@@ -40,7 +40,7 @@ class Matcher implements MatcherInterface
     /**
      * @return array containing the matched route name, the Route object, and the request attributes
      */
-    protected function matchCollection(string $channel, RouteCollection $routes): array
+    protected function matchCollection(string $channel, RouteCollection $routes): ?array
     {
         /**
          * @var string $name
@@ -62,6 +62,8 @@ class Matcher implements MatcherInterface
 
             return [$name, $route, $this->getAttributes($route, $name, array_replace($matches, $status[1] ?? []))];
         }
+
+        return null;
     }
 
     /**

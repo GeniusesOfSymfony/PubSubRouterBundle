@@ -76,7 +76,7 @@ EOF;
     private function generateGenerateMethod(): string
     {
         return <<<'EOF'
-    public function generate($name, array $parameters = [])
+    public function generate(string $name, array $parameters = []): string
     {
         if (!isset(self::$declaredRoutes[$name])) {
             throw new ResourceNotFoundException(sprintf('Unable to generate a path for the named route "%s" as such route does not exist.', $name));
