@@ -37,7 +37,7 @@ class DebugRouterCommandTest extends TestCase
             ]
         );
 
-        $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/missing_router.txt', $commandTester->getDisplay());
+        $this->assertTrue(strpos($commandTester->getDisplay(), 'Unknown router missing, available routers are [ test ]'));
         $this->assertSame(1, $commandTester->getStatusCode());
     }
 
