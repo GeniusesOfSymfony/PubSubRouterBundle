@@ -22,7 +22,7 @@
         "symfony/yaml": "~3.4|~4.0"
     },
     "require-dev":{
-        "matthiasnoback/symfony-dependency-injection-test": "^1.0|^2.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^2.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
