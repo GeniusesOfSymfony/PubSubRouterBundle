@@ -121,7 +121,8 @@ class StaticPrefixCollection
             if ($route instanceof self) {
                 $route->populateCollection($routes);
             } else {
-                $routes->add(...$route);
+                // TODO - Determine what $route is and fix this for PHP 5.5 compat, or drop support, whatever works
+                //$routes->add(...$route);
             }
         }
 
