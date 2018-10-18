@@ -3,6 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\CompilerPass\RouterCompilerPass;
+use Gos\Bundle\PubSubRouterBundle\DependencyInjection\CompilerPass\RoutingResolverPass;
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -20,6 +21,7 @@ class GosPubSubRouterBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new RouterCompilerPass());
+        $container->addCompilerPass(new RoutingResolverPass());
     }
 
     /**

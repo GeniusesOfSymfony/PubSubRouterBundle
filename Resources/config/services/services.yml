@@ -11,6 +11,8 @@ services:
         public: false
         arguments:
             - '@file_locator'
+        tags:
+            - { name: gos_pubsub_router.routing.loader }
 
     gos_pubsub_router.router.cache_warmer:
         class: Gos\Bundle\PubSubRouterBundle\CacheWarmer\RouterCacheWarmer
@@ -23,3 +25,6 @@ services:
     gos_pubsub_router.router.registry:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
         public: false
+
+    gos_pubsub_router.routing.resolver:
+        class: Symfony\Component\Config\Loader\LoaderResolver
