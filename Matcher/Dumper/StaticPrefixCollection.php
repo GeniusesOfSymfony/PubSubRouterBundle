@@ -147,7 +147,7 @@ class StaticPrefixCollection
 
         for ($i = $baseLength; $i < $end && $prefix[$i] === $anotherPrefix[$i]; ++$i) {
             if ('(' === $prefix[$i]) {
-                $staticLength = !empty($staticLength) ? $staticLength : $i;
+                $staticLength = null !== $staticLength ? $staticLength : $i;
                 for ($j = 1 + $i, $n = 1; $j < $end && 0 < $n; ++$j) {
                     if ($prefix[$j] !== $anotherPrefix[$j]) {
                         break 2;
@@ -186,7 +186,7 @@ class StaticPrefixCollection
             } while (0b10 === (\ord($prefix[$i]) >> 6));
         }
 
-        return array(substr($prefix, 0, $i), substr($prefix, 0, !empty($staticLength) ? $staticLength : $i));
+        return array(substr($prefix, 0, $i), substr($prefix, 0, null !== $staticLength ? $staticLength : $i));
     }
 
     public static function handleError($type, $msg)
