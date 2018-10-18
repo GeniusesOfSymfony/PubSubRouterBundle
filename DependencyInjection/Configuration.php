@@ -2,6 +2,9 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
+use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -21,20 +24,14 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('matcher_class')->defaultValue('Gos\Bundle\PubSubRouterBundle\Matcher\Matcher')->end()
-                ->scalarNode('generator_class')->defaultValue('Gos\Bundle\PubSubRouterBundle\Generator\Generator')->end()
-                ->scalarNode('route_loader_class')->defaultValue('Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader')->end()
-                ->scalarNode('router_class')->defaultValue('Gos\Bundle\PubSubRouterBundle\Router\Router')->end()
+                ->scalarNode('matcher_class')->defaultValue(Matcher::class)->end()
+                ->scalarNode('generator_class')->defaultValue(Generator::class)->end()
+                ->scalarNode('router_class')->defaultValue(Router::class)->end()
                 ->arrayNode('routers')
                     ->useAttributeAsKey('name')
                     ->requiresAtLeastOneElement()
                     ->prototype('array')
                         ->children()
-                            ->arrayNode('context')
-                                ->children()
-                                    ->scalarNode('tokenSeparator')->end()
-                                ->end()
-                            ->end()
                             ->arrayNode('resources')
                                 ->prototype('scalar')->end()
                             ->end()
