@@ -26,5 +26,10 @@ services:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
         public: false
 
+    gos_pubsub_router.routing.loader:
+        class: Symfony\Component\Config\Loader\DelegatingLoader
+        arguments:
+            - '@gos_pubsub_router.routing.resolver'
+
     gos_pubsub_router.routing.resolver:
         class: Symfony\Component\Config\Loader\LoaderResolver
