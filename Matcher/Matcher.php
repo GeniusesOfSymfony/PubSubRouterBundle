@@ -5,159 +5,101 @@ namespace Gos\Bundle\PubSubRouterBundle\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
 class Matcher implements MatcherInterface
 {
-    /**
-     * @var array
-     */
-    protected $attributes;
-
-    /**
-     * @var TokenizerInterface
-     */
-    protected $tokenizer;
+    public const REQUIREMENT_MATCH = 0;
+    public const REQUIREMENT_MISMATCH = 1;
+    public const ROUTE_MATCH = 2;
 
     /**
      * @var RouteCollection
      */
-    protected $collection;
-
-    /** @var  bool */
-    protected $evaluateBuffer;
+    protected $routes;
 
     /**
-     * @param TokenizerInterface $tokenizer
+     * @param RouteCollection $routes
      */
-    public function __construct(TokenizerInterface $tokenizer)
+    public function __construct(RouteCollection $routes)
     {
-        $this->tokenizer = $tokenizer;
+        $this->routes = $routes;
+    }
+
+    public function match(string $channel): array
+    {
+        if ($ret = $this->matchCollection($channel, $this->routes)) {
+            return $ret;
+        }
+
+        throw new ResourceNotFoundException(sprintf('No routes found for "%s".', $channel));
     }
 
     /**
-     * {@inheritdoc}
+     * @return array containing the matched route name, the Route object, and the request attributes
      */
-    public function setCollection(RouteCollection $collection)
+    protected function matchCollection(string $channel, RouteCollection $routes): ?array
     {
-        $this->collection = $collection;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function match($channel, $tokenSeparator = null)
-    {
-        $routeSeen = [];
-
-        /*
-         * @var string
-         * @var RouteInterface Route
+        /**
+         * @var string $name
+         * @var Route  $route
          */
-        foreach ($this->collection as $routeName => $route) {
-            if ($this->compare($route, $channel, $tokenSeparator)) {
-                $route->setName($routeName);
+        foreach ($routes as $name => $route) {
+            $compiledRoute = $route->compile();
 
-                return [$routeName, $route, $this->attributes];
+            // check the static prefix of the URL first. Only use the more expensive preg_match when it matches
+            if ('' !== $compiledRoute->getStaticPrefix() && 0 !== strpos($channel, $compiledRoute->getStaticPrefix())) {
+                continue;
             }
 
-            $routeSeen[] = $route->getPattern();
+            if (!preg_match($compiledRoute->getRegex(), $channel, $matches)) {
+                continue;
+            }
+
+            $status = [self::REQUIREMENT_MATCH, null];
+
+            return [$name, $route, $this->getAttributes($route, $name, array_replace($matches, $status[1] ?? []))];
         }
 
-        throw new ResourceNotFoundException(sprintf(
-            'channel %s not matched, registered pattern [%s]',
-            $channel,
-            implode(', ', $routeSeen)
-        ));
+        return null;
     }
 
     /**
-     * @param Route  $route
-     * @param string $expected
+     * Returns an array of values to use as request attributes.
      *
-     * @return bool
+     * As this method requires the Route object, it is not available
+     * in matchers that do not have access to the matched Route instance
+     * (like the PHP and Apache matcher dumpers).
+     *
+     * @param Route  $route      The route we are matching against
+     * @param string $name       The name of the route
+     * @param array  $attributes An array of attributes from the matcher
+     *
+     * @return array An array of parameters
      */
-    protected function compare(Route $route, $expected, $tokenSeparator)
+    protected function getAttributes(Route $route, string $name, array $attributes): array
     {
-        $this->attributes = [];
-        $expectedTokens = $this->tokenizer->tokenize($expected, $tokenSeparator);
-        $routeTokens = $this->tokenizer->tokenize($route, $tokenSeparator);
-
-        if (empty($expectedTokens) && empty($routeTokens)) {
-            return $route->getPattern() === $expected;
-        }
-
-        if (($length = count($routeTokens)) !== count($expectedTokens)) {
-            return false;
-        }
-
-        $startIndex = $length - 1;
-        $requirements = $route->getRequirements();
-        $hasRequirements = !empty($requirements);
-        $validTokens = 0;
-
-        for ($i = $startIndex;$i >= 0;--$i) {
-            $this->evaluateBuffer = false;
-            /** @var Token $routeToken */
-            $routeToken = $routeTokens[$i];
-            /** @var Token $expectedToken */
-            $expectedToken = $expectedTokens[$i];
-
-            if ($hasRequirements && $routeToken->isParameter()) {
-                $this->attributes[$routeToken->getExpression()] = $expectedToken->getExpression();
-                $tokenRequirements = $routeToken->getRequirements();
-
-                if (empty($tokenRequirements)) {
-                    if ($routeToken->getExpression() === $expectedToken->getExpression()) {
-                        $this->validateToken($validTokens);
-                    }
-                } else {
-                    $checkPattern = true;
-
-                    //Wildcard requirements
-                    if (isset($tokenRequirements['wildcard']) && true === $tokenRequirements['wildcard']) {
-                        if ($expectedToken->getExpression() === '*' || $expectedToken->getExpression() === 'all') {
-                            $this->validateToken($validTokens);
-                            $checkPattern = false;
-                        }
-                    }
-
-                    //Pattern requirements
-                    if (true === $checkPattern && isset($tokenRequirements['pattern'])) {
-                        $pattern = $tokenRequirements['pattern'];
-                        if (1 === preg_match("#^$pattern#i", $expectedToken->getExpression())) {
-                            $this->validateToken($validTokens);
-                        }
-                    } else {
-                        $this->validateToken($validTokens);
-                    }
-                }
-            } else {
-                if($routeToken->isParameter()){
-                    $this->validateToken($validTokens);
-                }else{
-                    if ($routeToken->getExpression() === $expectedToken->getExpression()) {
-                        $this->validateToken($validTokens);
-                    }
-                }
-            }
-        }
-
-        return $validTokens === $length && 0 !== $validTokens;
+        return $this->mergeDefaults($attributes, $route->getDefaults());
     }
 
     /**
-     * @param int $validTokens
+     * Get merged default parameters.
+     *
+     * @param array $params
+     * @param array $defaults
+     *
+     * @return array
      */
-    protected function validateToken(&$validTokens)
+    protected function mergeDefaults(array $params, array $defaults): array
     {
-        if(false === $this->evaluateBuffer){
-            $validTokens++;
-            $this->evaluateBuffer = true;
+        foreach ($params as $key => $value) {
+            if (!\is_int($key) && null !== $value) {
+                $defaults[$key] = $value;
+            }
         }
+
+        return $defaults;
     }
 }

@@ -10,40 +10,7 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
  */
 interface RouterInterface extends MatcherInterface, GeneratorInterface
 {
-    /**
-     * @param RouterContext $context
-     */
-    public function setContext(RouterContext $context);
+    public function getCollection(): RouteCollection;
 
-    /**
-     * @return RouterContext
-     */
-    public function getContext();
-
-    /**
-     * @return RouteCollection
-     */
-    public function getCollection();
-
-    /**
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * @param string $routeName
-     * @param array  $parameters
-     * @param null   $tokenSeparator
-     *
-     * @return mixed
-     */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator = null);
-
-    /**
-     * @param string $channel
-     * @param null   $tokenSeparator
-     *
-     * @return mixed
-     */
-    public function match($channel, $tokenSeparator = null);
+    public function getName(): string;
 }

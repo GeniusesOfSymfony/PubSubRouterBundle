@@ -2,112 +2,81 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Generator;
 
-use Gos\Bundle\PubSubRouterBundle\Exception\InvalidArgumentException;
+use Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException;
+use Gos\Bundle\PubSubRouterBundle\Exception\MissingMandatoryParametersException;
 use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
-use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\Token;
-use Gos\Bundle\PubSubRouterBundle\Tokenizer\TokenizerInterface;
 
 class Generator implements GeneratorInterface
 {
     /**
-     * @var TokenizerInterface
-     */
-    protected $tokenizer;
-
-    /**
      * @var RouteCollection
      */
-    protected $collection;
+    protected $routes;
 
-    /**
-     * @param TokenizerInterface $tokenizer
-     */
-    public function __construct(TokenizerInterface $tokenizer)
+    public function __construct(RouteCollection $routes)
     {
-        $this->tokenizer = $tokenizer;
+        $this->routes = $routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCollection(RouteCollection $collection)
+    public function generate(string $routeName, array $parameters = []): string
     {
-        $this->collection = $collection;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($routeName, Array $parameters = [], $tokenSeparator)
-    {
-        $route = $this->collection->get($routeName);
-
-        if (false === $route) {
-            throw new ResourceNotFoundException(sprintf(
-                'Route %s does not exist in [%s]',
-                $routeName,
-                implode(', ', array_keys($this->collection->all()))
-            ));
+        if (null === $route = $this->routes->get($routeName)) {
+            throw new ResourceNotFoundException(sprintf('Unable to generate a path for the named route "%s" as such route does not exist.', $routeName));
         }
 
-        $tokens = $this->tokenizer->tokenize($route, $tokenSeparator);
+        // the Route has a cache of its own and is not recompiled as long as it does not get modified
+        $compiledRoute = $route->compile();
 
-        return $this->generateFromTokens($route, $tokens, $parameters, $tokenSeparator);
+        return $this->doGenerate($compiledRoute->getVariables(), $route->getDefaults(), $route->getRequirements(), $compiledRoute->getTokens(), $parameters, $routeName);
     }
 
     /**
-     * {@inheritdoc}
+     * @throws MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
+     * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because it does not match the requirement
      */
-    public function generateFromTokens(RouteInterface $route, Array $tokens, Array $parameters = [], $tokenSeparator)
+    protected function doGenerate(array $variables, array $defaults, array $requirements, array $tokens, array $parameters, string $routeName): string
     {
-        $graph = [];
+        $variables = array_flip($variables);
+        $mergedParams = array_replace($defaults, $parameters);
 
-        if (empty($tokens)) {
-            return $route->getPattern();
+        // all params must be given
+        if ($diff = array_diff_key($variables, $mergedParams)) {
+            throw new MissingMandatoryParametersException(sprintf('Some mandatory parameters are missing ("%s") to generate a path for route "%s".', implode('", "', array_keys($diff)), $routeName));
         }
 
-        /** @var Token $token */
+        $url = '';
+        $optional = true;
+        $message = 'Parameter "{parameter}" for route "{route}" must match "{expected}" ("{given}" given) to generate a corresponding path.';
+
         foreach ($tokens as $token) {
-            if ($token->isParameter()) {
-                if (!isset($parameters[$token->getExpression()])) {
-                    throw new InvalidArgumentException(sprintf('Missing parameter %s', $token->getExpression()));
-                }
-
-                $value = $parameters[$token->getExpression()];
-                $requirements = $token->getRequirements();
-
-                if (isset($requirements['wildcard']) && true == $requirements['wildcard']) {
-                    if ($value === '*' || $value === 'all') {
-                        $graph[] = $value;
-
-                        continue; //next token
+            if ('variable' === $token[0]) {
+                if (!$optional || !array_key_exists($token[3], $defaults) || null !== $mergedParams[$token[3]] && (string) $mergedParams[$token[3]] !== (string) $defaults[$token[3]]) {
+                    // check requirement
+                    if (!preg_match('#^'.$token[2].'$#'.(empty($token[4]) ? '' : 'u'), $mergedParams[$token[3]])) {
+                        throw new InvalidParameterException(
+                            strtr(
+                                $message,
+                                [
+                                    '{parameter}' => $token[3],
+                                    '{route}' => $routeName,
+                                    '{expected}' => $token[2],
+                                    '{given}' => $mergedParams[$token[3]],
+                                ]
+                            )
+                        );
                     }
-                }
 
-                if (isset($requirements['pattern'])) {
-                    $pattern = $requirements['pattern'];
-
-                    if (1 === preg_match("#^$pattern#i", $value)) {
-                        $graph[] = $value;
-                        continue; //next token
-                    } else {
-                        throw new InvalidArgumentException(sprintf(
-                            'Invalid parameters %s, must match %s',
-                            $token->getExpression(),
-                            $pattern
-                        ));
-                    }
-                } else {
-                    $graph[] = $value;
+                    $url = $token[1].$mergedParams[$token[3]].$url;
+                    $optional = false;
                 }
             } else {
-                $graph[] = $token->getExpression();
+                // static text
+                $url = $token[1].$url;
+                $optional = false;
             }
         }
 
-        return implode($tokenSeparator, $graph);
+        return $url;
     }
 }

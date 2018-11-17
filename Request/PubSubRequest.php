@@ -2,52 +2,44 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Request;
 
-use Gos\Bundle\PubSubRouterBundle\Router\RouteInterface;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class PubSubRequest
 {
-    /** @var  string */
+    /**
+     * @var string
+     */
     protected $routeName;
 
-    /** @var  RouteInterface */
+    /**
+     * @var Route
+     */
     protected $route;
 
-    /** @var  ParameterBag */
+    /**
+     * @var ParameterBag
+     */
     protected $attributes;
 
-    /**
-     * @param string         $routeName
-     * @param RouteInterface $route
-     * @param array          $attributes
-     */
-    public function __construct($routeName, $route, $attributes)
+    public function __construct(string $routeName, Route $route, array $attributes)
     {
         $this->attributes = new ParameterBag($attributes);
         $this->route = $route;
         $this->routeName = $routeName;
     }
 
-    /**
-     * @return string
-     */
-    public function getRouteName()
+    public function getRouteName(): string
     {
         return $this->routeName;
     }
 
-    /**
-     * @return RouteInterface
-     */
-    public function getRoute()
+    public function getRoute(): Route
     {
         return $this->route;
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getAttributes()
+    public function getAttributes(): ParameterBag
     {
         return $this->attributes;
     }

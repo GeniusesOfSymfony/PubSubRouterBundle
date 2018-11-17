@@ -12,23 +12,28 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
-        "doctrine/cache": "~1.4",
+        "php": ">=7.1",
+        "symfony/config": "~3.4|~4.0",
         "symfony/console": "~3.4|~4.0",
-        "symfony/framework-bundle": "~3.4|~4.0"
+        "symfony/dependency-injection": "~3.4|~4.0",
+        "symfony/framework-bundle": "~3.4|~4.0",
+        "symfony/http-foundation": "~3.4|~4.0",
+        "symfony/http-kernel": "~3.4|~4.0",
+        "symfony/yaml": "~3.4|~4.0"
     },
     "require-dev":{
-        "phpunit/phpunit": "^4.8.35"
+        "matthiasnoback/symfony-dependency-injection-test": "^2.0",
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
-        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" }
-    },
-    "autoload-dev" : {
-      "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\Tests\\" : "" }
+        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3.x-dev"
+            "dev-master": "0.4.x-dev"
         }
     }
 }
