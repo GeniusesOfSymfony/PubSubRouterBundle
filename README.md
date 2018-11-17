@@ -49,6 +49,8 @@ class AppKernel extends Kernel
 
 Bundle configuration
 
+Below is an example bundle configuration. For projects based on Symfony Flex, this should be stored in `config/packages/gos_pubsub_router.yaml`. For projects based on Symfony Standard Edition, this should be added to `app/config/config.yml`.
+
 ```yaml
 #Gos PubSub Router
 gos_pubsub_router:
