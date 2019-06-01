@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Generator\Dumper;
 
+use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
@@ -29,7 +30,7 @@ class PhpGeneratorDumperTest extends TestCase
      */
     private $largeTestTmpFilepath;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,7 +42,7 @@ class PhpGeneratorDumperTest extends TestCase
         @unlink($this->largeTestTmpFilepath);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -97,11 +98,10 @@ class PhpGeneratorDumperTest extends TestCase
         $this->assertEquals('testing2', $withoutParameter);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException
-     */
     public function testDumpWithoutRoutes()
     {
+        $this->expectException(ResourceNotFoundException::class);
+
         file_put_contents($this->testTmpFilepath, $this->generatorDumper->dump(['class' => 'WithoutRoutesGenerator']));
         include $this->testTmpFilepath;
 
@@ -110,11 +110,10 @@ class PhpGeneratorDumperTest extends TestCase
         $projectUrlGenerator->generate('Test', []);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException
-     */
     public function testGenerateNonExistingRoute()
     {
+        $this->expectException(ResourceNotFoundException::class);
+
         $this->routeCollection->add('Test', new Route('test', 'strlen'));
 
         file_put_contents(

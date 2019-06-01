@@ -2,6 +2,9 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Generator;
 
+use Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException;
+use Gos\Bundle\PubSubRouterBundle\Exception\MissingMandatoryParametersException;
+use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
@@ -25,11 +28,10 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing/bar', $path);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testWithNullParameterButNotOptional()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('testing/{foo}/bar', 'strlen', ['foo' => null]));
 
         // This must raise an exception because the default requirement for "foo" is "[^/]+" which is not met with these params.
@@ -60,56 +62,50 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing', $path);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException
-     */
     public function testGenerateWithoutRoutes()
     {
+        $this->expectException(ResourceNotFoundException::class);
+
         $routes = $this->getRoutes('foo', new Route('testing/{foo}', 'strlen'));
         $this->getGenerator($routes)->generate('test', []);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\MissingMandatoryParametersException
-     */
     public function testGenerateForRouteWithoutMandatoryParameter()
     {
+        $this->expectException(MissingMandatoryParametersException::class);
+
         $routes = $this->getRoutes('test', new Route('testing/{foo}', 'strlen'));
         $this->getGenerator($routes)->generate('test', []);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testGenerateForRouteWithInvalidOptionalParameter()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('testing/{foo}', 'strlen', ['foo' => '1'], ['foo' => 'd+']));
         $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testGenerateForRouteWithInvalidParameter()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('testing/{foo}', 'strlen', [], ['foo' => '1|2']));
         $this->getGenerator($routes)->generate('test', ['foo' => '0']);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testGenerateForRouteWithInvalidMandatoryParameter()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('testing/{foo}', 'strlen', [], ['foo' => 'd+']));
         $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testGenerateForRouteWithInvalidUtf8Parameter()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes(
             'test',
             new Route('testing/{foo}', 'strlen', [], ['foo' => '\pL+'], ['utf8' => true])
@@ -117,11 +113,10 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => 'abc123']);
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testRequiredParamAndEmptyPassed()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('{slug}', 'strlen', [], ['slug' => '.+']));
         $this->getGenerator($routes)->generate('test', ['slug' => '']);
     }
@@ -162,11 +157,10 @@ class GeneratorTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\InvalidParameterException
-     */
     public function testDefaultRequirementOfVariableDisallowsSlash()
     {
+        $this->expectException(InvalidParameterException::class);
+
         $routes = $this->getRoutes('test', new Route('/page}.{_format}', 'strlen'));
         $this->getGenerator($routes)->generate('test', ['page' => 'index', '_format' => 'sl/ash']);
     }

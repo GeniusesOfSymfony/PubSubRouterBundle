@@ -36,11 +36,10 @@ class YamlFileLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLoadThrowsExceptionWithInvalidFile()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $loader->load('nonvalid.yml');
     }

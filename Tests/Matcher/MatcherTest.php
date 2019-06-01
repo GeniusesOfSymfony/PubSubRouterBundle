@@ -79,7 +79,7 @@ class MatcherTest extends TestCase
         $matcher = $this->getMatcher($collection);
 
         $this->assertEquals(['foo', $route, []], $matcher->match('foo1'));
-        $this->{method_exists($this, $_ = 'expectException') ? $_ : 'setExpectedException'}(ResourceNotFoundException::class);
+        $this->expectException(ResourceNotFoundException::class);
         $matcher->match('foo');
     }
 
@@ -155,7 +155,7 @@ class MatcherTest extends TestCase
             $matcher->match('wwwwwxy')
         );
 
-        $this->{method_exists($this, $_ = 'expectException') ? $_ : 'setExpectedException'}(ResourceNotFoundException::class);
+        $this->expectException(ResourceNotFoundException::class);
         $matcher->match('wxy.html');
     }
 
@@ -170,7 +170,7 @@ class MatcherTest extends TestCase
 
         // Usually the character in front of an optional parameter can be left out, e.g. with pattern '/get/{what}' just '/get' would match.
         // But here the 't' in 'get' is not a separating character, so it makes no sense to match without it.
-        $this->{method_exists($this, $_ = 'expectException') ? $_ : 'setExpectedException'}(ResourceNotFoundException::class);
+        $this->expectException(ResourceNotFoundException::class);
         $matcher->match('ge');
     }
 
@@ -195,11 +195,10 @@ class MatcherTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException
-     */
     public function testDefaultRequirementOfVariableDisallowsSlash()
     {
+        $this->expectException(ResourceNotFoundException::class);
+
         $coll = new RouteCollection();
         $coll->add('test', new Route('{page}.{_format}', 'strlen'));
         $matcher = $this->getMatcher($coll);
@@ -207,11 +206,10 @@ class MatcherTest extends TestCase
         $matcher->match('index.sl/ash');
     }
 
-    /**
-     * @expectedException \Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException
-     */
     public function testDefaultRequirementOfVariableDisallowsNextSeparator()
     {
+        $this->expectException(ResourceNotFoundException::class);
+
         $coll = new RouteCollection();
         $coll->add('test', new Route('{page}.{_format}', 'strlen', array(), array('_format' => 'html|xml')));
         $matcher = $this->getMatcher($coll);

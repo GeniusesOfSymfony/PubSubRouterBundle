@@ -23,7 +23,7 @@ class RouterTest extends TestCase
      */
     private $loader = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $this->router = new Router('test', $this->loader, ['routing.yml']);
@@ -44,12 +44,11 @@ class RouterTest extends TestCase
         $this->assertSame('ResourceType', $this->router->getOption('resource_type'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The Router does not support the following options: "option_foo", "option_bar"
-     */
     public function testSetOptionsWithUnsupportedOptions()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The Router does not support the following options: "option_foo", "option_bar"');
+
         $this->router->setOptions(
             [
                 'cache_dir' => './cache',
@@ -67,21 +66,19 @@ class RouterTest extends TestCase
         $this->assertSame('./cache', $this->router->getOption('cache_dir'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The Router does not support the "option_foo" option
-     */
     public function testSetOptionWithUnsupportedOption()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The Router does not support the "option_foo" option');
+
         $this->router->setOption('option_foo', true);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The Router does not support the "option_foo" option
-     */
     public function testGetOptionWithUnsupportedOption()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The Router does not support the "option_foo" option');
+
         $this->router->getOption('option_foo');
     }
 

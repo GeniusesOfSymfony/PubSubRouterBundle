@@ -7,7 +7,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
     }
 
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [
             new GosPubSubRouterExtension(),
