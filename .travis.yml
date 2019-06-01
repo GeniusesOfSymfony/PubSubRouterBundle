@@ -28,6 +28,8 @@ matrix:
     # Allow failures on next Symfony minor, should always be tested on newest stable PHP branch
     - php: 7.3
       env: SYMFONY_VERSION="4.4.*@dev"
+    - php: 7.3
+      env: SYMFONY_VERSION="5.0.*@dev"
     - php: 7.4snapshot
       env: SYMFONY_VERSION="4.3.*"
     - php: nightly
@@ -46,4 +48,4 @@ before_script:
   - composer update $COMPOSER_FLAGS
 
 script:
-  - vendor/bin/phpunit -c phpunit.xml --coverage-text
+  - vendor/bin/phpunit
