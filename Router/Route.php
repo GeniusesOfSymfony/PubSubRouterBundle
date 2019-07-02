@@ -5,7 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-class Route
+class Route implements \Serializable
 {
     /**
      * @var string
@@ -62,22 +62,28 @@ class Route
 
     public function serialize()
     {
-        return serialize(
-            [
-                'pattern' => $this->pattern,
-                'callback' => $this->callback,
-                'defaults' => $this->defaults,
-                'requirements' => $this->requirements,
-                'options' => $this->options,
-                'compiled' => $this->compiled,
-            ]
-        );
+        return serialize($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'pattern' => $this->pattern,
+            'callback' => $this->callback,
+            'defaults' => $this->defaults,
+            'requirements' => $this->requirements,
+            'options' => $this->options,
+            'compiled' => $this->compiled,
+        ];
     }
 
     public function unserialize($serialized)
     {
-        $data = unserialize($serialized);
+        $this->__unserialize(unserialize($serialized));
+    }
 
+    public function __unserialize(array $data): void
+    {
         $this->pattern = $data['pattern'];
         $this->callback = $data['callback'];
         $this->defaults = $data['defaults'];
