@@ -12,9 +12,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class GosPubSubRouterBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -22,9 +19,6 @@ class GosPubSubRouterBundle extends Bundle
         $container->addCompilerPass(new RoutingResolverPass());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension()
     {
         if (null === $this->extension) {

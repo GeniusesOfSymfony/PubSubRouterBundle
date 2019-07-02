@@ -38,17 +38,11 @@ class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterf
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isOptional()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedServices()
     {
         return [
