@@ -38,28 +38,28 @@ class CompiledRoute implements \Serializable
         $this->variables = $variables;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize()
     {
-        return serialize(
-            [
-                'staticPrefix' => $this->staticPrefix,
-                'regex' => $this->regex,
-                'tokens' => $this->tokens,
-                'variables' => $this->variables,
-            ]
-        );
+        return serialize($this->__serialize());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function __serialize(): array
+    {
+        return [
+            'staticPrefix' => $this->staticPrefix,
+            'regex' => $this->regex,
+            'tokens' => $this->tokens,
+            'variables' => $this->variables,
+        ];
+    }
+
     public function unserialize($serialized)
     {
-        $data = unserialize($serialized);
+        $this->__unserialize(unserialize($serialized));
+    }
 
+    public function __unserialize(array $data): void
+    {
         $this->staticPrefix = $data['staticPrefix'];
         $this->regex = $data['regex'];
         $this->tokens = $data['tokens'];
