@@ -64,13 +64,13 @@ class DebugRouterCommand extends Command
         $table->setHeaders(['Name', 'Pattern', 'Callback']);
 
         /**
-         * @var string $name
+         * @var string
          * @var Route  $route
          */
         foreach ($router->getCollection() as $name => $route) {
-            if (is_array($route->getCallback())) {
+            if (\is_array($route->getCallback())) {
                 $callback = implode(', ', $route->getCallback());
-            } elseif (is_callable($route->getCallback())) {
+            } elseif (\is_callable($route->getCallback())) {
                 $callback = (string) $route->getCallback();
             } else {
                 $callback = $route->getCallback();

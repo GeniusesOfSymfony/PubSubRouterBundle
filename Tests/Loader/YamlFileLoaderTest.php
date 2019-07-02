@@ -26,7 +26,7 @@ class YamlFileLoaderTest extends TestCase
 
     public function testLoadDoesNothingIfEmpty()
     {
-        $loader = new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $collection = $loader->load('empty.yml');
 
         $this->assertEquals([], $collection->all());

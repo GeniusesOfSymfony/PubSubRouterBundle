@@ -16,12 +16,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class GosPubSubRouterExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/services'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('services.yml');
 
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -58,7 +55,7 @@ class GosPubSubRouterExtension extends Extension
                     strtolower($routerName),
                     new Reference('gos_pubsub_router.routing.loader'),
                     $routerConfig['resources'],
-                    $routerOptions
+                    $routerOptions,
                 ]
             );
 
@@ -70,9 +67,6 @@ class GosPubSubRouterExtension extends Extension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return 'gos_pubsub_router';

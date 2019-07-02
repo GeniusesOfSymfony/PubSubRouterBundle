@@ -211,7 +211,7 @@ class MatcherTest extends TestCase
         $this->expectException(ResourceNotFoundException::class);
 
         $coll = new RouteCollection();
-        $coll->add('test', new Route('{page}.{_format}', 'strlen', array(), array('_format' => 'html|xml')));
+        $coll->add('test', new Route('{page}.{_format}', 'strlen', [], ['_format' => 'html|xml']));
         $matcher = $this->getMatcher($coll);
 
         $matcher->match('do.t.html');

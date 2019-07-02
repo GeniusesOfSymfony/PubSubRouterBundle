@@ -31,10 +31,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
 
     public function __clone()
     {
-        /**
-         * @var string $name
-         * @var Route  $route
-         */
+        /** @var Route $route */
         foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
         }
@@ -53,7 +50,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
      */
     public function count()
     {
-        return count($this->routes);
+        return \count($this->routes);
     }
 
     public function add(string $name, Route $route): void

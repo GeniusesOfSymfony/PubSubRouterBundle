@@ -249,10 +249,6 @@ EOF;
 
             $tree = new StaticPrefixCollection();
 
-            /**
-             * @var string $name
-             * @var Route  $route
-             */
             foreach ($routes->all() as $name => $route) {
                 preg_match('#^.\^(.*)\$.[a-zA-Z]*$#', $route->compile()->getRegex(), $rx);
 
@@ -321,9 +317,7 @@ EOF;
         $prevRegex = null;
         $routes = $tree->getRoutes();
 
-        /**
-         * @var Route $route
-         */
+        /** @var Route $route */
         foreach ($routes as $i => $route) {
             if ($route instanceof StaticPrefixCollection) {
                 $prevRegex = null;
@@ -415,7 +409,6 @@ EOF;
             \$attributes = \$route->getDefaults();
 
 EOF;
-;
         }
 
         $code .= <<<EOF

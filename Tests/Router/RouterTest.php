@@ -113,10 +113,10 @@ class RouterTest extends TestCase
 
     public function provideMatcherOptionsPreventingCaching()
     {
-        return array(
-            array('cache_dir'),
-            array('matcher_cache_class'),
-        );
+        return [
+            ['cache_dir'],
+            ['matcher_cache_class'],
+        ];
     }
 
     /**
@@ -136,17 +136,17 @@ class RouterTest extends TestCase
 
     public function provideGeneratorOptionsPreventingCaching()
     {
-        return array(
-            array('cache_dir'),
-            array('generator_cache_class'),
-        );
+        return [
+            ['cache_dir'],
+            ['generator_cache_class'],
+        ];
     }
 
     public function testResourcesAreLoadedToCollection()
     {
         $router = new Router(
             'test',
-            new YamlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures'))),
+            new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures'])),
             [
                 'empty.yml',
                 'validchannel.yml',

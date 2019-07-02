@@ -57,7 +57,7 @@ class PhpMatcherDumperTest extends TestCase
         list($name, $route, $attributes) = $dumper->match('hello/gos');
 
         $this->assertSame('helloWorld', $name, 'The matched route name is returned');
-        $this->assertEquals(new Route('hello/{who}', 'strlen', array('who' => 'World!')), $route, 'The Route object is in the expected state');
+        $this->assertEquals(new Route('hello/{who}', 'strlen', ['who' => 'World!']), $route, 'The Route object is in the expected state');
         $this->assertSame(['who' => 'gos'], $attributes, 'The route attributes are returned after merging defaults');
     }
 
@@ -161,7 +161,7 @@ class PhpMatcherDumperTest extends TestCase
         // overridden through addCollection() and multiple sub-collections with no own prefix
         $collection1 = new RouteCollection();
         $collection1->add('overridden2', new Route('old', 'strlen'));
-        $collection1->add('helloWorld', new Route('hello/{who}', 'strlen', array('who' => 'World!')));
+        $collection1->add('helloWorld', new Route('hello/{who}', 'strlen', ['who' => 'World!']));
         $collection2 = new RouteCollection();
         $collection3 = new RouteCollection();
         $collection3->add('overridden2', new Route('new', 'strlen'));
@@ -178,9 +178,9 @@ class PhpMatcherDumperTest extends TestCase
         $collection1->add('foo4', new Route('aba/{foo}', 'strlen'));
         $collection->addCollection($collection1);
 
-        return array(
-            array(new RouteCollection(), 'url_matcher0.php', array()),
-            array($collection, 'url_matcher1.php', array()),
-        );
+        return [
+            [new RouteCollection(), 'url_matcher0.php', []],
+            [$collection, 'url_matcher1.php', []],
+        ];
     }
 }

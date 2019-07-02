@@ -60,9 +60,6 @@ class Route
         $this->setOptions($options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize()
     {
         return serialize(
@@ -77,9 +74,6 @@ class Route
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize($serialized)
     {
         $data = unserialize($serialized);
@@ -132,11 +126,11 @@ class Route
      */
     public function setCallback($callback): self
     {
-        if (!is_callable($callback) && !is_string($callback)) {
+        if (!\is_callable($callback) && !\is_string($callback)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The callback for a route must be a PHP callable or a string, a "%s" was given.',
-                    gettype($callback)
+                    \gettype($callback)
                 )
             );
         }

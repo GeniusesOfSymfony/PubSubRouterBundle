@@ -43,7 +43,7 @@ class Matcher implements MatcherInterface
     protected function matchCollection(string $channel, RouteCollection $routes): ?array
     {
         /**
-         * @var string $name
+         * @var string
          * @var Route  $route
          */
         foreach ($routes as $name => $route) {

@@ -15,9 +15,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlFileLoader extends FileLoader
 {
-    /**
-     * @var array
-     */
     private const AVAILABLE_KEYS = [
         'channel',
         'handler',
@@ -32,8 +29,6 @@ class YamlFileLoader extends FileLoader
     private $yamlParser;
 
     /**
-     * {@inheritdoc}
-     *
      * @return RouteCollection
      */
     public function load($resource, $type = null)
@@ -67,7 +62,7 @@ class YamlFileLoader extends FileLoader
         }
 
         // not an array
-        if (!is_array($config)) {
+        if (!\is_array($config)) {
             throw new \InvalidArgumentException(sprintf('The file "%s" must contain a YAML array.', $path));
         }
 
@@ -91,7 +86,7 @@ class YamlFileLoader extends FileLoader
 
     protected function validate(array $config, string $name, string $path): void
     {
-        if (!is_array($config)) {
+        if (!\is_array($config)) {
             throw new \InvalidArgumentException(sprintf('The definition of "%s" in "%s" must be a YAML array.', $name, $path));
         }
 
@@ -111,12 +106,9 @@ class YamlFileLoader extends FileLoader
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports($resource, $type = null)
     {
-        return is_string($resource)
+        return \is_string($resource)
             && \in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true)
             && (!$type || 'yaml' === $type);
     }

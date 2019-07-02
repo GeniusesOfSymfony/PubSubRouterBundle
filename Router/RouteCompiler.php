@@ -124,7 +124,7 @@ class RouteCompiler implements RouteCompilerInterface
             $regexp = $route->getRequirement($varName);
 
             if (null === $regexp) {
-                $followingPattern = (string)substr($pattern, $pos);
+                $followingPattern = (string) substr($pattern, $pos);
 
                 // Find the next static character after the variable that functions as a separator. By default, this separator and '/'
                 // are disallowed for the variable. This default requirement makes sure that optional variables can be matched at all

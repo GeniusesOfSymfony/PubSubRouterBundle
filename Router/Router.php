@@ -6,7 +6,6 @@ use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
-use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\MatcherDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
@@ -68,7 +67,7 @@ class Router implements RouterInterface, WarmableInterface
      * @param array           $resources
      * @param array           $options
      */
-    public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = array())
+    public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {
         $this->name = $name;
         $this->loader = $loader;
@@ -117,7 +116,7 @@ class Router implements RouterInterface, WarmableInterface
         $invalid = [];
 
         foreach ($options as $key => $value) {
-            if (array_key_exists($key, $this->options)) {
+            if (\array_key_exists($key, $this->options)) {
                 $this->options[$key] = $value;
             } else {
                 $invalid[] = $key;
@@ -136,7 +135,7 @@ class Router implements RouterInterface, WarmableInterface
      */
     public function setOption(string $key, $value): void
     {
-        if (!array_key_exists($key, $this->options)) {
+        if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
 
@@ -148,7 +147,7 @@ class Router implements RouterInterface, WarmableInterface
      */
     public function getOption(string $key)
     {
-        if (!array_key_exists($key, $this->options)) {
+        if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
 
@@ -170,9 +169,6 @@ class Router implements RouterInterface, WarmableInterface
         return $this->collection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function warmUp($cacheDir)
     {
         $currentDir = $this->getOption('cache_dir');

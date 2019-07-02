@@ -37,7 +37,7 @@ class DebugRouterCommandTest extends TestCase
             ]
         );
 
-        $this->assertTrue(strpos($commandTester->getDisplay(), 'Unknown router missing, available routers are [ test ]') !== false);
+        $this->assertTrue(false !== strpos($commandTester->getDisplay(), 'Unknown router missing, available routers are [ test ]'));
         $this->assertSame(1, $commandTester->getStatusCode());
     }
 
