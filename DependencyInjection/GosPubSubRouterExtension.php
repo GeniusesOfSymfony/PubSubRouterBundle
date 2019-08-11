@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -23,6 +24,14 @@ class GosPubSubRouterExtension extends Extension
     private const DEPRECATED_SERVICE_ALIASES = [
         'gos_pubsub_router.router.cache_warmer' => 'gos_pubsub_router.cache_warmer.router',
         'gos_pubsub_router.router.registry' => 'gos_pubsub_router.router_registry',
+    ];
+
+    /**
+     * Map holding a list of router names that are reserved and cannot be used where the key is the name and the value is the reason it is reserved.
+     */
+    private const RESERVED_ROUTER_NAMES = [
+        'cache_warmer' => 'A router cannot be named "cache_warmer" because it conflicts with the "gos_pubsub_router.router.cache_warmer" service, please use another router name.',
+        'registry' => 'A router cannot be named "registry" because it conflicts with the "gos_pubsub_router.router.registry" service, please use another router name.',
     ];
 
     public function load(array $configs, ContainerBuilder $container)
@@ -46,22 +55,29 @@ class GosPubSubRouterExtension extends Extension
         ];
 
         $registryDefinition = $container->getDefinition('gos_pubsub_router.router_registry');
+        $reservedRouterNames = array_keys(self::RESERVED_ROUTER_NAMES);
 
         foreach ($config['routers'] as $routerName => $routerConfig) {
+            $lowerRouterName = strtolower($routerName);
+
+            if (\in_array($lowerRouterName, $reservedRouterNames, true)) {
+                throw new InvalidArgumentException(self::RESERVED_ROUTER_NAMES[$lowerRouterName]);
+            }
+
             $routerOptions = array_merge(
                 $baseRouterOptions,
                 [
-                    'generator_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst(strtolower($routerName)).'Generator',
-                    'matcher_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst(strtolower($routerName)).'Matcher',
+                    'generator_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst($lowerRouterName).'Generator',
+                    'matcher_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst($lowerRouterName).'Matcher',
                 ]
             );
 
-            $serviceId = 'gos_pubsub_router.router.'.strtolower($routerName);
+            $serviceId = 'gos_pubsub_router.router.'.$lowerRouterName;
 
             $definition = new Definition(
                 $config['router_class'],
                 [
-                    strtolower($routerName),
+                    $lowerRouterName,
                     new Reference('gos_pubsub_router.routing.loader'),
                     $routerConfig['resources'],
                     $routerOptions,
