@@ -5,6 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader;
@@ -16,6 +17,14 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class GosPubSubRouterExtension extends Extension
 {
+    /**
+     * Map containing a list of deprecated service keys where the key is the deprecated alias and the value is the new service identifier.
+     */
+    private const DEPRECATED_SERVICE_ALIASES = [
+        'gos_pubsub_router.router.cache_warmer' => 'gos_pubsub_router.cache_warmer.router',
+        'gos_pubsub_router.router.registry' => 'gos_pubsub_router.router_registry',
+    ];
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
@@ -36,7 +45,7 @@ class GosPubSubRouterExtension extends Extension
             'matcher_dumper_class' => PhpMatcherDumper::class,
         ];
 
-        $registryDefinition = $container->getDefinition('gos_pubsub_router.router.registry');
+        $registryDefinition = $container->getDefinition('gos_pubsub_router.router_registry');
 
         foreach ($config['routers'] as $routerName => $routerConfig) {
             $routerOptions = array_merge(
@@ -64,6 +73,19 @@ class GosPubSubRouterExtension extends Extension
 
             // Register router to the registry
             $registryDefinition->addMethodCall('addRouter', [new Reference($serviceId)]);
+        }
+
+        // Mark service aliases deprecated if able
+        if (method_exists(Alias::class, 'setDeprecated')) {
+            foreach (self::DEPRECATED_SERVICE_ALIASES as $deprecatedAlias => $newService) {
+                if ($container->hasAlias($deprecatedAlias)) {
+                    $container->getAlias($deprecatedAlias)
+                        ->setDeprecated(
+                            true,
+                            'The "%alias_id%" service alias is deprecated and will be removed in GosPubSubRouterBundle 2.0, you should use the "'.$newService.'" service instead.'
+                        );
+                }
+            }
         }
     }
 

@@ -1,8 +1,16 @@
 services:
+    gos_pubsub_router.cache_warmer.router:
+        class: Gos\Bundle\PubSubRouterBundle\CacheWarmer\RouterCacheWarmer
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+        tags:
+            - { name: container.service_subscriber, id: 'gos_pubsub_router.router_registry' }
+            - { name: kernel.cache_warmer }
+
     gos_pubsub_router.command.debug_router:
         class: Gos\Bundle\PubSubRouterBundle\Command\DebugRouterCommand
         arguments:
-            - '@gos_pubsub_router.router.registry'
+            - '@gos_pubsub_router.router_registry'
         tags:
             - { name: console.command, command: gos:prouter:debug }
 
@@ -15,14 +23,12 @@ services:
             - { name: gos_pubsub_router.routing.loader }
 
     gos_pubsub_router.router.cache_warmer:
-        class: Gos\Bundle\PubSubRouterBundle\CacheWarmer\RouterCacheWarmer
-        arguments:
-            - '@Psr\Container\ContainerInterface'
-        tags:
-            - { name: container.service_subscriber, id: 'gos_pubsub_router.router.registry' }
-            - { name: kernel.cache_warmer }
+        alias: gos_pubsub_router.cache_warmer.router
 
     gos_pubsub_router.router.registry:
+        alias: gos_pubsub_router.router_registry
+
+    gos_pubsub_router.router_registry:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
         public: false
 

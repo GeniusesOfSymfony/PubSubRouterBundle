@@ -40,7 +40,7 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
 
-        $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router.registry');
+        $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
     }

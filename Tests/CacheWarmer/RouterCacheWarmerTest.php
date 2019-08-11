@@ -28,7 +28,7 @@ class RouterCacheWarmerTest extends TestCase
         $container = $this->getMockBuilder(ContainerInterface::class)->setMethods(['get', 'has'])->getMock();
         $container->expects($this->any())
             ->method('get')
-            ->with('gos_pubsub_router.router.registry')
+            ->with('gos_pubsub_router.router_registry')
             ->willReturn($routerRegistry);
 
         (new RouterCacheWarmer($container))->warmUp('/tmp');
@@ -48,7 +48,7 @@ class RouterCacheWarmerTest extends TestCase
         $container = $this->getMockBuilder(ContainerInterface::class)->setMethods(['get', 'has'])->getMock();
         $container->expects($this->any())
             ->method('get')
-            ->with('gos_pubsub_router.router.registry')
+            ->with('gos_pubsub_router.router_registry')
             ->willReturn($routerRegistry);
 
         (new RouterCacheWarmer($container))->warmUp('/tmp');

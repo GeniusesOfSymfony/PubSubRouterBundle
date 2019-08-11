@@ -29,7 +29,7 @@ class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterf
     public function warmUp($cacheDir)
     {
         /** @var RouterRegistry $registry */
-        $registry = $this->container->get('gos_pubsub_router.router.registry');
+        $registry = $this->container->get('gos_pubsub_router.router_registry');
 
         foreach ($registry->getRouters() as $router) {
             if ($router instanceof WarmableInterface) {
@@ -46,7 +46,7 @@ class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterf
     public static function getSubscribedServices()
     {
         return [
-            'gos_pubsub_router.router.registry' => RouterRegistry::class,
+            'gos_pubsub_router.router_registry' => RouterRegistry::class,
         ];
     }
 }
