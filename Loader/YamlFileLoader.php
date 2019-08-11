@@ -30,6 +30,8 @@ class YamlFileLoader extends FileLoader
 
     /**
      * @return RouteCollection
+     *
+     * @throws \InvalidArgumentException if the resource cannot be processed
      */
     public function load($resource, $type = null)
     {
@@ -84,6 +86,9 @@ class YamlFileLoader extends FileLoader
         return $routeCollection;
     }
 
+    /**
+     * @throws \InvalidArgumentException if the data is invalid
+     */
     protected function validate(array $config, string $name, string $path): void
     {
         if (!\is_array($config)) {

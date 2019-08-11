@@ -19,6 +19,9 @@ class Generator implements GeneratorInterface
         $this->routes = $routes;
     }
 
+    /**
+     * @throws ResourceNotFoundException if the given route name does not exist
+     */
     public function generate(string $routeName, array $parameters = []): string
     {
         if (null === $route = $this->routes->get($routeName)) {
@@ -32,8 +35,8 @@ class Generator implements GeneratorInterface
     }
 
     /**
-     * @throws MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
-     * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because it does not match the requirement
+     * @throws MissingMandatoryParametersException when some parameters are missing that are mandatory for the route
+     * @throws InvalidParameterException           when a parameter value for a placeholder is not correct because it does not match the requirement
      */
     protected function doGenerate(array $variables, array $defaults, array $requirements, array $tokens, array $parameters, string $routeName): string
     {

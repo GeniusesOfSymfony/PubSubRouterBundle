@@ -34,6 +34,9 @@ class GosPubSubRouterExtension extends Extension
         'registry' => 'A router cannot be named "registry" because it conflicts with the "gos_pubsub_router.router.registry" service, please use another router name.',
     ];
 
+    /**
+     * @throws InvalidArgumentException if a configured router uses a reserved name
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));

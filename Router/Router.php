@@ -94,7 +94,7 @@ class Router implements RouterInterface, WarmableInterface
      *
      * @param array $options An array of options
      *
-     * @throws \InvalidArgumentException When unsupported option is provided
+     * @throws \InvalidArgumentException when an unsupported option is provided
      */
     public function setOptions(array $options): void
     {
@@ -131,7 +131,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException when an unsupported option is provided
      */
     public function setOption(string $key, $value): void
     {
@@ -143,7 +143,7 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException when an unsupported option is provided
      */
     public function getOption(string $key)
     {

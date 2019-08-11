@@ -38,6 +38,11 @@ class RouteCompiler implements RouteCompilerInterface
         );
     }
 
+    /**
+     * @throws \LogicException  if a variable is referenced more than once
+     * @throws \DomainException if a variable name starts with a digit or if it is too long to be successfully used as
+     *                          a PCRE subpattern
+     */
     private static function compilePattern(Route $route, string $pattern): array
     {
         $tokens = [];
