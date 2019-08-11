@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 (2019-08-11)
 
 - Adjust configuration for changes introduced in Symfony 4.2
 - Restore `Serializable` interface implementation to `Gos\Bundle\PubSubRouterBundle\Router\Route` class
