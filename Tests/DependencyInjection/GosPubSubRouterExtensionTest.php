@@ -4,6 +4,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
@@ -40,9 +41,26 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
 
-        $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router.registry');
+        $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
+    }
+
+    public function testContainerIsNotLoadedWithAnInvalidRouterName()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $routerConfig = [
+            'routers' => [
+                'registry' => [
+                    'resources' => [
+                        'routing.yml',
+                    ],
+                ],
+            ],
+        ];
+
+        $this->load($routerConfig);
     }
 
     protected function getContainerExtensions(): array

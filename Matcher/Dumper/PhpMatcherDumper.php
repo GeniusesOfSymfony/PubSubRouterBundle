@@ -485,6 +485,8 @@ EOF;
     }
 
     /**
+     * @throws \InvalidArgumentException if the value contains invalid data
+     *
      * @internal
      */
     public static function export($value): string

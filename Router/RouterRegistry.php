@@ -9,6 +9,9 @@ final class RouterRegistry
      */
     private $routers = [];
 
+    /**
+     * @throws \RuntimeException if a router is already registered with the given router's name
+     */
     public function addRouter(RouterInterface $router): void
     {
         if (isset($this->routers[$router->getName()])) {
@@ -18,6 +21,9 @@ final class RouterRegistry
         $this->routers[$router->getName()] = $router;
     }
 
+    /**
+     * @throws \InvalidArgumentException if the requested router was not registered
+     */
     public function getRouter(string $name): RouterInterface
     {
         if (!$this->hasRouter($name)) {
@@ -35,11 +41,6 @@ final class RouterRegistry
         return $this->routers;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     public function hasRouter(string $name): bool
     {
         return isset($this->routers[$name]);

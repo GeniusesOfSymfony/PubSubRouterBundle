@@ -28,6 +28,9 @@ class Matcher implements MatcherInterface
         $this->routes = $routes;
     }
 
+    /**
+     * @throws ResourceNotFoundException if the given route name does not exist
+     */
     public function match(string $channel): array
     {
         if ($ret = $this->matchCollection($channel, $this->routes)) {

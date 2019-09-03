@@ -129,6 +129,8 @@ class Route implements \Serializable
 
     /**
      * @param callable|string $callback
+     *
+     * @throws \InvalidArgumentException if the callback is not a valid type
      */
     public function setCallback($callback): self
     {
@@ -275,7 +277,7 @@ class Route implements \Serializable
     }
 
     /**
-     * @throws \LogicException If the Route cannot be compiled because the pattern is invalid
+     * @throws \LogicException if the Route cannot be compiled because the pattern is invalid
      */
     public function compile(): CompiledRoute
     {
@@ -288,6 +290,9 @@ class Route implements \Serializable
         return $this->compiled = $class::compile($this);
     }
 
+    /**
+     * @throws \InvalidArgumentException if a requirement value is empty
+     */
     private function sanitizeRequirement(string $key, string $regex): string
     {
         if ('' !== $regex && '^' === $regex[0]) {
