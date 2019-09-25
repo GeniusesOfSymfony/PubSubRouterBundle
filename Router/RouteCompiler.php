@@ -56,8 +56,8 @@ class RouteCompiler implements RouteCompilerInterface
         if (!$needsUtf8 && $useUtf8 && preg_match('/[\x80-\xFF]/', $pattern)) {
             throw new \LogicException(
                 sprintf(
-                    'Cannot use UTF-8 route patterns without setting the "utf8" option for route "%s".',
-                    $route->getPath()
+                    'Cannot use UTF-8 route patterns without setting the "utf8" option for pattern "%s".',
+                    $pattern
                 )
             );
         }

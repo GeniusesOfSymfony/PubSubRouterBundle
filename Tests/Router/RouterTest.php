@@ -7,6 +7,7 @@ use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -19,7 +20,7 @@ class RouterTest extends TestCase
     private $router = null;
 
     /**
-     * @var LoaderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoaderInterface|MockObject
      */
     private $loader = null;
 
