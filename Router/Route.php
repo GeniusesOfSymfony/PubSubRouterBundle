@@ -45,11 +45,11 @@ class Route implements \Serializable
      *  * compiler_class: A class name able to compile this route instance (RouteCompiler by default)
      *  * utf8:           Whether UTF-8 matching is enforced ot not
      *
-     * @param string   $pattern         The path pattern to match
-     * @param callable $callback|string A callable function that handles this route or a string to be used with a service locator
-     * @param array    $defaults        An array of default parameter values
-     * @param array    $requirements    An array of requirements for parameters (regexes)
-     * @param array    $options         An array of options
+     * @param string          $pattern      The path pattern to match
+     * @param callable|string $callback     A callable function that handles this route or a string to be used with a service locator
+     * @param array           $defaults     An array of default parameter values
+     * @param array           $requirements An array of requirements for parameters (regexes)
+     * @param array           $options      An array of options
      */
     public function __construct(string $pattern, $callback, array $defaults = [], array $requirements = [], array $options = [])
     {
