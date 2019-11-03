@@ -5,7 +5,6 @@ namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -95,15 +94,13 @@ class GosPubSubRouterExtension extends Extension
         }
 
         // Mark service aliases deprecated if able
-        if (method_exists(Alias::class, 'setDeprecated')) {
-            foreach (self::DEPRECATED_SERVICE_ALIASES as $deprecatedAlias => $newService) {
-                if ($container->hasAlias($deprecatedAlias)) {
-                    $container->getAlias($deprecatedAlias)
-                        ->setDeprecated(
-                            true,
-                            'The "%alias_id%" service alias is deprecated and will be removed in GosPubSubRouterBundle 2.0, you should use the "'.$newService.'" service instead.'
-                        );
-                }
+        foreach (self::DEPRECATED_SERVICE_ALIASES as $deprecatedAlias => $newService) {
+            if ($container->hasAlias($deprecatedAlias)) {
+                $container->getAlias($deprecatedAlias)
+                    ->setDeprecated(
+                        true,
+                        'The "%alias_id%" service alias is deprecated and will be removed in GosPubSubRouterBundle 2.0, you should use the "'.$newService.'" service instead.'
+                    );
             }
         }
     }

@@ -33,7 +33,7 @@ class YamlFileLoader extends FileLoader
      *
      * @throws \InvalidArgumentException if the resource cannot be processed
      */
-    public function load($resource, $type = null)
+    public function load($resource, string $type = null)
     {
         $path = $this->locator->locate($resource);
 
@@ -76,9 +76,9 @@ class YamlFileLoader extends FileLoader
                 new Route(
                     $routeConfig['channel'],
                     $routeConfig['handler'],
-                    isset($routeConfig['defaults']) ? $routeConfig['defaults'] : [],
-                    isset($routeConfig['requirements']) ? $routeConfig['requirements'] : [],
-                    isset($routeConfig['options']) ? $routeConfig['options'] : []
+                    $routeConfig['defaults'] ?? [],
+                    $routeConfig['requirements'] ?? [],
+                    $routeConfig['options'] ?? []
                 )
             );
         }
@@ -108,7 +108,7 @@ class YamlFileLoader extends FileLoader
         }
     }
 
-    public function supports($resource, $type = null)
+    public function supports($resource, string $type = null)
     {
         return \is_string($resource)
             && \in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true)
