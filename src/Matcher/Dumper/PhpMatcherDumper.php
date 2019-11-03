@@ -151,7 +151,7 @@ EOF;
             return '';
         }
 
-        $code = $default = '';
+        $code = '';
 
         foreach ($staticRoutes as $url => $routes) {
             if (1 === \count($routes)) {
@@ -166,20 +166,6 @@ EOF;
             }
 
             $code .= "            break;\n";
-        }
-
-        if ($default) {
-            $code .= <<<EOF
-        default:
-            \$routes = array(
-{$this->indent($default, 4)}            );
-
-            if (!isset(\$routes[\$pathinfo])) {
-                break;
-            }
-            \$ret = \$routes[\$pathinfo];
-{$this->compileSwitchDefault(false)}
-EOF;
         }
 
         return sprintf("        switch (\$channel) {\n%s        }\n\n", $this->indent($code));
