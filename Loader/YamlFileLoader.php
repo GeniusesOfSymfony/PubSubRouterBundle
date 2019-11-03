@@ -28,8 +28,6 @@ class YamlFileLoader extends CompatibilityYamlFileLoader
     private $yamlParser;
 
     /**
-     * @return RouteCollection
-     *
      * @throws \InvalidArgumentException if the resource cannot be processed
      */
     protected function doLoad($resource, string $type = null): RouteCollection

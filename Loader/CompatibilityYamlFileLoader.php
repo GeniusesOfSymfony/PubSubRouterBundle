@@ -9,7 +9,7 @@ use Symfony\Component\Config\Loader\FileLoader;
 // This is a rather flaky check, but it is one of the few things that exists in 4.x but not 5.x
 if (class_exists(FileLoaderLoadException::class)) {
     /**
-     * Compatibility file loader for Symfony 4.4 and earlier
+     * Compatibility file loader for Symfony 4.4 and earlier.
      *
      * @internal To be removed when dropping support for Symfony 4.4 and earlier
      */
@@ -31,7 +31,7 @@ if (class_exists(FileLoaderLoadException::class)) {
     }
 } else {
     /**
-     * Compatibility file loader for Symfony 5.0 and later
+     * Compatibility file loader for Symfony 5.0 and later.
      *
      * @internal To be removed when dropping support for Symfony 4.4 and earlier
      */
