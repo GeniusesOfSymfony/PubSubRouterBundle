@@ -3,7 +3,7 @@ language: php
 
 env:
   global:
-    - SYMFONY_REQUIRE="3.4.*"
+    - SYMFONY_REQUIRE="4.4.*@dev"
     - COMPOSER_FLAGS="--prefer-stable"
 
 matrix:
@@ -13,15 +13,13 @@ matrix:
     - php: 7.2
       env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
     - php: 7.3
-      env: SYMFONY_REQUIRE="4.3.*"
-    - php: 7.3
       env: SYMFONY_REQUIRE="4.4.*@dev"
     - php: 7.3
       env: SYMFONY_REQUIRE="5.0.*@dev"
     - php: 7.4snapshot
-      env: SYMFONY_REQUIRE="4.3.*"
+      env: SYMFONY_REQUIRE="4.4.*@dev"
     - php: nightly
-      env: SYMFONY_REQUIRE="4.3.*"
+      env: SYMFONY_REQUIRE="4.4.*@dev"
   allow_failures:
     # Allow failures on next Symfony minor, should always be tested on newest stable PHP branch
     - php: 7.3
@@ -29,9 +27,9 @@ matrix:
     - php: 7.3
       env: SYMFONY_REQUIRE="5.0.*@dev"
     - php: 7.4snapshot
-      env: SYMFONY_REQUIRE="4.3.*"
+      env: SYMFONY_REQUIRE="4.4.*"
     - php: nightly
-      env: SYMFONY_REQUIRE="4.3.*"
+      env: SYMFONY_REQUIRE="4.4.*"
 
 cache:
   directories:
