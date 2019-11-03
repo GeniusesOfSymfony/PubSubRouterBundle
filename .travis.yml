@@ -27,9 +27,9 @@ matrix:
     - php: 7.3
       env: SYMFONY_REQUIRE="5.0.*@dev"
     - php: 7.4snapshot
-      env: SYMFONY_REQUIRE="4.4.*"
+      env: SYMFONY_REQUIRE="4.4.*@dev"
     - php: nightly
-      env: SYMFONY_REQUIRE="4.4.*"
+      env: SYMFONY_REQUIRE="4.4.*@dev"
 
 cache:
   directories:
