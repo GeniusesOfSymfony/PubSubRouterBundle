@@ -61,12 +61,6 @@ class Router implements RouterInterface, WarmableInterface
      */
     private $configCacheFactory;
 
-    /**
-     * @param string          $name
-     * @param LoaderInterface $loader
-     * @param array           $resources
-     * @param array           $options
-     */
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {
         $this->name = $name;
@@ -124,9 +118,7 @@ class Router implements RouterInterface, WarmableInterface
         }
 
         if ($invalid) {
-            throw new \InvalidArgumentException(
-                sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid))
-            );
+            throw new \InvalidArgumentException(sprintf('The Router does not support the following options: "%s".', implode('", "', $invalid)));
         }
     }
 

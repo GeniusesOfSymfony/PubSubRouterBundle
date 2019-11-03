@@ -54,12 +54,7 @@ class RouteCompiler implements RouteCompilerInterface
         $needsUtf8 = $route->getOption('utf8');
 
         if (!$needsUtf8 && $useUtf8 && preg_match('/[\x80-\xFF]/', $pattern)) {
-            throw new \LogicException(
-                sprintf(
-                    'Cannot use UTF-8 route patterns without setting the "utf8" option for pattern "%s".',
-                    $pattern
-                )
-            );
+            throw new \LogicException(sprintf('Cannot use UTF-8 route patterns without setting the "utf8" option for pattern "%s".', $pattern));
         }
 
         if (!$useUtf8 && $needsUtf8) {
@@ -90,34 +85,15 @@ class RouteCompiler implements RouteCompilerInterface
             // A PCRE subpattern name must start with a non-digit. Also a PHP variable cannot start with a digit so the
             // variable would not be usable as a Controller action argument.
             if (preg_match('/^\d/', $varName)) {
-                throw new \DomainException(
-                    sprintf(
-                        'Variable name "%s" cannot start with a digit in route pattern "%s". Please use a different name.',
-                        $varName,
-                        $pattern
-                    )
-                );
+                throw new \DomainException(sprintf('Variable name "%s" cannot start with a digit in route pattern "%s". Please use a different name.', $varName, $pattern));
             }
 
             if (\in_array($varName, $variables)) {
-                throw new \LogicException(
-                    sprintf(
-                        'Route pattern "%s" cannot reference variable name "%s" more than once.',
-                        $pattern,
-                        $varName
-                    )
-                );
+                throw new \LogicException(sprintf('Route pattern "%s" cannot reference variable name "%s" more than once.', $pattern, $varName));
             }
 
             if (\strlen($varName) > self::VARIABLE_MAXIMUM_LENGTH) {
-                throw new \DomainException(
-                    sprintf(
-                        'Variable name "%s" cannot be longer than %s characters in route pattern "%s". Please use a shorter name.',
-                        $varName,
-                        self::VARIABLE_MAXIMUM_LENGTH,
-                        $pattern
-                    )
-                );
+                throw new \DomainException(sprintf('Variable name "%s" cannot be longer than %s characters in route pattern "%s". Please use a shorter name.', $varName, self::VARIABLE_MAXIMUM_LENGTH, $pattern));
             }
 
             if ($isSeparator && $precedingText !== $precedingChar) {
@@ -157,23 +133,11 @@ class RouteCompiler implements RouteCompilerInterface
                 if (!preg_match('//u', $regexp)) {
                     $useUtf8 = false;
                 } elseif (!$needsUtf8 && preg_match('/[\x80-\xFF]|(?<!\\\\)\\\\(?:\\\\\\\\)*+(?-i:X|[pP][\{CLMNPSZ]|x\{[A-Fa-f0-9]{3})/', $regexp)) {
-                    throw new \LogicException(
-                        sprintf(
-                            'Cannot use UTF-8 route requirements without setting the "utf8" option for variable "%s" in pattern "%s".',
-                            $varName,
-                            $pattern
-                        )
-                    );
+                    throw new \LogicException(sprintf('Cannot use UTF-8 route requirements without setting the "utf8" option for variable "%s" in pattern "%s".', $varName, $pattern));
                 }
 
                 if (!$useUtf8 && $needsUtf8) {
-                    throw new \LogicException(
-                        sprintf(
-                            'Cannot mix UTF-8 requirement with non-UTF-8 charset for variable "%s" in pattern "%s".',
-                            $varName,
-                            $pattern
-                        )
-                    );
+                    throw new \LogicException(sprintf('Cannot mix UTF-8 requirement with non-UTF-8 charset for variable "%s" in pattern "%s".', $varName, $pattern));
                 }
 
                 $regexp = self::transformCapturingGroupsToNonCapturings($regexp);

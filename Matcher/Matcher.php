@@ -20,9 +20,6 @@ class Matcher implements MatcherInterface
      */
     protected $routes;
 
-    /**
-     * @param RouteCollection $routes
-     */
     public function __construct(RouteCollection $routes)
     {
         $this->routes = $routes;
@@ -41,7 +38,7 @@ class Matcher implements MatcherInterface
     }
 
     /**
-     * @return array containing the matched route name, the Route object, and the request attributes
+     * @return array|null containing the matched route name, the Route object, and the request attributes
      */
     protected function matchCollection(string $channel, RouteCollection $routes): ?array
     {
@@ -87,14 +84,6 @@ class Matcher implements MatcherInterface
         return $this->mergeDefaults($attributes, $route->getDefaults());
     }
 
-    /**
-     * Get merged default parameters.
-     *
-     * @param array $params
-     * @param array $defaults
-     *
-     * @return array
-     */
     protected function mergeDefaults(array $params, array $defaults): array
     {
         foreach ($params as $key => $value) {

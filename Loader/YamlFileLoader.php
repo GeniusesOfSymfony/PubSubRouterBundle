@@ -96,10 +96,7 @@ class YamlFileLoader extends FileLoader
         }
 
         if ($extraKeys = array_diff(array_keys($config), self::AVAILABLE_KEYS)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The routing file "%s" contains unsupported keys for "%s": "%s". Expected one of: "%s".',
-                $path, $name, implode('", "', $extraKeys), implode('", "', self::AVAILABLE_KEYS)
-            ));
+            throw new \InvalidArgumentException(sprintf('The routing file "%s" contains unsupported keys for "%s": "%s". Expected one of: "%s".', $path, $name, implode('", "', $extraKeys), implode('", "', self::AVAILABLE_KEYS)));
         }
 
         if (!isset($config['channel'])) {

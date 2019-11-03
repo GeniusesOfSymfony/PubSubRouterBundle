@@ -57,17 +57,7 @@ class Generator implements GeneratorInterface
                 if (!$optional || !\array_key_exists($token[3], $defaults) || null !== $mergedParams[$token[3]] && (string) $mergedParams[$token[3]] !== (string) $defaults[$token[3]]) {
                     // check requirement
                     if (!preg_match('#^'.$token[2].'$#'.(empty($token[4]) ? '' : 'u'), $mergedParams[$token[3]])) {
-                        throw new InvalidParameterException(
-                            strtr(
-                                $message,
-                                [
-                                    '{parameter}' => $token[3],
-                                    '{route}' => $routeName,
-                                    '{expected}' => $token[2],
-                                    '{given}' => $mergedParams[$token[3]],
-                                ]
-                            )
-                        );
+                        throw new InvalidParameterException(strtr($message, ['{parameter}' => $token[3], '{route}' => $routeName, '{expected}' => $token[2], '{given}' => $mergedParams[$token[3]]]));
                     }
 
                     $url = $token[1].$mergedParams[$token[3]].$url;

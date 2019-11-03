@@ -135,12 +135,7 @@ class Route implements \Serializable
     public function setCallback($callback): self
     {
         if (!\is_callable($callback) && !\is_string($callback)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The callback for a route must be a PHP callable or a string, a "%s" was given.',
-                    \gettype($callback)
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('The callback for a route must be a PHP callable or a string, a "%s" was given.', \gettype($callback)));
         }
 
         $this->callback = $callback;
