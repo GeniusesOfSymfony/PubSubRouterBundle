@@ -22,12 +22,6 @@ services:
         tags:
             - { name: gos_pubsub_router.routing.loader }
 
-    gos_pubsub_router.router.cache_warmer:
-        alias: gos_pubsub_router.cache_warmer.router
-
-    gos_pubsub_router.router.registry:
-        alias: gos_pubsub_router.router_registry
-
     gos_pubsub_router.router_registry:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
         public: false

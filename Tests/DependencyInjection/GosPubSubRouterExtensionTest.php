@@ -46,23 +46,6 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
     }
 
-    public function testContainerIsNotLoadedWithAnInvalidRouterName()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $routerConfig = [
-            'routers' => [
-                'registry' => [
-                    'resources' => [
-                        'routing.yml',
-                    ],
-                ],
-            ],
-        ];
-
-        $this->load($routerConfig);
-    }
-
     protected function getContainerExtensions(): array
     {
         return [

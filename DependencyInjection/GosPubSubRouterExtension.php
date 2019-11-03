@@ -18,22 +18,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class GosPubSubRouterExtension extends Extension
 {
     /**
-     * Map containing a list of deprecated service keys where the key is the deprecated alias and the value is the new service identifier.
-     */
-    private const DEPRECATED_SERVICE_ALIASES = [
-        'gos_pubsub_router.router.cache_warmer' => 'gos_pubsub_router.cache_warmer.router',
-        'gos_pubsub_router.router.registry' => 'gos_pubsub_router.router_registry',
-    ];
-
-    /**
-     * Map holding a list of router names that are reserved and cannot be used where the key is the name and the value is the reason it is reserved.
-     */
-    private const RESERVED_ROUTER_NAMES = [
-        'cache_warmer' => 'A router cannot be named "cache_warmer" because it conflicts with the "gos_pubsub_router.router.cache_warmer" service, please use another router name.',
-        'registry' => 'A router cannot be named "registry" because it conflicts with the "gos_pubsub_router.router.registry" service, please use another router name.',
-    ];
-
-    /**
      * @throws InvalidArgumentException if a configured router uses a reserved name
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -57,14 +41,9 @@ class GosPubSubRouterExtension extends Extension
         ];
 
         $registryDefinition = $container->getDefinition('gos_pubsub_router.router_registry');
-        $reservedRouterNames = array_keys(self::RESERVED_ROUTER_NAMES);
 
         foreach ($config['routers'] as $routerName => $routerConfig) {
             $lowerRouterName = strtolower($routerName);
-
-            if (\in_array($lowerRouterName, $reservedRouterNames, true)) {
-                throw new InvalidArgumentException(self::RESERVED_ROUTER_NAMES[$lowerRouterName]);
-            }
 
             $routerOptions = array_merge(
                 $baseRouterOptions,
@@ -91,17 +70,6 @@ class GosPubSubRouterExtension extends Extension
 
             // Register router to the registry
             $registryDefinition->addMethodCall('addRouter', [new Reference($serviceId)]);
-        }
-
-        // Mark service aliases deprecated if able
-        foreach (self::DEPRECATED_SERVICE_ALIASES as $deprecatedAlias => $newService) {
-            if ($container->hasAlias($deprecatedAlias)) {
-                $container->getAlias($deprecatedAlias)
-                    ->setDeprecated(
-                        true,
-                        'The "%alias_id%" service alias is deprecated and will be removed in GosPubSubRouterBundle 2.0, you should use the "'.$newService.'" service instead.'
-                    );
-            }
         }
     }
 
