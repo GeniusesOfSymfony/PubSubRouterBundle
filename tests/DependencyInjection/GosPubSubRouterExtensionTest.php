@@ -4,7 +4,6 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {

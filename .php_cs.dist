@@ -17,9 +17,8 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->notPath('Tests/Fixtures/dumper') // Generated fixtures
-            ->notPath('vendor')
-            ->in(__DIR__)
-            ->append([__DIR__.'/GosPubSubRouterBundle.php', __FILE__])
+            ->notPath('Fixtures/dumper') // Generated fixtures
+            ->in(__DIR__.'/src')
+            ->in(__DIR__.'/tests')
     )
 ;

@@ -27,10 +27,10 @@
         "phpunit/phpunit": "^8.0"
     },
     "autoload": {
-        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\Tests\\": "tests/" }
     },
     "extra": {
         "branch-alias": {
