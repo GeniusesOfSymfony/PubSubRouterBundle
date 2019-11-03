@@ -1,5 +1,5 @@
 parameters:
-  level: 2
+  level: 3
   paths:
     - %currentWorkingDirectory%/src
     - %currentWorkingDirectory%/tests
@@ -16,4 +16,7 @@ parameters:
     - '/Instantiated class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator|ProjectMatcher) not found\./'
     - '/Call to method generate\(\) on an unknown class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator)\./'
     - '/Call to method match\(\) on an unknown class ProjectMatcher\./'
+
+    # Need to correct the return type documented in StaticPrefixCollection::$items, for now ignore
+    - '/Array \(array<array>\) does not accept Gos\\Bundle\\PubSubRouterBundle\\Matcher\\Dumper\\StaticPrefixCollection\./'
   reportUnmatchedIgnoredErrors: false

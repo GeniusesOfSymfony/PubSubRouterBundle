@@ -11,22 +11,22 @@ use PHPUnit\Framework\TestCase;
 class PhpGeneratorDumperTest extends TestCase
 {
     /**
-     * @var RouteCollection
+     * @var RouteCollection|null
      */
     private $routeCollection;
 
     /**
-     * @var PhpGeneratorDumper
+     * @var PhpGeneratorDumper|null
      */
     private $generatorDumper;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $testTmpFilepath;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $largeTestTmpFilepath;
 
@@ -51,6 +51,7 @@ class PhpGeneratorDumperTest extends TestCase
         $this->routeCollection = null;
         $this->generatorDumper = null;
         $this->testTmpFilepath = null;
+        $this->largeTestTmpFilepath = null;
     }
 
     public function testDumpWithRoutes()
