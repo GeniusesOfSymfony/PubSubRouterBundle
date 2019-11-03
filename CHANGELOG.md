@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 (2019-11-03)
+
+- Raises required PHP version to 7.2
+- Allows Symfony 5 components where able
+
 ## 1.1.0 (2019-08-11)
 
 - Adjust configuration for changes introduced in Symfony 4.2
