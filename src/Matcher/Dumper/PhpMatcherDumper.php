@@ -238,7 +238,9 @@ EOF;
                 $prev = $rx[0];
             }
 
-            $routes->add($name, $route);
+            if (isset($routes)) {
+                $routes->add($name, $route);
+            }
         }
 
         foreach ($perModifiers as list($modifiers, $routes)) {

@@ -1,0 +1,19 @@
+parameters:
+  level: 2
+  paths:
+    - %currentWorkingDirectory%/src
+    - %currentWorkingDirectory%/tests
+  excludes_analyse:
+    - %currentWorkingDirectory%/tests/Fixtures/*
+  ignoreErrors:
+    # Symfony config builder
+    - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::(addDefaultsIfNotSet|children)\(\)\./'
+
+    # PHPUnit mocks
+    - '#PHPUnit\\Framework\\MockObject\\MockObject(.*) given#'
+
+    # Router fixture classes (not autoloaded)
+    - '/Instantiated class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator|ProjectMatcher) not found\./'
+    - '/Call to method generate\(\) on an unknown class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator)\./'
+    - '/Call to method match\(\) on an unknown class ProjectMatcher\./'
+  reportUnmatchedIgnoredErrors: false
