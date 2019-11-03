@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (2019-11-03)
+
+- Compatibility fixes for Symfony 5
+
+## 1.2.0 (2019-11-03)
+
+- Compatibility fixes for Symfony 5
+
 ## 1.1.0 (2019-08-11)
 
 - Adjust configuration for changes introduced in Symfony 4.2
