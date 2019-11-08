@@ -1,7 +1,7 @@
 GosPubSubRouterBundle
 ========================
 
-[![Latest Stable Version](https://poser.pugx.org/gos/pubsub-router-bundle/v/stable)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Latest Unstable Version](https://poser.pugx.org/gos/pubsub-router-bundle/v/unstable)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Total Downloads](https://poser.pugx.org/gos/pubsub-router-bundle/downloads)](https://packagist.org/packages/gos/pubsub-router-bundle) [![License](https://poser.pugx.org/gos/pubsub-router-bundle/license)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Build Status](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle.svg?branch=1.x)](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle)
+[![Latest Stable Version](https://poser.pugx.org/gos/pubsub-router-bundle/v/stable)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Latest Unstable Version](https://poser.pugx.org/gos/pubsub-router-bundle/v/unstable)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Total Downloads](https://poser.pugx.org/gos/pubsub-router-bundle/downloads)](https://packagist.org/packages/gos/pubsub-router-bundle) [![License](https://poser.pugx.org/gos/pubsub-router-bundle/license)](https://packagist.org/packages/gos/pubsub-router-bundle) [![Build Status](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/PubSubRouterBundle)
 
 About
 -----
