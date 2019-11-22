@@ -43,6 +43,7 @@ before_install:
 
 before_script:
   - composer global require --no-scripts --no-plugins symfony/flex
+  - composer remove --dev --no-update friendsofphp/php-cs-fixer
   - composer update $COMPOSER_FLAGS
 
 script:
