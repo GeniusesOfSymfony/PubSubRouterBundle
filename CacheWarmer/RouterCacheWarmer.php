@@ -4,11 +4,10 @@ namespace Gos\Bundle\PubSubRouterBundle\CacheWarmer;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
-class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
+class RouterCacheWarmer implements CacheWarmerInterface, CompatibilityServiceSubscriberInterface
 {
     /**
      * @var ContainerInterface
