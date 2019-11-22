@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1 (2019-11-22)
+
+- Add missing exit code in debug command (needed for Symfony 5 compat)
+
 ## 1.4.0 (2019-11-22)
 
 - Compatibility fixes for Symfony 5
