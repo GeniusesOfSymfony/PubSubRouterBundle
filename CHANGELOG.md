@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 (2019-11-22)
+
+- Compatibility fixes for Symfony 5
+
 ## 1.3.0 (2019-11-03)
 
 - Compatibility fixes for Symfony 5
