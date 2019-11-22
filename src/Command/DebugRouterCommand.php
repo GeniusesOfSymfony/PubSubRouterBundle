@@ -80,6 +80,8 @@ class DebugRouterCommand extends Command
         }
 
         $table->render();
+
+        return 0;
     }
 
     private function formatCallable($callable): string
