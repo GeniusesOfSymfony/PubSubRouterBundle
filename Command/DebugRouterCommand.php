@@ -80,5 +80,7 @@ class DebugRouterCommand extends Command
         }
 
         $table->render();
+
+        return 0;
     }
 }
