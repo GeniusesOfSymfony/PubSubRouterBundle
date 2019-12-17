@@ -64,7 +64,7 @@ class DebugRouterCommand extends Command
         $table->setHeaders(['Name', 'Pattern', 'Callback']);
 
         /**
-         * @var string
+         * @var string $name
          * @var Route  $route
          */
         foreach ($router->getCollection() as $name => $route) {

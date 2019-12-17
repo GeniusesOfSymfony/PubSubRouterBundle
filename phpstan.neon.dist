@@ -19,4 +19,9 @@ parameters:
 
     # Need to correct the return type documented in StaticPrefixCollection::$items, for now ignore
     - '/Array \(array<array>\) does not accept Gos\\Bundle\\PubSubRouterBundle\\Matcher\\Dumper\\StaticPrefixCollection\./'
+
+    # Class used for compatibility checks
+    -
+      message: '/Class Symfony\\Component\\Config\\Exception\\FileLoaderLoadException not found\./'
+      path: %currentWorkingDirectory%/src/Loader/CompatibilityYamlFileLoader.php
   reportUnmatchedIgnoredErrors: false
