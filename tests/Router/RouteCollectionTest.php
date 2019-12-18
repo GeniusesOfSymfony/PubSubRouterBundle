@@ -122,7 +122,6 @@ class RouteCollectionTest extends TestCase
         $this->assertSame($c, $collection1->get('$péß^a|'), '->get() can handle special characters');
         $this->assertNull($collection2->get('a'), '->get() does not return the route defined in parent collection');
         $this->assertNull($collection1->get('non-existent'), '->get() returns null when route does not exist');
-        $this->assertNull($collection1->get(0), '->get() does not disclose internal child RouteCollection');
     }
 
     public function testRemove()
