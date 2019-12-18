@@ -136,7 +136,7 @@ class RouteTest extends TestCase
     /**
      * @dataProvider getInvalidRequirements
      */
-    public function testSetInvalidRequirement($req): void
+    public function testSetInvalidRequirement(string $req): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -144,14 +144,12 @@ class RouteTest extends TestCase
         $route->setRequirement('foo', $req);
     }
 
-    public function getInvalidRequirements()
+    public function getInvalidRequirements(): \Generator
     {
-        return [
-            [''],
-            ['^$'],
-            ['^'],
-            ['$'],
-        ];
+        yield [''];
+        yield ['^$'];
+        yield ['^'];
+        yield ['$'];
     }
 
     public function testCompile(): void

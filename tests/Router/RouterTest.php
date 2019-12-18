@@ -100,7 +100,7 @@ class RouterTest extends TestCase
     /**
      * @dataProvider provideMatcherOptionsPreventingCaching
      */
-    public function testMatcherIsCreatedIfCacheIsNotConfigured($option): void
+    public function testMatcherIsCreatedIfCacheIsNotConfigured(string $option): void
     {
         $this->router->setOption($option, null);
 
@@ -112,18 +112,16 @@ class RouterTest extends TestCase
         $this->assertInstanceOf(Matcher::class, $this->router->getMatcher());
     }
 
-    public function provideMatcherOptionsPreventingCaching()
+    public function provideMatcherOptionsPreventingCaching(): \Generator
     {
-        return [
-            ['cache_dir'],
-            ['matcher_cache_class'],
-        ];
+        yield ['cache_dir'];
+        yield ['matcher_cache_class'];
     }
 
     /**
      * @dataProvider provideGeneratorOptionsPreventingCaching
      */
-    public function testGeneratorIsCreatedIfCacheIsNotConfigured($option): void
+    public function testGeneratorIsCreatedIfCacheIsNotConfigured(string $option): void
     {
         $this->router->setOption($option, null);
 
@@ -135,12 +133,10 @@ class RouterTest extends TestCase
         $this->assertInstanceOf(Generator::class, $this->router->getGenerator());
     }
 
-    public function provideGeneratorOptionsPreventingCaching()
+    public function provideGeneratorOptionsPreventingCaching(): \Generator
     {
-        return [
-            ['cache_dir'],
-            ['generator_cache_class'],
-        ];
+        yield ['cache_dir'];
+        yield ['generator_cache_class'];
     }
 
     public function testResourcesAreLoadedToCollection(): void

@@ -123,6 +123,8 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
+     * @param mixed $value
+     *
      * @throws \InvalidArgumentException when an unsupported option is provided
      */
     public function setOption(string $key, $value): void
@@ -135,6 +137,8 @@ class Router implements RouterInterface, WarmableInterface
     }
 
     /**
+     * @return mixed
+     *
      * @throws \InvalidArgumentException when an unsupported option is provided
      */
     public function getOption(string $key)

@@ -78,6 +78,9 @@ class DebugRouterCommand extends Command
         return 0;
     }
 
+    /**
+     * @param callable $callable
+     */
     private function formatCallable($callable): string
     {
         if (\is_array($callable)) {

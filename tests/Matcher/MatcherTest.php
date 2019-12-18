@@ -272,7 +272,7 @@ class MatcherTest extends TestCase
         $this->assertEquals('a', $matcher->match('éo')[0]);
     }
 
-    protected function getMatcher(RouteCollection $routes)
+    protected function getMatcher(RouteCollection $routes): Matcher
     {
         return new Matcher($routes);
     }

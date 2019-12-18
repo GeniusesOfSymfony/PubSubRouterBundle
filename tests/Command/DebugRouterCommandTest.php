@@ -41,7 +41,7 @@ class DebugRouterCommandTest extends TestCase
         $this->assertSame(1, $commandTester->getStatusCode());
     }
 
-    private function buildRegistryWithValidRouter()
+    private function buildRegistryWithValidRouter(): RouterRegistry
     {
         $router = new Router(
             'test',

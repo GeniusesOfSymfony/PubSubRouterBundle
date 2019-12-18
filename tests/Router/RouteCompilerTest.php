@@ -10,10 +10,9 @@ class RouteCompilerTest extends TestCase
     /**
      * @dataProvider provideCompileData
      */
-    public function testCompile($name, $arguments, $prefix, $regex, $variables, $tokens): void
+    public function testCompile(string $name, array $arguments, string $prefix, string $regex, array $variables, array $tokens): void
     {
-        $r = new \ReflectionClass(Route::class);
-        $route = $r->newInstanceArgs($arguments);
+        $route = new Route(...$arguments);
 
         $compiled = $route->compile();
         $this->assertEquals($prefix, $compiled->getStaticPrefix(), $name.' (static prefix)');
@@ -22,7 +21,7 @@ class RouteCompilerTest extends TestCase
         $this->assertEquals($tokens, $compiled->getTokens(), $name.' (tokens)');
     }
 
-    public function provideCompileData()
+    public function provideCompileData(): array
     {
         return [
             [

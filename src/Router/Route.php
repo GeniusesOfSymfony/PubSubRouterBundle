@@ -166,6 +166,9 @@ class Route implements \Serializable
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefault(string $name)
     {
         return $this->defaults[$name] ?? null;
@@ -176,6 +179,9 @@ class Route implements \Serializable
         return isset($this->defaults[$name]);
     }
 
+    /**
+     * @param mixed $default
+     */
     public function setDefault(string $name, $default): self
     {
         $this->defaults[$name] = $default;
@@ -250,6 +256,9 @@ class Route implements \Serializable
         return $this;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function setOption(string $name, $value): self
     {
         $this->options[$name] = $value;

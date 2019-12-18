@@ -28,6 +28,8 @@ class YamlFileLoader extends CompatibilityYamlFileLoader
     private $yamlParser;
 
     /**
+     * @param mixed $resource
+     *
      * @throws \InvalidArgumentException if the resource cannot be processed
      */
     protected function doLoad($resource, string $type = null): RouteCollection
@@ -105,6 +107,9 @@ class YamlFileLoader extends CompatibilityYamlFileLoader
         }
     }
 
+    /**
+     * @param mixed $resource
+     */
     protected function doSupports($resource, string $type = null): bool
     {
         return \is_string($resource)

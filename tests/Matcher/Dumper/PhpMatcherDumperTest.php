@@ -64,7 +64,7 @@ class PhpMatcherDumperTest extends TestCase
     /**
      * @dataProvider getRouteCollections
      */
-    public function testDump(RouteCollection $collection, $fixture, $options = []): void
+    public function testDump(RouteCollection $collection, string $fixture, array $options = []): void
     {
         $basePath = __DIR__.'/../../Fixtures/dumper/';
 
@@ -72,7 +72,7 @@ class PhpMatcherDumperTest extends TestCase
         $this->assertStringEqualsFile($basePath.$fixture, $dumper->dump($options), '->dump() correctly dumps routes as optimized PHP code.');
     }
 
-    public function getRouteCollections()
+    public function getRouteCollections(): array
     {
         /* test case 1 */
 

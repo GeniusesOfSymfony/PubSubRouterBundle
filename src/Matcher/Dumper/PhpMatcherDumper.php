@@ -8,6 +8,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class PhpMatcherDumper extends MatcherDumper
 {
+    /**
+     * @var \RuntimeException
+     */
     private $signalingException;
 
     /**
@@ -82,7 +85,7 @@ EOF;
      */
     private function compileRoutes(RouteCollection $routes): string
     {
-        list($staticRoutes, $dynamicRoutes) = $this->groupStaticRoutes($routes);
+        [$staticRoutes, $dynamicRoutes] = $this->groupStaticRoutes($routes);
 
         $code = $this->compileStaticRoutes($staticRoutes);
         $chunkLimit = \count($dynamicRoutes);
@@ -229,7 +232,7 @@ EOF;
             }
         }
 
-        foreach ($perModifiers as list($modifiers, $routes)) {
+        foreach ($perModifiers as [$modifiers, $routes]) {
             $rx = '{^(?';
             $code .= self::export($rx);
             $state->mark += \strlen($rx);
@@ -253,7 +256,7 @@ EOF;
             $state->markTail = 0;
 
             // if the regex is too large, throw a signaling exception to recompute with smaller chunk size
-            set_error_handler(function ($type, $message): void { throw 0 === strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
+            set_error_handler(function (int $type, string $message, string $file, int $line): void { throw 0 === strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
             try {
                 preg_match($state->regex, '');
             } finally {
@@ -325,7 +328,7 @@ EOF;
              * @var array  $vars
              * @var Route  $route
              */
-            list($name, $regex, $vars, $route) = $route;
+            [$name, $regex, $vars, $route] = $route;
             $compiledRoute = $route->compile();
 
             if ($compiledRoute->getRegex() === $prevRegex) {
@@ -475,6 +478,8 @@ EOF;
     }
 
     /**
+     * @param mixed $value
+     *
      * @throws \InvalidArgumentException if the value contains invalid data
      *
      * @internal

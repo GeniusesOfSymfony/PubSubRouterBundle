@@ -165,12 +165,12 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['page' => 'index', '_format' => 'sl/ash']);
     }
 
-    protected function getGenerator(RouteCollection $routes)
+    protected function getGenerator(RouteCollection $routes): Generator
     {
         return new Generator($routes);
     }
 
-    protected function getRoutes($name, Route $route)
+    protected function getRoutes(string $name, Route $route): RouteCollection
     {
         $routes = new RouteCollection();
         $routes->add($name, $route);

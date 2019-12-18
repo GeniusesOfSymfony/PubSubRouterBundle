@@ -11,7 +11,7 @@ class StaticPrefixCollectionTest extends TestCase
     /**
      * @dataProvider routeProvider
      */
-    public function testGrouping(array $routes, $expected): void
+    public function testGrouping(array $routes, string $expected): void
     {
         $collection = new StaticPrefixCollection('');
 
@@ -25,7 +25,7 @@ class StaticPrefixCollectionTest extends TestCase
         $this->assertEquals($expected, $dumped);
     }
 
-    public function routeProvider()
+    public function routeProvider(): array
     {
         return [
             'Simple - not nested' => [
@@ -159,7 +159,7 @@ EOF
         ];
     }
 
-    private function dumpCollection(StaticPrefixCollection $collection, $prefix = '')
+    private function dumpCollection(StaticPrefixCollection $collection, string $prefix = ''): string
     {
         $lines = [];
 

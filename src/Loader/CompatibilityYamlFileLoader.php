@@ -15,18 +15,30 @@ if (class_exists(FileLoaderLoadException::class)) {
      */
     abstract class CompatibilityYamlFileLoader extends FileLoader
     {
-        public function load($resource, $type = null)
+        /**
+         * @param mixed $resource
+         */
+        public function load($resource, $type = null): RouteCollection
         {
             return $this->doLoad($resource, $type);
         }
 
+        /**
+         * @param mixed $resource
+         */
         abstract protected function doLoad($resource, string $type = null): RouteCollection;
 
-        public function supports($resource, $type = null)
+        /**
+         * @param mixed $resource
+         */
+        public function supports($resource, $type = null): bool
         {
             return $this->doSupports($resource, $type);
         }
 
+        /**
+         * @param mixed $resource
+         */
         abstract protected function doSupports($resource, string $type = null): bool;
     }
 } else {
@@ -37,18 +49,30 @@ if (class_exists(FileLoaderLoadException::class)) {
      */
     abstract class CompatibilityYamlFileLoader extends FileLoader
     {
-        public function load($resource, string $type = null)
+        /**
+         * @param mixed $resource
+         */
+        public function load($resource, string $type = null): RouteCollection
         {
             return $this->doLoad($resource, $type);
         }
 
+        /**
+         * @param mixed $resource
+         */
         abstract protected function doLoad($resource, string $type = null): RouteCollection;
 
-        public function supports($resource, string $type = null)
+        /**
+         * @param mixed $resource
+         */
+        public function supports($resource, string $type = null): bool
         {
             return $this->doSupports($resource, $type);
         }
 
+        /**
+         * @param mixed $resource
+         */
         abstract protected function doSupports($resource, string $type = null): bool;
     }
 }
