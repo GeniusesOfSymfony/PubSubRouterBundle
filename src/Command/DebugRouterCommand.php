@@ -38,6 +38,7 @@ class DebugRouterCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        /** @var string $rname */
         $rname = $input->getOption('router_name');
 
         if (!$this->registry->hasRouter($rname)) {
@@ -107,7 +108,7 @@ class DebugRouterCommand extends Command
             return $r->name.'()';
         }
 
-        if (method_exists($callable, '__invoke')) {
+        if (is_object($callable) && method_exists($callable, '__invoke')) {
             return sprintf('%s::__invoke()', \get_class($callable));
         }
 

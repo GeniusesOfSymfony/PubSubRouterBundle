@@ -50,7 +50,7 @@ class RouteCompiler implements RouteCompilerInterface
         $matches = [];
         $pos = 0;
         $defaultSeparator = '/';
-        $useUtf8 = preg_match('//u', $pattern);
+        $useUtf8 = (bool) preg_match('//u', $pattern);
         $needsUtf8 = $route->getOption('utf8');
 
         if (!$needsUtf8 && $useUtf8 && preg_match('/[\x80-\xFF]/', $pattern)) {
@@ -156,7 +156,7 @@ class RouteCompiler implements RouteCompilerInterface
 
         for ($i = \count($tokens) - 1; $i >= 0; --$i) {
             $token = $tokens[$i];
-            if ('variable' === $token[0] && $route->hasDefault($token[3])) {
+            if ('variable' === $token[0] && isset($token[3]) && $route->hasDefault($token[3])) {
                 $firstOptional = $i;
             } else {
                 break;

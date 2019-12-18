@@ -1,5 +1,5 @@
 parameters:
-  level: 6
+  level: 7
   paths:
     - %currentWorkingDirectory%/src
     - %currentWorkingDirectory%/tests
@@ -22,6 +22,11 @@ parameters:
     # Ignore missing deprecated error handler argument
     -
       message: '/Parameter #1 \$error_handler of function set_error_handler expects \(callable\(int, string, string, int, array\)\: bool\)\|null, Closure\(int, string, string, int\)\: void given\./'
+      path: %currentWorkingDirectory%/src/Matcher/Dumper/PhpMatcherDumper.php
+
+    # Ignore array access warning on mixed variable structure
+    -
+      message: '/Cannot access offset 1 on array<int, string>\|Gos\\Bundle\\PubSubRouterBundle\\Matcher\\Dumper\\StaticPrefixCollection\./'
       path: %currentWorkingDirectory%/src/Matcher/Dumper/PhpMatcherDumper.php
 
     # Ignore missing typehints for Serializable
@@ -55,6 +60,11 @@ parameters:
     -
       message: "/Strict comparison using === between '\\?' and '\\(' will always evaluate to false\\./"
       path: %currentWorkingDirectory%/src/Router/RouteCompiler.php
+
+    # Ignore parameter warning for not error checking realpath() return in tests
+    -
+      message: '/Parameter #1 \$resource of class Symfony\\Component\\Config\\Resource\\FileResource constructor expects string, string\|false given\./'
+      path: %currentWorkingDirectory%/tests/Loader/YamlFileLoaderTest.php
   reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
   checkGenericClassInNonGenericObjectType: false
