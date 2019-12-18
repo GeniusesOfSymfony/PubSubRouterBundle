@@ -11,7 +11,7 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class YamlFileLoaderTest extends TestCase
 {
-    public function testSupports()
+    public function testSupports(): void
     {
         $loader = new YamlFileLoader($this->getMockBuilder(FileLocator::class)->getMock());
 
@@ -24,7 +24,7 @@ class YamlFileLoaderTest extends TestCase
         $this->assertFalse($loader->supports('foo.yml', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadDoesNothingIfEmpty()
+    public function testLoadDoesNothingIfEmpty(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $collection = $loader->load('empty.yml');
@@ -36,7 +36,7 @@ class YamlFileLoaderTest extends TestCase
         );
     }
 
-    public function testLoadThrowsExceptionWithInvalidFile()
+    public function testLoadThrowsExceptionWithInvalidFile(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -44,7 +44,7 @@ class YamlFileLoaderTest extends TestCase
         $loader->load('nonvalid.yml');
     }
 
-    public function testLoadWithRoute()
+    public function testLoadWithRoute(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validchannel.yml');

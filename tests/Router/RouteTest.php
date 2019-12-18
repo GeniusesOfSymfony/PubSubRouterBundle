@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $route = new Route('{foo}', 'strlen', ['foo' => 'bar'], ['foo' => '\d+'], ['foo' => 'bar']);
         $this->assertEquals('{foo}', $route->getPattern(), '__construct() takes a pattern as its first argument');
@@ -27,7 +27,7 @@ class RouteTest extends TestCase
         $this->assertEquals('bar', $route->getOption('foo'), '__construct() takes options as its fifth argument');
     }
 
-    public function testPattern()
+    public function testPattern(): void
     {
         $route = new Route('{foo}', 'strlen');
         $route->setPattern('{bar}');
@@ -36,7 +36,7 @@ class RouteTest extends TestCase
         $this->assertEquals('', $route->getPattern(), '->setPattern() allows an empty path');
     }
 
-    public function testOptions()
+    public function testOptions(): void
     {
         $route = new Route('{foo}', 'strlen');
         $route->setOptions(['foo' => 'bar']);
@@ -60,7 +60,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testOption()
+    public function testOption(): void
     {
         $route = new Route('{foo}', 'strlen');
         $this->assertFalse($route->hasOption('foo'), '->hasOption() return false if option is not set');
@@ -69,7 +69,7 @@ class RouteTest extends TestCase
         $this->assertTrue($route->hasOption('foo'), '->hasOption() return true if option is set');
     }
 
-    public function testDefaults()
+    public function testDefaults(): void
     {
         $route = new Route('{foo}', 'strlen');
         $route->setDefaults(['foo' => 'bar']);
@@ -101,7 +101,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRequirements()
+    public function testRequirements(): void
     {
         $route = new Route('{foo}', 'strlen');
         $route->setRequirements(['foo' => '\d+']);
@@ -124,7 +124,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRequirement()
+    public function testRequirement(): void
     {
         $route = new Route('{foo}', 'strlen');
         $this->assertFalse($route->hasRequirement('foo'), '->hasRequirement() return false if requirement is not set');
@@ -136,7 +136,7 @@ class RouteTest extends TestCase
     /**
      * @dataProvider getInvalidRequirements
      */
-    public function testSetInvalidRequirement($req)
+    public function testSetInvalidRequirement($req): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -154,7 +154,7 @@ class RouteTest extends TestCase
         ];
     }
 
-    public function testCompile()
+    public function testCompile(): void
     {
         $route = new Route('{foo}', 'strlen');
         $this->assertInstanceOf(CompiledRoute::class, $compiled = $route->compile(), '->compile() returns a compiled route');
@@ -163,7 +163,7 @@ class RouteTest extends TestCase
         $this->assertNotSame($compiled, $route->compile(), '->compile() recompiles if the route was modified');
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $route = new Route('prefix/{foo}', 'strlen', ['foo' => 'default'], ['foo' => '\d+']);
 
@@ -174,7 +174,7 @@ class RouteTest extends TestCase
         $this->assertNotSame($route, $unserialized);
     }
 
-    public function testInlineDefaultAndRequirement()
+    public function testInlineDefaultAndRequirement(): void
     {
         $this->assertEquals(
             (new Route('foo/{bar}', 'strlen'))->setDefault('bar', null),
@@ -224,7 +224,7 @@ class RouteTest extends TestCase
      * Tests that the compiled version is also serialized to prevent the overhead
      * of compiling it again after unserialize.
      */
-    public function testSerializeWhenCompiled()
+    public function testSerializeWhenCompiled(): void
     {
         $route = new Route('prefix/{foo}', 'strlen', ['foo' => 'default'], ['foo' => '\d+']);
         $route->compile();

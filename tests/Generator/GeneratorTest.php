@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class GeneratorTest extends TestCase
 {
-    public function testWithoutParameters()
+    public function testWithoutParameters(): void
     {
         $routes = $this->getRoutes('test', new Route('testing', 'strlen'));
         $path = $this->getGenerator($routes)->generate('test', []);
@@ -20,7 +20,7 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing', $path);
     }
 
-    public function testWithParameter()
+    public function testWithParameter(): void
     {
         $routes = $this->getRoutes('test', new Route('testing/{foo}', 'strlen'));
         $path = $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
@@ -28,7 +28,7 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing/bar', $path);
     }
 
-    public function testWithNullParameterButNotOptional()
+    public function testWithNullParameterButNotOptional(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -39,7 +39,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', []);
     }
 
-    public function testWithOptionalZeroParameter()
+    public function testWithOptionalZeroParameter(): void
     {
         $routes = $this->getRoutes('test', new Route('testing/{page}', 'strlen'));
         $path = $this->getGenerator($routes)->generate('test', ['page' => 0]);
@@ -47,14 +47,14 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing/0', $path);
     }
 
-    public function testNotPassedOptionalParameterInBetween()
+    public function testNotPassedOptionalParameterInBetween(): void
     {
         $routes = $this->getRoutes('test', new Route('{slug}/{page}', 'strlen', ['slug' => 'index', 'page' => 0]));
         $this->assertSame('index/1', $this->getGenerator($routes)->generate('test', ['page' => 1]));
         $this->assertSame('', $this->getGenerator($routes)->generate('test'));
     }
 
-    public function testWithExtraParameters()
+    public function testWithExtraParameters(): void
     {
         $routes = $this->getRoutes('test', new Route('testing', 'strlen'));
         $path = $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
@@ -62,7 +62,7 @@ class GeneratorTest extends TestCase
         $this->assertEquals('testing', $path);
     }
 
-    public function testGenerateWithoutRoutes()
+    public function testGenerateWithoutRoutes(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -70,7 +70,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', []);
     }
 
-    public function testGenerateForRouteWithoutMandatoryParameter()
+    public function testGenerateForRouteWithoutMandatoryParameter(): void
     {
         $this->expectException(MissingMandatoryParametersException::class);
 
@@ -78,7 +78,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', []);
     }
 
-    public function testGenerateForRouteWithInvalidOptionalParameter()
+    public function testGenerateForRouteWithInvalidOptionalParameter(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -86,7 +86,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
     }
 
-    public function testGenerateForRouteWithInvalidParameter()
+    public function testGenerateForRouteWithInvalidParameter(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -94,7 +94,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => '0']);
     }
 
-    public function testGenerateForRouteWithInvalidMandatoryParameter()
+    public function testGenerateForRouteWithInvalidMandatoryParameter(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -102,7 +102,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => 'bar']);
     }
 
-    public function testGenerateForRouteWithInvalidUtf8Parameter()
+    public function testGenerateForRouteWithInvalidUtf8Parameter(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -113,7 +113,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => 'abc123']);
     }
 
-    public function testRequiredParamAndEmptyPassed()
+    public function testRequiredParamAndEmptyPassed(): void
     {
         $this->expectException(InvalidParameterException::class);
 
@@ -121,7 +121,7 @@ class GeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['slug' => '']);
     }
 
-    public function testAdjacentVariables()
+    public function testAdjacentVariables(): void
     {
         $routes = $this->getRoutes('test', new Route('{x}{y}{z}', 'strlen', ['z' => 'default-z'], ['y' => '\d+']));
         $generator = $this->getGenerator($routes);
@@ -129,7 +129,7 @@ class GeneratorTest extends TestCase
         $this->assertSame('foo123bar', $generator->generate('test', ['x' => 'foo', 'y' => '123', 'z' => 'bar']));
     }
 
-    public function testOptionalVariableWithNoRealSeparator()
+    public function testOptionalVariableWithNoRealSeparator(): void
     {
         $routes = $this->getRoutes('test', new Route('get{what}', 'strlen', ['what' => 'All']));
         $generator = $this->getGenerator($routes);
@@ -138,7 +138,7 @@ class GeneratorTest extends TestCase
         $this->assertSame('getSites', $generator->generate('test', ['what' => 'Sites']));
     }
 
-    public function testRequiredVariableWithNoRealSeparator()
+    public function testRequiredVariableWithNoRealSeparator(): void
     {
         $routes = $this->getRoutes('test', new Route('get{what}Suffix', 'strlen'));
         $generator = $this->getGenerator($routes);
@@ -146,7 +146,7 @@ class GeneratorTest extends TestCase
         $this->assertSame('getSitesSuffix', $generator->generate('test', ['what' => 'Sites']));
     }
 
-    public function testDefaultRequirementOfVariable()
+    public function testDefaultRequirementOfVariable(): void
     {
         $routes = $this->getRoutes('test', new Route('{page}.{_format}', 'strlen'));
         $generator = $this->getGenerator($routes);
@@ -157,7 +157,7 @@ class GeneratorTest extends TestCase
         );
     }
 
-    public function testDefaultRequirementOfVariableDisallowsSlash()
+    public function testDefaultRequirementOfVariableDisallowsSlash(): void
     {
         $this->expectException(InvalidParameterException::class);
 

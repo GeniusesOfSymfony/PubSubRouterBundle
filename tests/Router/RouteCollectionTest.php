@@ -9,7 +9,7 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class RouteCollectionTest extends TestCase
 {
-    public function testRoute()
+    public function testRoute(): void
     {
         $collection = new RouteCollection();
         $route = new Route('/foo', 'strlen');
@@ -19,7 +19,7 @@ class RouteCollectionTest extends TestCase
         $this->assertNull($collection->get('bar'), '->get() returns null if a route does not exist');
     }
 
-    public function testOverriddenRoute()
+    public function testOverriddenRoute(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -28,7 +28,7 @@ class RouteCollectionTest extends TestCase
         $this->assertEquals('/foo1', $collection->get('foo')->getPattern());
     }
 
-    public function testDeepOverriddenRoute()
+    public function testDeepOverriddenRoute(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -46,7 +46,7 @@ class RouteCollectionTest extends TestCase
         $this->assertEquals('/foo2', $collection->get('foo')->getPattern());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -61,7 +61,7 @@ class RouteCollectionTest extends TestCase
         $this->assertSame(['bar' => $bar, 'foo' => $foo, 'last' => $last], $collection->getIterator()->getArrayCopy());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -73,7 +73,7 @@ class RouteCollectionTest extends TestCase
         $this->assertCount(2, $collection);
     }
 
-    public function testAddCollection()
+    public function testAddCollection(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -96,7 +96,7 @@ class RouteCollectionTest extends TestCase
         );
     }
 
-    public function testResource()
+    public function testResource(): void
     {
         $collection = new RouteCollection();
         $collection->addResource($foo = new FileResource(__DIR__.'/../Fixtures/validchannel.yml'));
@@ -109,7 +109,7 @@ class RouteCollectionTest extends TestCase
         );
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $collection1 = new RouteCollection();
         $collection1->add('a', $a = new Route('/a', 'strlen'));
@@ -124,7 +124,7 @@ class RouteCollectionTest extends TestCase
         $this->assertNull($collection1->get('non-existent'), '->get() returns null when route does not exist');
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', $foo = new Route('/foo', 'strlen'));
@@ -140,7 +140,7 @@ class RouteCollectionTest extends TestCase
         $this->assertSame([], $collection->all(), '->remove() accepts an array and can remove multiple routes at once');
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $collection = new RouteCollection();
         $collection->add('a', new Route('/a', 'strlen'));

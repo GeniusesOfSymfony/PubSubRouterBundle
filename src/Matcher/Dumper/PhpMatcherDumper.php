@@ -253,7 +253,7 @@ EOF;
             $state->markTail = 0;
 
             // if the regex is too large, throw a signaling exception to recompute with smaller chunk size
-            set_error_handler(function ($type, $message) { throw 0 === strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
+            set_error_handler(function ($type, $message): void { throw 0 === strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
             try {
                 preg_match($state->regex, '');
             } finally {
@@ -322,8 +322,8 @@ EOF;
             /**
              * @var string $name
              * @var string $regex
-             * @var array $vars
-             * @var Route $route
+             * @var array  $vars
+             * @var Route  $route
              */
             list($name, $regex, $vars, $route) = $route;
             $compiledRoute = $route->compile();

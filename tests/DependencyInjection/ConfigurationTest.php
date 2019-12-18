@@ -12,7 +12,7 @@ use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends TestCase
 {
-    public function testDefaultConfig()
+    public function testDefaultConfig(): void
     {
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), []);
@@ -20,7 +20,7 @@ class ConfigurationTest extends TestCase
         $this->assertEquals(self::getBundleDefaultConfig(), $config);
     }
 
-    public function testWithARouter()
+    public function testWithARouter(): void
     {
         $routerConfig = [
             'routers' => [
@@ -41,7 +41,7 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testWithInvalidRouterNode()
+    public function testWithInvalidRouterNode(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The path "gos_pubsub_router.routers" should have at least 1 element(s) defined.');

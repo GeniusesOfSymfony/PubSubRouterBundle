@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class GosPubSubRouterBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
@@ -30,6 +30,6 @@ class GosPubSubRouterBundle extends Bundle
 
     public function getPath(): string
     {
-    	return \dirname(__DIR__);
+        return \dirname(__DIR__);
     }
 }

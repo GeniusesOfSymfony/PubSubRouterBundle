@@ -10,7 +10,7 @@ class RouteCompilerTest extends TestCase
     /**
      * @dataProvider provideCompileData
      */
-    public function testCompile($name, $arguments, $prefix, $regex, $variables, $tokens)
+    public function testCompile($name, $arguments, $prefix, $regex, $variables, $tokens): void
     {
         $r = new \ReflectionClass(Route::class);
         $route = $r->newInstanceArgs($arguments);

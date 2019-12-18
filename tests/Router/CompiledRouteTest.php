@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompiledRouteTest extends TestCase
 {
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $compiled = new CompiledRoute('prefix', 'regex', ['tokens'], ['variables']);
         $this->assertEquals(

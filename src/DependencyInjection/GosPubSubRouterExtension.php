@@ -20,7 +20,7 @@ class GosPubSubRouterExtension extends Extension
     /**
      * @throws InvalidArgumentException if a configured router uses a reserved name
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');

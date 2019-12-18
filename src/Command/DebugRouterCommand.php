@@ -27,19 +27,13 @@ class DebugRouterCommand extends Command
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
             ->setDescription('Dump route definitions');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);

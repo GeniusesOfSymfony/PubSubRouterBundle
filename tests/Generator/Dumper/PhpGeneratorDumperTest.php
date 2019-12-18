@@ -54,7 +54,7 @@ class PhpGeneratorDumperTest extends TestCase
         $this->largeTestTmpFilepath = null;
     }
 
-    public function testDumpWithRoutes()
+    public function testDumpWithRoutes(): void
     {
         $this->routeCollection->add('Test', new Route('testing/{foo}', 'strlen'));
         $this->routeCollection->add('Test2', new Route('testing2', 'strlen'));
@@ -71,7 +71,7 @@ class PhpGeneratorDumperTest extends TestCase
         $this->assertEquals('testing2', $withoutParameter);
     }
 
-    public function testDumpWithTooManyRoutes()
+    public function testDumpWithTooManyRoutes(): void
     {
         $this->routeCollection->add('Test', new Route('testing/{foo}', 'strlen'));
         for ($i = 0; $i < 32769; ++$i) {
@@ -99,7 +99,7 @@ class PhpGeneratorDumperTest extends TestCase
         $this->assertEquals('testing2', $withoutParameter);
     }
 
-    public function testDumpWithoutRoutes()
+    public function testDumpWithoutRoutes(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -111,7 +111,7 @@ class PhpGeneratorDumperTest extends TestCase
         $projectUrlGenerator->generate('Test', []);
     }
 
-    public function testGenerateNonExistingRoute()
+    public function testGenerateNonExistingRoute(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -127,7 +127,7 @@ class PhpGeneratorDumperTest extends TestCase
         $url = $projectUrlGenerator->generate('NonExisting', []);
     }
 
-    public function testDumpForRouteWithDefaults()
+    public function testDumpForRouteWithDefaults(): void
     {
         $this->routeCollection->add('Test', new Route('testing/{foo}', 'strlen', ['foo' => 'bar']));
 

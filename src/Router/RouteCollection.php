@@ -81,7 +81,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
         }
     }
 
-    public function addCollection(self $collection)
+    public function addCollection(self $collection): void
     {
         // we need to remove all routes with the same names first because just replacing them
         // would not place the new route at the end of the merged array

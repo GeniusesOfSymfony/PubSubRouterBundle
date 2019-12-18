@@ -16,7 +16,7 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.debug', true);
     }
 
-    public function testContainerIsLoadedWithDefaultConfiguration()
+    public function testContainerIsLoadedWithDefaultConfiguration(): void
     {
         $this->load();
 
@@ -24,7 +24,7 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('gos_pubsub_router.cache_class_prefix');
     }
 
-    public function testContainerIsLoadedWithAConfiguredRouter()
+    public function testContainerIsLoadedWithAConfiguredRouter(): void
     {
         $routerConfig = [
             'routers' => [

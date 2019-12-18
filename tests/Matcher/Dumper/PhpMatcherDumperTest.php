@@ -34,7 +34,7 @@ class PhpMatcherDumperTest extends TestCase
         @unlink($this->dumpPath);
     }
 
-    public function testMatchDumpedMatcher()
+    public function testMatchDumpedMatcher(): void
     {
         $basePath = __DIR__.'/../../Fixtures/dumper/';
 
@@ -64,7 +64,7 @@ class PhpMatcherDumperTest extends TestCase
     /**
      * @dataProvider getRouteCollections
      */
-    public function testDump(RouteCollection $collection, $fixture, $options = [])
+    public function testDump(RouteCollection $collection, $fixture, $options = []): void
     {
         $basePath = __DIR__.'/../../Fixtures/dumper/';
 

@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 class RouterCacheWarmerTest extends TestCase
 {
-    public function testWarmUpWithWarmableInterface()
+    public function testWarmUpWithWarmableInterface(): void
     {
         $router = $this->getMockBuilder(testRouterInterfaceWithWarmableInterface::class)
             ->setMethods(['match', 'generate', 'getCollection', 'getName', 'warmUp'])
@@ -36,7 +36,7 @@ class RouterCacheWarmerTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function testWarmUpWithoutWarmableInterface()
+    public function testWarmUpWithoutWarmableInterface(): void
     {
         $router = $this->getMockBuilder(testRouterInterfaceWithoutWarmableInterface::class)
             ->setMethods(['match', 'generate', 'getCollection', 'getName'])

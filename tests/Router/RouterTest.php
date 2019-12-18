@@ -30,7 +30,7 @@ class RouterTest extends TestCase
         $this->router = new Router('test', $this->loader, ['routing.yml']);
     }
 
-    public function testSetOptionsWithSupportedOptions()
+    public function testSetOptionsWithSupportedOptions(): void
     {
         $this->router->setOptions(
             [
@@ -45,7 +45,7 @@ class RouterTest extends TestCase
         $this->assertSame('ResourceType', $this->router->getOption('resource_type'));
     }
 
-    public function testSetOptionsWithUnsupportedOptions()
+    public function testSetOptionsWithUnsupportedOptions(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The Router does not support the following options: "option_foo", "option_bar"');
@@ -60,14 +60,14 @@ class RouterTest extends TestCase
         );
     }
 
-    public function testSetOptionWithSupportedOption()
+    public function testSetOptionWithSupportedOption(): void
     {
         $this->router->setOption('cache_dir', './cache');
 
         $this->assertSame('./cache', $this->router->getOption('cache_dir'));
     }
 
-    public function testSetOptionWithUnsupportedOption()
+    public function testSetOptionWithUnsupportedOption(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The Router does not support the "option_foo" option');
@@ -75,7 +75,7 @@ class RouterTest extends TestCase
         $this->router->setOption('option_foo', true);
     }
 
-    public function testGetOptionWithUnsupportedOption()
+    public function testGetOptionWithUnsupportedOption(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The Router does not support the "option_foo" option');
@@ -83,7 +83,7 @@ class RouterTest extends TestCase
         $this->router->getOption('option_foo');
     }
 
-    public function testThatRouteCollectionIsLoaded()
+    public function testThatRouteCollectionIsLoaded(): void
     {
         $this->router->setOption('resource_type', 'ResourceType');
 
@@ -100,7 +100,7 @@ class RouterTest extends TestCase
     /**
      * @dataProvider provideMatcherOptionsPreventingCaching
      */
-    public function testMatcherIsCreatedIfCacheIsNotConfigured($option)
+    public function testMatcherIsCreatedIfCacheIsNotConfigured($option): void
     {
         $this->router->setOption($option, null);
 
@@ -123,7 +123,7 @@ class RouterTest extends TestCase
     /**
      * @dataProvider provideGeneratorOptionsPreventingCaching
      */
-    public function testGeneratorIsCreatedIfCacheIsNotConfigured($option)
+    public function testGeneratorIsCreatedIfCacheIsNotConfigured($option): void
     {
         $this->router->setOption($option, null);
 
@@ -143,7 +143,7 @@ class RouterTest extends TestCase
         ];
     }
 
-    public function testResourcesAreLoadedToCollection()
+    public function testResourcesAreLoadedToCollection(): void
     {
         $router = new Router(
             'test',

@@ -77,7 +77,7 @@ class Route implements \Serializable
         ];
     }
 
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         $this->__unserialize(unserialize($serialized));
     }

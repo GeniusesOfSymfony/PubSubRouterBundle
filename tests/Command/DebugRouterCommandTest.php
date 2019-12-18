@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class DebugRouterCommandTest extends TestCase
 {
-    public function testCommandListsRoutesForARouter()
+    public function testCommandListsRoutesForARouter(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
 
@@ -26,7 +26,7 @@ class DebugRouterCommandTest extends TestCase
         $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
     }
 
-    public function testCommandRaisesErrorIfRouterDoesNotExist()
+    public function testCommandRaisesErrorIfRouterDoesNotExist(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
 

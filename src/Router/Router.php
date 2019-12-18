@@ -161,7 +161,7 @@ class Router implements RouterInterface, WarmableInterface
         return $this->collection;
     }
 
-    public function warmUp($cacheDir)
+    public function warmUp($cacheDir): void
     {
         $currentDir = $this->getOption('cache_dir');
 
@@ -204,7 +204,7 @@ class Router implements RouterInterface, WarmableInterface
         } else {
             $cache = $this->getConfigCacheFactory()->cache(
                 $this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
-                function (ConfigCacheInterface $cache) {
+                function (ConfigCacheInterface $cache): void {
                     $dumper = $this->getGeneratorDumperInstance();
 
                     $options = [
@@ -239,7 +239,7 @@ class Router implements RouterInterface, WarmableInterface
         }
 
         $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['matcher_cache_class'].'.php',
-            function (ConfigCacheInterface $cache) {
+            function (ConfigCacheInterface $cache): void {
                 $dumper = $this->getMatcherDumperInstance();
 
                 $options = [

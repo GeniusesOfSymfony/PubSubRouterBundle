@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RoutingResolverPassTest extends AbstractCompilerPassTestCase
 {
-    public function testLoadersAreAddedToTheResolver()
+    public function testLoadersAreAddedToTheResolver(): void
     {
         $this->registerService('gos_pubsub_router.routing.resolver', LoaderResolver::class);
         $this->registerService('gos_pubsub_router.loader.yaml', YamlFileLoader::class)

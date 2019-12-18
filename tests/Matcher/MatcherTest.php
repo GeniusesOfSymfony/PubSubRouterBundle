@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class MatcherTest extends TestCase
 {
-    public function testMatch()
+    public function testMatch(): void
     {
         // test the patterns are matched and parameters are returned
         $collection = new RouteCollection();
@@ -57,7 +57,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['bar', $route, ['foo' => 'a', 'bar' => 'b']], $matcher->match('a/b'));
     }
 
-    public function testMatchSpecialRouteName()
+    public function testMatchSpecialRouteName(): void
     {
         $collection = new RouteCollection();
         $collection->add('$péß^a|', $route = new Route('bar', 'strlen'));
@@ -66,7 +66,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['$péß^a|', $route, []], $matcher->match('bar'));
     }
 
-    public function testMatchOverriddenRoute()
+    public function testMatchOverriddenRoute(): void
     {
         $collection = new RouteCollection();
         $collection->add('foo', $route = new Route('foo', 'strlen'));
@@ -83,7 +83,7 @@ class MatcherTest extends TestCase
         $matcher->match('foo');
     }
 
-    public function testMultipleParams()
+    public function testMultipleParams(): void
     {
         $coll = new RouteCollection();
         $coll->add('foo1', new Route('foo/{a}/{b}', 'strlen'));
@@ -95,7 +95,7 @@ class MatcherTest extends TestCase
         $this->assertEquals('foo2', $attribs[0]);
     }
 
-    public function testDefaultRequirementForOptionalVariables()
+    public function testDefaultRequirementForOptionalVariables(): void
     {
         $coll = new RouteCollection();
         $coll->add('test', $route = new Route('/{page}.{_format}', 'strlen', ['page' => 'index', '_format' => 'html']));
@@ -107,7 +107,7 @@ class MatcherTest extends TestCase
         );
     }
 
-    public function testMatchingIsEager()
+    public function testMatchingIsEager(): void
     {
         $coll = new RouteCollection();
         $coll->add('test', $route = new Route('/{foo}-{bar}-', 'strlen', [], ['foo' => '.+', 'bar' => '.+']));
@@ -119,7 +119,7 @@ class MatcherTest extends TestCase
         );
     }
 
-    public function testAdjacentVariables()
+    public function testAdjacentVariables(): void
     {
         $coll = new RouteCollection();
         $coll->add(
@@ -159,7 +159,7 @@ class MatcherTest extends TestCase
         $matcher->match('wxy.html');
     }
 
-    public function testOptionalVariableWithNoRealSeparator()
+    public function testOptionalVariableWithNoRealSeparator(): void
     {
         $coll = new RouteCollection();
         $coll->add('test', $route = new Route('get{what}', 'strlen', ['what' => 'All']));
@@ -174,7 +174,7 @@ class MatcherTest extends TestCase
         $matcher->match('ge');
     }
 
-    public function testRequiredVariableWithNoRealSeparator()
+    public function testRequiredVariableWithNoRealSeparator(): void
     {
         $coll = new RouteCollection();
         $coll->add('test', $route = new Route('get{what}Suffix', 'strlen'));
@@ -183,7 +183,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['test', $route, ['what' => 'Sites']], $matcher->match('getSitesSuffix'));
     }
 
-    public function testDefaultRequirementOfVariable()
+    public function testDefaultRequirementOfVariable(): void
     {
         $coll = new RouteCollection();
         $coll->add('test', $route = new Route('{page}.{_format}', 'strlen'));
@@ -195,7 +195,7 @@ class MatcherTest extends TestCase
         );
     }
 
-    public function testDefaultRequirementOfVariableDisallowsSlash()
+    public function testDefaultRequirementOfVariableDisallowsSlash(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -206,7 +206,7 @@ class MatcherTest extends TestCase
         $matcher->match('index.sl/ash');
     }
 
-    public function testDefaultRequirementOfVariableDisallowsNextSeparator()
+    public function testDefaultRequirementOfVariableDisallowsNextSeparator(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -217,7 +217,7 @@ class MatcherTest extends TestCase
         $matcher->match('do.t.html');
     }
 
-    public function testNestedCollections()
+    public function testNestedCollections(): void
     {
         $coll = new RouteCollection();
 
@@ -240,7 +240,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['buz', $coll->get('buz'), []], $matcher->match('prefix/buz'));
     }
 
-    public function testRequirementWithCapturingGroup()
+    public function testRequirementWithCapturingGroup(): void
     {
         $coll = new RouteCollection();
         $coll->add('a', $route = new Route('{a}/{b}', 'strlen', [], ['a' => '(a|b)']));
@@ -250,7 +250,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['a', $route, ['a' => 'a', 'b' => 'b']], $matcher->match('a/b'));
     }
 
-    public function testDotAllWithCatchAll()
+    public function testDotAllWithCatchAll(): void
     {
         $coll = new RouteCollection();
         $coll->add('a', $routeA = new Route('{id}.html', 'strlen', [], ['id' => '.+']));
@@ -261,7 +261,7 @@ class MatcherTest extends TestCase
         $this->assertEquals(['a', $routeA, ['id' => 'foo/bar']], $matcher->match('foo/bar.html'));
     }
 
-    public function testUtf8Prefix()
+    public function testUtf8Prefix(): void
     {
         $coll = new RouteCollection();
         $coll->add('a', new Route('é{foo}', 'strlen', [], [], ['utf8' => true]));
