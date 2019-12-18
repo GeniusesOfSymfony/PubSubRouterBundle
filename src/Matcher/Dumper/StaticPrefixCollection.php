@@ -22,7 +22,7 @@ class StaticPrefixCollection
     private $prefixes = [];
 
     /**
-     * @var array[]|self[][]
+     * @var array<int, self|array<int, string>>
      */
     private $items = [];
 
@@ -37,7 +37,7 @@ class StaticPrefixCollection
     }
 
     /**
-     * @return array[]|self[][]
+     * @return array<int, self|array<int, string>>
      */
     public function getRoutes()
     {

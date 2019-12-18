@@ -1,5 +1,5 @@
 parameters:
-  level: 3
+  level: 4
   paths:
     - %currentWorkingDirectory%/src
     - %currentWorkingDirectory%/tests
@@ -7,21 +7,25 @@ parameters:
     - %currentWorkingDirectory%/tests/Fixtures/*
   ignoreErrors:
     # Symfony config builder
-    - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::(addDefaultsIfNotSet|children)\(\)\./'
-
-    # PHPUnit mocks
-    - '#PHPUnit\\Framework\\MockObject\\MockObject(.*) given#'
+    - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::addDefaultsIfNotSet\(\)\./'
 
     # Router fixture classes (not autoloaded)
     - '/Instantiated class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator|ProjectMatcher) not found\./'
     - '/Call to method generate\(\) on an unknown class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator)\./'
     - '/Call to method match\(\) on an unknown class ProjectMatcher\./'
 
-    # Need to correct the return type documented in StaticPrefixCollection::$items, for now ignore
-    - '/Array \(array<array>\) does not accept Gos\\Bundle\\PubSubRouterBundle\\Matcher\\Dumper\\StaticPrefixCollection\./'
-
     # Class used for compatibility checks
     -
       message: '/Class Symfony\\Component\\Config\\Exception\\FileLoaderLoadException not found\./'
       path: %currentWorkingDirectory%/src/Loader/CompatibilityYamlFileLoader.php
+
+    # Runtime check which matches doc block
+    -
+      message: '/Result of && is always false./'
+      path: %currentWorkingDirectory%/src/Router/Route.php
+
+    # Ignore warning about comparison always evaluating to false
+    -
+      message: "/Strict comparison using === between '\\?' and '\\(' will always evaluate to false./"
+      path: %currentWorkingDirectory%/src/Router/RouteCompiler.php
   reportUnmatchedIgnoredErrors: false

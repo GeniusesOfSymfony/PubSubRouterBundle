@@ -305,7 +305,6 @@ EOF;
         $prevRegex = null;
         $routes = $tree->getRoutes();
 
-        /** @var Route $route */
         foreach ($routes as $i => $route) {
             if ($route instanceof StaticPrefixCollection) {
                 $prevRegex = null;
@@ -320,6 +319,12 @@ EOF;
                 continue;
             }
 
+            /**
+             * @var string $name
+             * @var string $regex
+             * @var array $vars
+             * @var Route $route
+             */
             list($name, $regex, $vars, $route) = $route;
             $compiledRoute = $route->compile();
 
@@ -427,10 +432,7 @@ EOF;
 
         // optimize parameters array
         if ($matches) {
-            $vars = ["array('$name')"];
-            if ($matches) {
-                $vars[] = '$matches';
-            }
+            $vars = ["array('$name')", '$matches'];
 
             $code .= sprintf(
                 "            \$ret = array(%s, %s, \$this->mergeDefaults(%s, %s));\n",
