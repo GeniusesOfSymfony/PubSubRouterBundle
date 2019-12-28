@@ -7,6 +7,14 @@ About
 -----
 GosPubSubRouterBundle is a Symfony Bundle whose goal is to plug any logic behind pubsub channel. When you use PubSub pattern you will make face to a problem, rely channels with business logic. PubSub router is here to make the junction between channel and business logic.
 
+Support
+-------
+
+| Version | Status             | Symfony Versions |
+| ------- | ------------------ | ---------------- |
+| 1.x     | Actively Supported | 3.4, 4.4, 5.0    |
+| 2.x     | Actively Supported | 4.4, 5.0         |
+
 Features
 -------
 
