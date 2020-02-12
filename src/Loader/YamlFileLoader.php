@@ -11,6 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
+ * @final
  */
 class YamlFileLoader extends CompatibilityYamlFileLoader
 {

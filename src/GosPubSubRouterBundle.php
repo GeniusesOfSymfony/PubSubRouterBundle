@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
+ * @final
  */
 class GosPubSubRouterBundle extends Bundle
 {

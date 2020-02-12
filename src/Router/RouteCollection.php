@@ -6,6 +6,7 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
+ * @final
  */
 class RouteCollection implements \Countable, \IteratorAggregate
 {

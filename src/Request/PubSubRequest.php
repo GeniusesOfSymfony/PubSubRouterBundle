@@ -5,6 +5,9 @@ namespace Gos\Bundle\PubSubRouterBundle\Request;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * @final
+ */
 class PubSubRequest
 {
     /**
