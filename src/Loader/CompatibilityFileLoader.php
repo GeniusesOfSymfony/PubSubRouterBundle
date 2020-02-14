@@ -13,7 +13,7 @@ if (class_exists(FileLoaderLoadException::class)) {
      *
      * @internal To be removed when dropping support for Symfony 4.4 and earlier
      */
-    abstract class CompatibilityYamlFileLoader extends FileLoader
+    abstract class CompatibilityFileLoader extends FileLoader
     {
         /**
          * @param mixed $resource
@@ -47,7 +47,7 @@ if (class_exists(FileLoaderLoadException::class)) {
      *
      * @internal To be removed when dropping support for Symfony 4.4 and earlier
      */
-    abstract class CompatibilityYamlFileLoader extends FileLoader
+    abstract class CompatibilityFileLoader extends FileLoader
     {
         /**
          * @param mixed $resource
