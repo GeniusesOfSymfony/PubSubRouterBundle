@@ -3,6 +3,7 @@
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
+use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoaderInterface;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,6 +28,9 @@ class GosPubSubRouterExtension extends Extension
         $loader->load('services.yaml');
 
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+
+        $container->registerForAutoconfiguration(RouteLoaderInterface::class)
+            ->addTag('gos_pubsub_router.routing.loader');
 
         $container->setParameter('gos_pubsub_router.cache_class_prefix', $container->getParameter('kernel.container_class'));
 
