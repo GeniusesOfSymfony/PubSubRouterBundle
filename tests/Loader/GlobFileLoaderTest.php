@@ -5,6 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 use Gos\Bundle\PubSubRouterBundle\Loader\GlobFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\GlobResource;
 
@@ -28,12 +29,23 @@ final class GlobFileLoaderTest extends TestCase
 
     private function createGlobFileLoaderWithoutImport(FileLocator $locator): GlobFileLoader
     {
-        return new class($locator)extends GlobFileLoader
-        {
-            public function import($resource, string $type = null, bool $ignoreErrors = false, string $sourceResource = null, $exclude = null)
+        // This is a rather flaky check, but it is one of the few things that exists in 4.x but not 5.x
+        if (class_exists(FileLoaderLoadException::class)) {
+            return new class($locator) extends GlobFileLoader
             {
-                return new RouteCollection();
-            }
-        };
+                public function import($resource, $type = null, $ignoreErrors = false, $sourceResource = null)
+                {
+                    return new RouteCollection();
+                }
+            };
+        } else {
+            return new class($locator) extends GlobFileLoader
+            {
+                public function import($resource, string $type = null, bool $ignoreErrors = false, string $sourceResource = null, $exclude = null)
+                {
+                    return new RouteCollection();
+                }
+            };
+        }
     }
 }
