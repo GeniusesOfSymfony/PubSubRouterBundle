@@ -28,6 +28,14 @@ services:
         tags:
             - { name: gos_pubsub_router.routing.loader }
 
+    gos_pubsub_router.loader.glob:
+        class: Gos\Bundle\PubSubRouterBundle\Loader\GlobFileLoader
+        public: false
+        arguments:
+            - '@file_locator'
+        tags:
+            - { name: gos_pubsub_router.routing.loader }
+
     gos_pubsub_router.loader.yaml:
         class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
         public: false

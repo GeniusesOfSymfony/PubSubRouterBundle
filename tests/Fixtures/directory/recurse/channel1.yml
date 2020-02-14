@@ -1,0 +1,3 @@
+channel1:
+    channel: channel/1
+    handler: 'strlen'
