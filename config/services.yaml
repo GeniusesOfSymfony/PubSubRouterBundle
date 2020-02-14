@@ -14,6 +14,12 @@ services:
         tags:
             - { name: console.command, command: gos:prouter:debug }
 
+    gos_pubsub_router.loader.closure:
+        class: Gos\Bundle\PubSubRouterBundle\Loader\ClosureLoader
+        public: false
+        tags:
+            - { name: gos_pubsub_router.routing.loader }
+
     gos_pubsub_router.loader.container:
         class: Gos\Bundle\PubSubRouterBundle\Loader\ContainerLoader
         public: false
