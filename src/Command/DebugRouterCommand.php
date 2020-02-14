@@ -111,7 +111,7 @@ class DebugRouterCommand extends Command
             return $r->name.'()';
         }
 
-        if (is_object($callable) && method_exists($callable, '__invoke')) {
+        if (\is_object($callable) && method_exists($callable, '__invoke')) {
             return sprintf('%s::__invoke()', \get_class($callable));
         }
 

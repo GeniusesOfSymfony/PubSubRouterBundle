@@ -2,14 +2,14 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
-use PHPUnit\Framework\TestCase;
 use Gos\Bundle\PubSubRouterBundle\Loader\ObjectLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use PHPUnit\Framework\TestCase;
 
 class ObjectLoaderTest extends TestCase
 {
-    public function testLoadCallsServiceAndReturnsCollection()
+    public function testLoadCallsServiceAndReturnsCollection(): void
     {
         $loader = $this->createObjectLoader();
 
@@ -52,23 +52,23 @@ class ObjectLoaderTest extends TestCase
         ];
     }
 
-    public function testExceptionOnNoObjectReturned()
+    public function testExceptionOnNoObjectReturned(): void
     {
         $this->expectException(\TypeError::class);
-        $loader            = $this->createObjectLoader();
+        $loader = $this->createObjectLoader();
         $loader->loaderMap = ['my_service' => 'NOT_AN_OBJECT'];
         $loader->load('my_service::method');
     }
 
-    public function testExceptionOnBadMethod()
+    public function testExceptionOnBadMethod(): void
     {
         $this->expectException(\BadMethodCallException::class);
-        $loader            = $this->createObjectLoader();
+        $loader = $this->createObjectLoader();
         $loader->loaderMap = ['my_service' => new \stdClass()];
         $loader->load('my_service::method');
     }
 
-    public function testExceptionOnMethodNotReturningCollection()
+    public function testExceptionOnMethodNotReturningCollection(): void
     {
         $service = new class() {
             public function loadRoutes(): string
@@ -79,7 +79,7 @@ class ObjectLoaderTest extends TestCase
 
         $this->expectException(\LogicException::class);
 
-        $loader            = $this->createObjectLoader();
+        $loader = $this->createObjectLoader();
         $loader->loaderMap = ['my_service' => $service];
         $loader->load('my_service::loadRoutes');
     }
