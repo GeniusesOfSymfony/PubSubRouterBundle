@@ -30,7 +30,7 @@ class GosPubSubRouterExtension extends Extension
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
         $container->registerForAutoconfiguration(RouteLoaderInterface::class)
-            ->addTag('gos_pubsub_router.routing.loader');
+            ->addTag('gos_pubsub_router.routing.route_loader');
 
         $container->setParameter('gos_pubsub_router.cache_class_prefix', $container->getParameter('kernel.container_class'));
 
