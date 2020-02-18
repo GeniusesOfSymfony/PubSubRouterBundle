@@ -32,7 +32,44 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->children()
                             ->arrayNode('resources')
-                                ->prototype('scalar')->end()
+                                ->beforeNormalization()
+                                    ->ifTrue(static function ($v) {
+                                        foreach ($v as $resource) {
+                                            if (!is_array($resource)) {
+                                                return true;
+                                            }
+                                        }
+
+                                        return false;
+                                    })
+                                    ->then(static function ($v) {
+                                        $resources = [];
+
+                                        foreach ($v as $resource) {
+                                            if (is_array($resource)) {
+                                                $resources[] = $resource;
+                                            } else {
+                                                $resources[] = [
+                                                    'resource' => $resource,
+                                                ];
+                                            }
+                                        }
+
+                                        return $resources;
+                                    })
+                                ->end()
+                                ->prototype('array')
+                                    ->children()
+                                        ->scalarNode('resource')
+                                            ->cannotBeEmpty()
+                                            ->isRequired()
+                                        ->end()
+                                        ->enumNode('type')
+                                            ->values(['closure', 'container', 'glob', 'php', 'xml', 'yaml', null])
+                                            ->defaultNull()
+                                        ->end()
+                                    ->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()

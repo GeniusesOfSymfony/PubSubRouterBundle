@@ -4,9 +4,6 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\CompilerPass\RoutingResolverPass;
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
-use Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader;
-use Gos\Bundle\PubSubRouterBundle\Loader\XmlFileLoader;
-use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\FileLocator;

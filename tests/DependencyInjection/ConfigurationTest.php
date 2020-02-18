@@ -20,13 +20,50 @@ class ConfigurationTest extends TestCase
         $this->assertEquals(self::getBundleDefaultConfig(), $config);
     }
 
-    public function testWithARouter(): void
+    public function testWithARouterWithoutArrayResources(): void
     {
         $routerConfig = [
             'routers' => [
                 'test' => [
                     'resources' => [
                         'routing.yml',
+                    ],
+                ],
+            ],
+        ];
+
+        $normalizedRouterConfig = [
+            'routers' => [
+                'test' => [
+                    'resources' => [
+                        [
+                            'resource' => 'routing.yml',
+                            'type' => null,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), [$routerConfig]);
+
+        $this->assertEquals(
+            array_merge(self::getBundleDefaultConfig(), $normalizedRouterConfig),
+            $config
+        );
+    }
+
+    public function testWithARouterWithArrayResources(): void
+    {
+        $routerConfig = [
+            'routers' => [
+                'test' => [
+                    'resources' => [
+                        [
+                            'resource' => 'routing.yml',
+                            'type' => 'yaml',
+                        ],
                     ],
                 ],
             ],

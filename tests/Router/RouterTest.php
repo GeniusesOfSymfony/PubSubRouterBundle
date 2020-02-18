@@ -3,14 +3,24 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
+use Gos\Bundle\PubSubRouterBundle\Loader\ClosureLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\ContainerLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\GlobFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\XmlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Routing\Loader\PhpFileLoader;
 
 class RouterTest extends TestCase
 {
@@ -95,6 +105,81 @@ class RouterTest extends TestCase
             ->willReturn($routeCollection);
 
         $this->assertSame($routeCollection, $this->router->getCollection());
+    }
+
+    public function testThatRouteCollectionIsLoadedWithMixedResourceTypes(): void
+    {
+        $container = new Container();
+        $container->set('routing.loader', new class() {
+            public function __invoke(ContainerLoader $loader): RouteCollection
+            {
+                $collection = new RouteCollection();
+                $collection->add(
+                    'my_chat',
+                    new Route(
+                        'chat/{my}',
+                        'strlen',
+                        [
+                            'my' => 42,
+                        ],
+                        [
+                            'my' => '\d+',
+                        ],
+                        [
+                            'foo' => 'bar',
+                        ]
+                    )
+                );
+
+                return $collection;
+            }
+        });
+
+        $locator = new FileLocator([__DIR__.'/../Fixtures']);
+
+        $resolver = new LoaderResolver();
+        $resolver->addLoader(new ClosureLoader());
+        $resolver->addLoader(new ContainerLoader($container));
+        $resolver->addLoader(new GlobFileLoader($locator));
+        $resolver->addLoader(new PhpFileLoader($locator));
+        $resolver->addLoader(new XmlFileLoader($locator));
+        $resolver->addLoader(new YamlFileLoader($locator));
+
+        $router = new Router(
+            'test',
+            new DelegatingLoader($resolver),
+            [
+                'validresource.yml',
+                'validresource.xml',
+                'validresource.php',
+                [
+                    'resource' => 'routing.loader',
+                    'type' => 'service',
+                ],
+                [
+                    'resource' => __DIR__.'/../Fixtures/directory/*.yml',
+                    'type' => 'glob',
+                ],
+                [
+                    'resource' => static function (): RouteCollection {
+                        $collection = new RouteCollection();
+                        $collection->add(
+                            'anon_chat',
+                            new Route(
+                                'anonymous-chat',
+                                'strlen'
+                            )
+                        );
+
+                        return $collection;
+                    },
+                    'type' => 'closure',
+                ],
+            ]
+        );
+
+        $this->assertInstanceOf(RouteCollection::class, $router->getCollection());
+        $this->assertNotCount(0, $router->getCollection());
     }
 
     /**
