@@ -1,6 +1,7 @@
 services:
     gos_pubsub_router.cache_warmer.router:
         class: Gos\Bundle\PubSubRouterBundle\CacheWarmer\RouterCacheWarmer
+        public: false
         arguments:
             - '@Psr\Container\ContainerInterface'
         tags:
@@ -36,6 +37,22 @@ services:
         tags:
             - { name: gos_pubsub_router.routing.loader }
 
+    gos_pubsub_router.loader.php:
+        class: Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader
+        public: false
+        arguments:
+            - '@file_locator'
+        tags:
+            - { name: gos_pubsub_router.routing.loader }
+
+    gos_pubsub_router.loader.xml:
+        class: Gos\Bundle\PubSubRouterBundle\Loader\XmlFileLoader
+        public: false
+        arguments:
+            - '@file_locator'
+        tags:
+            - { name: gos_pubsub_router.routing.loader }
+
     gos_pubsub_router.loader.yaml:
         class: Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader
         public: false
@@ -46,12 +63,14 @@ services:
 
     gos_pubsub_router.router_registry:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
-        public: false
+        public: true
 
     gos_pubsub_router.routing.loader:
         class: Symfony\Component\Config\Loader\DelegatingLoader
+        public: false
         arguments:
             - '@gos_pubsub_router.routing.resolver'
 
     gos_pubsub_router.routing.resolver:
         class: Symfony\Component\Config\Loader\LoaderResolver
+        public: false
