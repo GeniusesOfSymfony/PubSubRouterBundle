@@ -97,6 +97,48 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Adds defaults to all routes.
+     *
+     * An existing default value under the same name in a route will be overridden.
+     */
+    public function addDefaults(array $defaults): void
+    {
+        if ($defaults) {
+            foreach ($this->routes as $route) {
+                $route->addDefaults($defaults);
+            }
+        }
+    }
+
+    /**
+     * Adds requirements to all routes.
+     *
+     * An existing requirement under the same name in a route will be overridden.
+     */
+    public function addRequirements(array $requirements): void
+    {
+        if ($requirements) {
+            foreach ($this->routes as $route) {
+                $route->addRequirements($requirements);
+            }
+        }
+    }
+
+    /**
+     * Adds options to all routes.
+     *
+     * An existing option value under the same name in a route will be overridden.
+     */
+    public function addOptions(array $options): void
+    {
+        if ($options) {
+            foreach ($this->routes as $route) {
+                $route->addOptions($options);
+            }
+        }
+    }
+
+    /**
      * @return ResourceInterface[] An array of resources
      */
     public function getResources(): array

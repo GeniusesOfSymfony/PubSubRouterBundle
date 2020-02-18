@@ -57,4 +57,20 @@ class YamlFileLoaderTest extends TestCase
         $this->assertSame(['user' => '\\d+'], $route->getRequirements());
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
+
+    public function testLoadWithResource()
+    {
+        $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routeCollection = $loader->load('validresource.yml');
+        $routes = $routeCollection->all();
+
+        $this->assertCount(1, $routes, 'One route is loaded');
+        $this->assertContainsOnly(Route::class, $routes);
+
+        foreach ($routes as $route) {
+            $this->assertSame(123, $route->getDefault('user'), 'The default value for the user route variable should be overridden');
+            $this->assertSame('\d+', $route->getRequirement('user'));
+            $this->assertSame('car', $route->getOption('foo'), 'The default value for the foo option should be overridden');
+        }
+    }
 }
