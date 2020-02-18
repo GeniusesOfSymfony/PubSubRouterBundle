@@ -24,7 +24,7 @@ class XmlFileLoaderTest extends TestCase
     public function testLoadWithRoute()
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
-        $routeCollection = $loader->load('validpattern.xml');
+        $routeCollection = $loader->load('validchannel.xml');
         $route = $routeCollection->get('user_chat');
 
         $this->assertInstanceOf(Route::class, $route);

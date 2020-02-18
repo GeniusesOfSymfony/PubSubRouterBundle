@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing">
 
-    <import resource="validpattern.xml">
+    <import resource="validchannel.xml">
         <default key="user">
             <int>123</int>
         </default>
