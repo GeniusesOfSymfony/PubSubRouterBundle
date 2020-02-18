@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing">
+
+    <route id="blog" channel="blog" callback="strlen">
+        <default key="slug" xsi:nil="true" />
+        <default key="published">
+            <bool>true</bool>
+        </default>
+        <default key="page">
+            <int>1</int>
+        </default>
+        <default key="price">
+            <float>3.5</float>
+        </default>
+        <default key="archived">
+            <bool>false</bool>
+        </default>
+        <default key="free">
+            <bool>1</bool>
+        </default>
+        <default key="locked">
+            <bool>0</bool>
+        </default>
+        <default key="foo" xsi:nil="true" />
+        <default key="bar" xsi:nil="1" />
+    </route>
+</routes>
