@@ -2,14 +2,14 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
-use PHPUnit\Framework\TestCase;
 use Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 
 class PhpFileLoaderTest extends TestCase
 {
-    public function testSupports()
+    public function testSupports(): void
     {
         $loader = new PhpFileLoader($this->createMock(FileLocator::class));
 
@@ -20,7 +20,7 @@ class PhpFileLoaderTest extends TestCase
         $this->assertFalse($loader->supports('foo.php', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadWithRoute()
+    public function testLoadWithRoute(): void
     {
         $loader = new PhpFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validchannel.php');
@@ -35,7 +35,7 @@ class PhpFileLoaderTest extends TestCase
         }
     }
 
-    public function testLoadWithImport()
+    public function testLoadWithImport(): void
     {
         $loader = new PhpFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validresource.php');

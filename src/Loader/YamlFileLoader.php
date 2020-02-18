@@ -91,7 +91,7 @@ class YamlFileLoader extends CompatibilityFileLoader
      * @param string $path   Full path of the YAML file being processed
      * @param string $file   Loaded file name
      */
-    protected function parseImport(RouteCollection $collection, array $config, string $path, string $file)
+    protected function parseImport(RouteCollection $collection, array $config, string $path, string $file): void
     {
         $type = $config['type'] ?? null;
         $defaults = $config['defaults'] ?? [];
@@ -124,7 +124,7 @@ class YamlFileLoader extends CompatibilityFileLoader
      * @param array  $config Route definition
      * @param string $path   Full path of the YAML file being processed
      */
-    protected function parseRoute(RouteCollection $collection, string $name, array $config, string $path)
+    protected function parseRoute(RouteCollection $collection, string $name, array $config, string $path): void
     {
         $defaults = $config['defaults'] ?? [];
         $requirements = $config['requirements'] ?? [];

@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                                 ->beforeNormalization()
                                     ->ifTrue(static function ($v) {
                                         foreach ($v as $resource) {
-                                            if (!is_array($resource)) {
+                                            if (!\is_array($resource)) {
                                                 return true;
                                             }
                                         }
@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                                         $resources = [];
 
                                         foreach ($v as $resource) {
-                                            if (is_array($resource)) {
+                                            if (\is_array($resource)) {
                                                 $resources[] = $resource;
                                             } else {
                                                 $resources[] = [

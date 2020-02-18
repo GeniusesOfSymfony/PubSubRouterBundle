@@ -49,7 +49,7 @@ class PhpFileLoader extends CompatibilityFileLoader
         return \is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }
 
-    private function createProtectedLoader(): PhpFileLoader
+    private function createProtectedLoader(): self
     {
         return new class($this->getLocator()) extends PhpFileLoader {};
     }

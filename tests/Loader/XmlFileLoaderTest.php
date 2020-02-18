@@ -10,7 +10,7 @@ use Symfony\Component\Config\FileLocator;
 
 class XmlFileLoaderTest extends TestCase
 {
-    public function testSupports()
+    public function testSupports(): void
     {
         $loader = new XmlFileLoader($this->createMock(FileLocator::class));
 
@@ -21,7 +21,7 @@ class XmlFileLoaderTest extends TestCase
         $this->assertFalse($loader->supports('foo.xml', 'foo'), '->supports() checks the resource type if specified');
     }
 
-    public function testLoadWithRoute()
+    public function testLoadWithRoute(): void
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validchannel.xml');
@@ -35,7 +35,7 @@ class XmlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
-    public function testLoadWithImport()
+    public function testLoadWithImport(): void
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validresource.xml');
@@ -54,7 +54,7 @@ class XmlFileLoaderTest extends TestCase
     /**
      * @dataProvider getPathsToInvalidFiles
      */
-    public function testLoadThrowsExceptionWithInvalidFile($filePath)
+    public function testLoadThrowsExceptionWithInvalidFile($filePath): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -67,7 +67,7 @@ class XmlFileLoaderTest extends TestCase
         return [['nonvalidnode.xml'], ['nonvalidroute.xml'], ['nonvalid.xml'], ['missing_id.xml'], ['missing_channel.xml']];
     }
 
-    public function testScalarDataTypeDefaults()
+    public function testScalarDataTypeDefaults(): void
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('scalar_defaults.xml');

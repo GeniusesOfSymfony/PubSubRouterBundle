@@ -58,7 +58,7 @@ class YamlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
-    public function testLoadWithResource()
+    public function testLoadWithResource(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validresource.yml');

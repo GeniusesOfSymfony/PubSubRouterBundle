@@ -19,7 +19,7 @@ final class GlobFileLoaderTest extends TestCase
         $this->assertFalse($loader->supports('any-path'), '->supports() returns false if the resource is not of glob type');
     }
 
-    public function testLoadAddsTheGlobResourceToTheContainer()
+    public function testLoadAddsTheGlobResourceToTheContainer(): void
     {
         $loader = $this->createGlobFileLoaderWithoutImport(new FileLocator());
         $collection = $loader->load(__DIR__.'/../Fixtures/directory/*.yml');
@@ -31,16 +31,14 @@ final class GlobFileLoaderTest extends TestCase
     {
         // This is a rather flaky check, but it is one of the few things that exists in 4.x but not 5.x
         if (class_exists(FileLoaderLoadException::class)) {
-            return new class($locator) extends GlobFileLoader
-            {
+            return new class($locator) extends GlobFileLoader {
                 public function import($resource, $type = null, $ignoreErrors = false, $sourceResource = null)
                 {
                     return new RouteCollection();
                 }
             };
         } else {
-            return new class($locator) extends GlobFileLoader
-            {
+            return new class($locator) extends GlobFileLoader {
                 public function import($resource, string $type = null, bool $ignoreErrors = false, string $sourceResource = null, $exclude = null)
                 {
                     return new RouteCollection();

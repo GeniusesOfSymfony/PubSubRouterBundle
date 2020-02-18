@@ -5,7 +5,6 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 /** @var PhpFileLoader $loader */
-
 $collection = new RouteCollection();
 $collection->add(
     'user_chat',

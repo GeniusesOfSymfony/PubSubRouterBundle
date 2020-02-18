@@ -155,8 +155,8 @@ class Router implements RouterInterface, WarmableInterface
     {
         if (null === $this->collection) {
             foreach ($this->resources as $resource) {
-                if (is_array($resource)) {
-                    $type = isset($resource['type']) && $resource !== null ? $resource['type'] : $this->options['resource_type'];
+                if (\is_array($resource)) {
+                    $type = isset($resource['type']) && null !== $resource ? $resource['type'] : $this->options['resource_type'];
 
                     if (null === $this->collection) {
                         $this->collection = $this->loader->load($resource['resource'], $type);

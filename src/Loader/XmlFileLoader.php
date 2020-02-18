@@ -39,7 +39,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
     /**
      * @throws \InvalidArgumentException When the XML is invalid
      */
-    private function parseNode(RouteCollection $collection, \DOMElement $node, string $path, string $file)
+    private function parseNode(RouteCollection $collection, \DOMElement $node, string $path, string $file): void
     {
         if (self::NAMESPACE_URI !== $node->namespaceURI) {
             return;
@@ -101,7 +101,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
     /**
      * @throws \InvalidArgumentException When the XML is invalid
      */
-    private function parseImport(RouteCollection $collection, \DOMElement $node, string $path, string $file)
+    private function parseImport(RouteCollection $collection, \DOMElement $node, string $path, string $file): void
     {
         if ('' === $resource = $node->getAttribute('resource')) {
             throw new \InvalidArgumentException(sprintf('The <import> element in file "%s" must have a "resource" attribute.', $path));
