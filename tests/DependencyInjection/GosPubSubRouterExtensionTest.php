@@ -2,8 +2,15 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 
+use Gos\Bundle\PubSubRouterBundle\DependencyInjection\CompilerPass\RoutingResolverPass;
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
+use Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\XmlFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\LoaderResolver;
 
 class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
@@ -24,13 +31,25 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('gos_pubsub_router.cache_class_prefix');
     }
 
-    public function testContainerIsLoadedWithAConfiguredRouter(): void
+    public function dataSupportedExtensions(): \Generator
     {
+        yield 'PHP file' => ['php'];
+        yield 'XML file' => ['xml'];
+        yield 'YAML file' => ['yml'];
+    }
+
+    /**
+     * @dataProvider dataSupportedExtensions
+     */
+    public function testContainerIsLoadedWithASingleChannelFile(string $extension): void
+    {
+        $this->configureLoaderServices();
+
         $routerConfig = [
             'routers' => [
                 'test' => [
                     'resources' => [
-                        'routing.yml',
+                        'validchannel.'.$extension,
                     ],
                 ],
             ],
@@ -43,6 +62,50 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
+
+        $this->compile();
+
+        /** @var RouterRegistry $registry */
+        $registry = $this->container->get('gos_pubsub_router.router_registry');
+        $router = $registry->getRouter('test');
+
+        $this->assertCount(1, $router->getCollection(), 'The routes are imported from the resource');
+        $this->assertCount(1, $router->getCollection()->getResources(), 'The list of resources should contain the expected number of files');
+    }
+
+    /**
+     * @dataProvider dataSupportedExtensions
+     */
+    public function testContainerIsLoadedWithAResourceFile(string $extension): void
+    {
+        $this->configureLoaderServices();
+
+        $routerConfig = [
+            'routers' => [
+                'test' => [
+                    'resources' => [
+                        'validresource.'.$extension,
+                    ],
+                ],
+            ],
+        ];
+
+        $this->load($routerConfig);
+
+        $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
+
+        $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
+
+        $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
+
+        $this->compile();
+
+        /** @var RouterRegistry $registry */
+        $registry = $this->container->get('gos_pubsub_router.router_registry');
+        $router = $registry->getRouter('test');
+
+        $this->assertCount(1, $router->getCollection(), 'The routes are imported from the resource');
+        $this->assertCount(2, $router->getCollection()->getResources(), 'The list of resources should contain the expected number of files');
     }
 
     protected function getContainerExtensions(): array
@@ -50,5 +113,15 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         return [
             new GosPubSubRouterExtension(),
         ];
+    }
+
+    private function configureLoaderServices(): void
+    {
+        $this->container->addCompilerPass(new RoutingResolverPass());
+
+        $this->registerService('file_locator', FileLocator::class)
+            ->addArgument(__DIR__.'/../Fixtures');
+
+        $this->registerService('gos_pubsub_router.routing.resolver', LoaderResolver::class);
     }
 }
