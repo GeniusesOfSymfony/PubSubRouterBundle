@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 (2020-??-??)
+
+- Add support for multiple file formats to the router (minus annotations and the PHP-DSL, this brings feature parity with the loaders from the `symfony/routing` package)
+
 ## 2.1.0 (2020-02-20)
 
 - Annotated a number of non-final classes as `@final`, they will be made final in 3.0
