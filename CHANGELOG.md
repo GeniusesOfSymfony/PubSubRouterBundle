@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.0 (TBD)
+## 2.1.0 (2020-02-20)
 
 - Annotated a number of non-final classes as `@final`, they will be made final in 3.0
 - [#21](https://github.com/GeniusesOfSymfony/PubSubRouterBundle/issues/21) - Ensure a RouteCollection is returned from the router if there are no resources
