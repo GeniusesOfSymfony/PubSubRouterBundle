@@ -13,7 +13,7 @@ class YamlFileLoaderTest extends TestCase
 {
     public function testSupports(): void
     {
-        $loader = new YamlFileLoader($this->getMockBuilder(FileLocator::class)->getMock());
+        $loader = new YamlFileLoader($this->createMock(FileLocator::class));
 
         $this->assertTrue($loader->supports('foo.yml'), '->supports() returns true if the resource is loadable');
         $this->assertTrue($loader->supports('foo.yaml'), '->supports() returns true if the resource is loadable');
@@ -56,5 +56,21 @@ class YamlFileLoaderTest extends TestCase
         $this->assertSame(['user' => 42], $route->getDefaults());
         $this->assertSame(['user' => '\\d+'], $route->getRequirements());
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
+    }
+
+    public function testLoadWithResource(): void
+    {
+        $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routeCollection = $loader->load('validresource.yml');
+        $routes = $routeCollection->all();
+
+        $this->assertCount(1, $routes, 'One route is loaded');
+        $this->assertContainsOnly(Route::class, $routes);
+
+        foreach ($routes as $route) {
+            $this->assertSame(123, $route->getDefault('user'), 'The default value for the user route variable should be overridden');
+            $this->assertSame('\d+', $route->getRequirement('user'));
+            $this->assertSame('car', $route->getOption('foo'), 'The default value for the foo option should be overridden');
+        }
     }
 }

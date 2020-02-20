@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing">
+
+    <import resource="validchannel.xml">
+        <default key="user">
+            <int>123</int>
+        </default>
+        <option key="foo">car</option>
+    </import>
+</routes>

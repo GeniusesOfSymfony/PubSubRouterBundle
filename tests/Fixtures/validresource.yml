@@ -1,0 +1,6 @@
+user:
+    resource: validchannel.yml
+    defaults:
+        user: 123
+    options:
+        foo: car
