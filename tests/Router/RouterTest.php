@@ -96,14 +96,23 @@ class RouterTest extends TestCase
     {
         $this->router->setOption('resource_type', 'ResourceType');
 
-        $routeCollection = new RouteCollection();
-
         $this->loader->expects($this->once())
             ->method('load')
             ->with('routing.yml', 'ResourceType')
-            ->willReturn($routeCollection);
+            ->willReturn(new RouteCollection());
 
-        $this->assertSame($routeCollection, $this->router->getCollection());
+        $this->assertInstanceOf(RouteCollection::class, $this->router->getCollection());
+    }
+
+    public function testThatRouteCollectionIsLoadedWhenARouterHasNoResources()
+    {
+        $router = new Router('test', $this->loader, []);
+        $router->setOption('resource_type', 'ResourceType');
+
+        $this->loader->expects($this->never())
+            ->method('load');
+
+        $this->assertInstanceOf(RouteCollection::class, $router->getCollection());
     }
 
     public function testThatRouteCollectionIsLoadedWithMixedResourceTypes(): void

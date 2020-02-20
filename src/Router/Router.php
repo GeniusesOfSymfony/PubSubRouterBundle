@@ -154,21 +154,15 @@ class Router implements RouterInterface, WarmableInterface
     public function getCollection(): RouteCollection
     {
         if (null === $this->collection) {
+            $this->collection = new RouteCollection();
+
             foreach ($this->resources as $resource) {
                 if (\is_array($resource)) {
                     $type = isset($resource['type']) && null !== $resource ? $resource['type'] : $this->options['resource_type'];
 
-                    if (null === $this->collection) {
-                        $this->collection = $this->loader->load($resource['resource'], $type);
-                    } else {
-                        $this->collection->addCollection($this->loader->load($resource['resource'], $type));
-                    }
+                    $this->collection->addCollection($this->loader->load($resource['resource'], $type));
                 } else {
-                    if (null === $this->collection) {
-                        $this->collection = $this->loader->load($resource, $this->options['resource_type']);
-                    } else {
-                        $this->collection->addCollection($this->loader->load($resource, $this->options['resource_type']));
-                    }
+                    $this->collection->addCollection($this->loader->load($resource, $this->options['resource_type']));
                 }
             }
         }
