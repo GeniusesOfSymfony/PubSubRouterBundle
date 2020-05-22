@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.1 (2020-??-??)
+## 1.5.1 (2020-05-22)
 
 - Change the compatibility layer for the cache warmer to prefer the deprecated interface
 
