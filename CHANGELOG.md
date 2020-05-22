@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 (2020-??-??)
+
+- Change the compatibility layer for the cache warmer to prefer the deprecated interface
+
 ## 1.5.0 (2020-02-20)
 
 - Drop support for Symfony 4.0 thru 4.3; Symfony 3.4, 4.4, and 5.x are the supported Symfony versions
