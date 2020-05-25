@@ -1,8 +1,13 @@
 # Changelog
 
-## 1.5.0 (20??-??-??)
+## 1.5.1 (2020-05-22)
+
+- Change the compatibility layer for the cache warmer to prefer the deprecated interface
+
+## 1.5.0 (2020-02-20)
 
 - Drop support for Symfony 4.0 thru 4.3; Symfony 3.4, 4.4, and 5.x are the supported Symfony versions
+- [#21](https://github.com/GeniusesOfSymfony/PubSubRouterBundle/issues/21) - Ensure a RouteCollection is returned from the router if there are no resources
 
 ## 1.4.1 (2019-11-22)
 
