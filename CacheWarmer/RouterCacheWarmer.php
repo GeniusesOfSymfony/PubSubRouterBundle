@@ -24,17 +24,26 @@ class RouterCacheWarmer implements CacheWarmerInterface, CompatibilityServiceSub
      * Warms up the cache.
      *
      * @param string $cacheDir The cache directory
+     *
+     * @return string[] A list of classes to preload on PHP 7.4+
      */
     public function warmUp($cacheDir)
     {
         /** @var RouterRegistry $registry */
         $registry = $this->container->get('gos_pubsub_router.router_registry');
 
+        $classes = [];
+
         foreach ($registry->getRouters() as $router) {
             if ($router instanceof WarmableInterface) {
-                $router->warmUp($cacheDir);
+                $classes = array_merge(
+                    $classes,
+                    (array) $router->warmUp($cacheDir)
+                );
             }
         }
+
+        return array_unique($classes);
     }
 
     public function isOptional()

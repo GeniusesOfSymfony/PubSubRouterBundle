@@ -3,6 +3,7 @@
 ## 1.6.0 (????-??-??)
 
 - Drop support for Symfony 5.0 (branch is EOL)
+- Add support for Symfony 5.1 `Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface::warmUp()` changes
 
 ## 1.5.1 (2020-05-22)
 
