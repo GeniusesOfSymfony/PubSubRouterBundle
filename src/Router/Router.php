@@ -170,7 +170,14 @@ class Router implements RouterInterface, WarmableInterface
         return $this->collection;
     }
 
-    public function warmUp($cacheDir): void
+    /**
+     * Warms up the cache.
+     *
+     * @param string $cacheDir The cache directory
+     *
+     * @return string[] A list of classes to preload on PHP 7.4+
+     */
+    public function warmUp($cacheDir)
     {
         $currentDir = $this->getOption('cache_dir');
 
@@ -180,6 +187,11 @@ class Router implements RouterInterface, WarmableInterface
         $this->getGenerator();
 
         $this->setOption('cache_dir', $currentDir);
+
+        return [
+            $this->getOption('generator_class'),
+            $this->getOption('matcher_class'),
+        ];
     }
 
     public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory): void
