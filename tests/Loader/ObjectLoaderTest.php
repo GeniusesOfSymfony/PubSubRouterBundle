@@ -40,7 +40,7 @@ class ObjectLoaderTest extends TestCase
         $loader->load($resourceString);
     }
 
-    public function getBadResourceStrings()
+    public function getBadResourceStrings(): array
     {
         return [
             ['Foo:Bar:baz'],
@@ -87,11 +87,14 @@ class ObjectLoaderTest extends TestCase
     private function createObjectLoader(): ObjectLoader
     {
         return new class() extends ObjectLoader {
+            /**
+             * @var array<string, object>
+             */
             public $loaderMap = [];
 
             protected function doSupports($resource, string $type = null): bool
             {
-                return 'service';
+                return 'service' === $type;
             }
 
             protected function getObject(string $id): object
@@ -118,7 +121,7 @@ class ObjectLoaderTest extends TestCase
                 $this->collection = $collection;
             }
 
-            public function loadRoutes()
+            public function loadRoutes(): RouteCollection
             {
                 return $this->collection;
             }

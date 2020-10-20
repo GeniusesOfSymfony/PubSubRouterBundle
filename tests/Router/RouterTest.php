@@ -104,7 +104,7 @@ class RouterTest extends TestCase
         $this->assertInstanceOf(RouteCollection::class, $this->router->getCollection());
     }
 
-    public function testThatRouteCollectionIsLoadedWhenARouterHasNoResources()
+    public function testThatRouteCollectionIsLoadedWhenARouterHasNoResources(): void
     {
         $router = new Router('test', $this->loader, []);
         $router->setOption('resource_type', 'ResourceType');

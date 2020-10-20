@@ -231,7 +231,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
     /**
      * Recursively parses the value of a "default" element.
      *
-     * @return array|bool|float|int|string The parsed value
+     * @return array|bool|float|int|string|null The parsed value
      *
      * @throws \InvalidArgumentException when the XML is invalid
      */

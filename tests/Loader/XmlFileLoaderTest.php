@@ -54,7 +54,7 @@ class XmlFileLoaderTest extends TestCase
     /**
      * @dataProvider getPathsToInvalidFiles
      */
-    public function testLoadThrowsExceptionWithInvalidFile($filePath): void
+    public function testLoadThrowsExceptionWithInvalidFile(string $filePath): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -62,7 +62,7 @@ class XmlFileLoaderTest extends TestCase
         $loader->load($filePath);
     }
 
-    public function getPathsToInvalidFiles()
+    public function getPathsToInvalidFiles(): array
     {
         return [['nonvalidnode.xml'], ['nonvalidroute.xml'], ['nonvalid.xml'], ['missing_id.xml'], ['missing_channel.xml']];
     }
