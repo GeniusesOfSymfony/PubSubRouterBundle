@@ -24,10 +24,10 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.2",
-        "phpstan/extension-installer": "^1.0.3",
-        "phpstan/phpstan": "^0.12.9",
-        "phpstan/phpstan-phpunit": "^0.12.6",
-        "phpstan/phpstan-symfony": "^0.12.4",
+        "phpstan/extension-installer": "^1.0.5",
+        "phpstan/phpstan": "^0.12.50",
+        "phpstan/phpstan-phpunit": "^0.12.16",
+        "phpstan/phpstan-symfony": "^0.12.8",
         "phpunit/phpunit": "^8.5 || ^9.3"
     },
     "autoload": {
