@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 (????-??-??)
+
+- Drop support for Symfony 5.0 (branch is EOL)
+
 ## 2.2.0 (2020-02-25)
 
 - Add support for multiple file formats to the router (minus annotations and the PHP-DSL, this brings feature parity with the loaders from the `symfony/routing` package)
