@@ -4,6 +4,7 @@
 
 - Drop support for Symfony 5.0 (branch is EOL)
 - Add support for Symfony 5.1 `Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface::warmUp()` changes
+- Allow install with PHP 8
 
 ## 1.5.1 (2020-05-22)
 
