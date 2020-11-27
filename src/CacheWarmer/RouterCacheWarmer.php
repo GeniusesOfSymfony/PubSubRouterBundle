@@ -8,10 +8,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-/**
- * @final
- */
-class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
+final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
 {
     /**
      * @var ContainerInterface

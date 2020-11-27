@@ -2,10 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-/**
- * @final
- */
-class CompiledRoute implements \Serializable
+final class CompiledRoute implements \Serializable
 {
     /**
      * @var string

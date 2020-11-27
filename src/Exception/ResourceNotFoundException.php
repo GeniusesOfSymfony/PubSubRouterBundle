@@ -2,9 +2,6 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Exception;
 
-/**
- * @final
- */
-class ResourceNotFoundException extends RouterException
+final class ResourceNotFoundException extends RouterException
 {
 }

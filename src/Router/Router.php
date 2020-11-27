@@ -18,9 +18,8 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
- * @final
  */
-class Router implements RouterInterface, WarmableInterface
+final class Router implements RouterInterface, WarmableInterface
 {
     /**
      * @var MatcherInterface|null

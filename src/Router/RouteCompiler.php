@@ -2,10 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-/**
- * @final
- */
-class RouteCompiler implements RouteCompilerInterface
+final class RouteCompiler implements RouteCompilerInterface
 {
     private const REGEX_DELIMITER = '#';
 

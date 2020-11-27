@@ -15,9 +15,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
- * @final
  */
-class GosPubSubRouterExtension extends Extension
+final class GosPubSubRouterExtension extends Extension
 {
     /**
      * @throws InvalidArgumentException if a configured router uses a reserved name

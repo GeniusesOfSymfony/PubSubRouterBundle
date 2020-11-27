@@ -9,10 +9,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Adds tagged gos_pubsub_router.routing.loader services to gos_pubsub_router.routing.resolver service.
- *
- * @final
  */
-class RoutingResolverPass implements CompilerPassInterface
+final class RoutingResolverPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 

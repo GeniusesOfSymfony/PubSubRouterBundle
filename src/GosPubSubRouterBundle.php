@@ -9,9 +9,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
- * @final
  */
-class GosPubSubRouterBundle extends Bundle
+final class GosPubSubRouterBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

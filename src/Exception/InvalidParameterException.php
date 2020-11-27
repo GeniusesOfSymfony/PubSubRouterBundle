@@ -2,9 +2,6 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Exception;
 
-/**
- * @final
- */
-class InvalidParameterException extends RouterException
+final class InvalidParameterException extends RouterException
 {
 }
