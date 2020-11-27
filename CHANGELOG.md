@@ -1,22 +1,3 @@
 # Changelog
 
-## 2.3.0 (2020-11-02)
-
-- Drop support for Symfony 5.0 (branch is EOL)
-- Add support for Symfony 5.1 `Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface::warmUp()` changes
-- Allow install with PHP 8
-
-## 2.2.0 (2020-02-25)
-
-- Add support for multiple file formats to the router (minus annotations and the PHP-DSL, this brings feature parity with the loaders from the `symfony/routing` package)
-
-## 2.1.0 (2020-02-20)
-
-- Annotated a number of non-final classes as `@final`, they will be made final in 3.0
-- [#21](https://github.com/GeniusesOfSymfony/PubSubRouterBundle/issues/21) - Ensure a RouteCollection is returned from the router if there are no resources
-
-## 2.0.0 (2020-01-08)
-
-- Minimum supported Symfony version is 4.4
-- Removed deprecated service aliases
-- Removed reserved router name list
+## 3.0.0 (????-??-??)
