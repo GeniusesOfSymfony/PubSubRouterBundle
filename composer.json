@@ -22,7 +22,6 @@
         "symfony/yaml": "^4.4 || ^5.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.2",
         "phpstan/extension-installer": "^1.0.5",
         "phpstan/phpstan": "^0.12.50",
