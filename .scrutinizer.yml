@@ -3,7 +3,7 @@ build:
     analysis:
       environment:
         php:
-          version: 7.2
+          version: 7.4
 
       cache:
         disabled: false
@@ -23,4 +23,4 @@ before_commands:
 tools:
   external_code_coverage:
     timeout: 3000
-    runs: 8
+    runs: 4

@@ -9,13 +9,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.2, 7.3, 7.4]
+        php: [7.4]
         symfony: [4.4.*, 5.1.*]
         composer-flags: ['--prefer-stable']
         phpunit-flags: ['--coverage-clover clover.xml']
         can-fail: [false]
         include:
-          - php: 7.2
+          - php: 7.4
             symfony: 4.4.*
             composer-flags: '--prefer-stable --prefer-lowest'
             phpunit-flags: '--coverage-clover clover.xml'
