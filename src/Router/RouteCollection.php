@@ -10,14 +10,14 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 final class RouteCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var Route[]
+     * @var array<string, Route>
      */
-    protected $routes = [];
+    private array $routes = [];
 
     /**
-     * @var ResourceInterface[]
+     * @var array<string, ResourceInterface>
      */
-    private $resources = [];
+    private array $resources = [];
 
     /**
      * @param Route[] $routes
@@ -38,7 +38,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \ArrayIterator<Route>
      */
     public function getIterator()
     {
@@ -59,7 +59,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return Route[]
+     * @return array<string, Route>
      */
     public function all(): array
     {
@@ -138,7 +138,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return ResourceInterface[] An array of resources
+     * @return ResourceInterface[]
      */
     public function getResources(): array
     {

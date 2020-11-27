@@ -6,25 +6,22 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class StaticPrefixCollection
 {
-    /**
-     * @var string
-     */
-    private $prefix = '';
+    private string $prefix;
 
     /**
      * @var string[]
      */
-    private $staticPrefixes = [];
+    private array $staticPrefixes = [];
 
     /**
      * @var string[]
      */
-    private $prefixes = [];
+    private array $prefixes = [];
 
     /**
      * @var array<int, self|array<int, string>>
      */
-    private $items = [];
+    private array $items = [];
 
     public function __construct(string $prefix = '')
     {

@@ -9,10 +9,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class Generator implements GeneratorInterface
 {
-    /**
-     * @var RouteCollection
-     */
-    protected $routes;
+    protected RouteCollection $routes;
 
     public function __construct(RouteCollection $routes)
     {

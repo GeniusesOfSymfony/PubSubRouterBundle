@@ -21,45 +21,18 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
  */
 final class Router implements RouterInterface, WarmableInterface
 {
-    /**
-     * @var MatcherInterface|null
-     */
-    protected $matcher;
+    private ?MatcherInterface $matcher = null;
+    private ?GeneratorInterface $generator = null;
+    private LoaderInterface $loader;
+    private ?RouteCollection $collection = null;
+    private array $resources;
+    private string $name;
+    private ?ConfigCacheFactoryInterface $configCacheFactory = null;
 
     /**
-     * @var GeneratorInterface|null
+     * @var array<string, mixed>
      */
-    protected $generator;
-
-    /**
-     * @var LoaderInterface
-     */
-    protected $loader;
-
-    /**
-     * @var RouteCollection|null
-     */
-    protected $collection;
-
-    /**
-     * @var array
-     */
-    protected $resources = [];
-
-    /**
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var ConfigCacheFactoryInterface|null
-     */
-    private $configCacheFactory;
+    private array $options = [];
 
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {

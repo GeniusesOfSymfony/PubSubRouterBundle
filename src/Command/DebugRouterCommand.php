@@ -13,12 +13,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DebugRouterCommand extends Command
 {
+    /**
+     * @var string|null
+     */
     protected static $defaultName = 'gos:pubsub-router:debug';
 
-    /**
-     * @var RouterRegistry
-     */
-    private $registry;
+    private RouterRegistry $registry;
 
     public function __construct(RouterRegistry $registry)
     {

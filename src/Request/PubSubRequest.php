@@ -7,20 +7,9 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 final class PubSubRequest
 {
-    /**
-     * @var string
-     */
-    protected $routeName;
-
-    /**
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * @var ParameterBag
-     */
-    protected $attributes;
+    private string $routeName;
+    private Route $route;
+    private ParameterBag $attributes;
 
     public function __construct(string $routeName, Route $route, array $attributes)
     {

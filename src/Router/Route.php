@@ -7,35 +7,29 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
  */
 final class Route implements \Serializable
 {
-    /**
-     * @var string
-     */
-    protected $pattern = '';
+    private string $pattern = '';
 
     /**
      * @var callable|string
      */
-    protected $callback;
+    private $callback;
 
     /**
      * @var array
      */
-    private $defaults = [];
+    private array $defaults = [];
 
     /**
      * @var array
      */
-    protected $requirements = [];
+    private array $requirements = [];
 
     /**
      * @var array
      */
-    protected $options = [];
+    private array $options = [];
 
-    /**
-     * @var CompiledRoute|null
-     */
-    private $compiled;
+    private ?CompiledRoute $compiled = null;
 
     /**
      * Constructor.

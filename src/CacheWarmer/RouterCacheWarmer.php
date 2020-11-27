@@ -10,10 +10,7 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {

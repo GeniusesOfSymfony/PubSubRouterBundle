@@ -15,10 +15,7 @@ class Matcher implements MatcherInterface
     public const REQUIREMENT_MISMATCH = 1;
     public const ROUTE_MATCH = 2;
 
-    /**
-     * @var RouteCollection
-     */
-    protected $routes;
+    protected RouteCollection $routes;
 
     public function __construct(RouteCollection $routes)
     {

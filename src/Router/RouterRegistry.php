@@ -5,9 +5,9 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 final class RouterRegistry
 {
     /**
-     * @var RouterInterface[]
+     * @var array<string, RouterInterface>
      */
-    private $routers = [];
+    private array $routers = [];
 
     /**
      * @throws \RuntimeException if a router is already registered with the given router's name
@@ -34,7 +34,7 @@ final class RouterRegistry
     }
 
     /**
-     * @return RouterInterface[]
+     * @return array<string, RouterInterface>
      */
     public function getRouters(): array
     {

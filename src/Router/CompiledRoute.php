@@ -4,25 +4,10 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 
 final class CompiledRoute implements \Serializable
 {
-    /**
-     * @var string
-     */
-    private $staticPrefix;
-
-    /**
-     * @var string
-     */
-    private $regex;
-
-    /**
-     * @var array
-     */
-    private $tokens = [];
-
-    /**
-     * @var array
-     */
-    private $variables = [];
+    private string $staticPrefix;
+    private string $regex;
+    private array $tokens;
+    private array $variables;
 
     /**
      * @param string $staticPrefix The static prefix of the compiled route

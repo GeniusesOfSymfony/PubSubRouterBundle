@@ -25,10 +25,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
         'exclude',
     ];
 
-    /**
-     * @var YamlParser
-     */
-    private $yamlParser;
+    private ?YamlParser $yamlParser = null;
 
     /**
      * @param mixed $resource

@@ -8,10 +8,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class PhpMatcherDumper extends MatcherDumper
 {
-    /**
-     * @var \RuntimeException
-     */
-    private $signalingException;
+    private ?\RuntimeException $signalingException = null;
 
     /**
      * Dumps a set of routes to a PHP class.
