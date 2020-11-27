@@ -13,7 +13,7 @@ services:
         arguments:
             - '@gos_pubsub_router.router_registry'
         tags:
-            - { name: console.command, command: gos:prouter:debug }
+            - { name: console.command }
 
     gos_pubsub_router.loader.closure:
         class: Gos\Bundle\PubSubRouterBundle\Loader\ClosureLoader
