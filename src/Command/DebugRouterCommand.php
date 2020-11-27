@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DebugRouterCommand extends Command
 {
-    protected static $defaultName = 'gos:prouter:debug';
+    protected static $defaultName = 'gos:pubsub-router:debug';
 
     /**
      * @var RouterRegistry
@@ -30,6 +30,7 @@ final class DebugRouterCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setAliases(['gos:prouter:debug'])
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
             ->setDescription('Dump route definitions');
     }
