@@ -16,7 +16,6 @@
         "symfony/config": "^3.4 || ^4.4 || ^5.1",
         "symfony/console": "^3.4 || ^4.4 || ^5.1",
         "symfony/dependency-injection": "^3.4 || ^4.4 || ^5.1",
-        "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.1",
         "symfony/http-foundation": "^3.4 || ^4.4 || ^5.1",
         "symfony/http-kernel": "^3.4 || ^4.4 || ^5.1",
         "symfony/yaml": "^3.4 || ^4.4 || ^5.1"
@@ -26,7 +25,9 @@
         "phpunit/phpunit": "^8.5 || ^9.3"
     },
     "autoload": {
-        "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "" },
+        "psr-4": {
+            "Gos\\Bundle\\PubSubRouterBundle\\": ""
+        },
         "exclude-from-classmap": [
             "/Tests/"
         ]
