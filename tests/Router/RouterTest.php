@@ -6,6 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Loader\ClosureLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\ContainerLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\GlobFileLoader;
+use Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\XmlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Loader\YamlFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
@@ -19,7 +20,6 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Routing\Loader\PhpFileLoader;
 
 class RouterTest extends TestCase
 {
