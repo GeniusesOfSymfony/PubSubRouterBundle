@@ -10,7 +10,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
-class GeneratorTest extends TestCase
+final class GeneratorTest extends TestCase
 {
     public function testWithoutParameters(): void
     {

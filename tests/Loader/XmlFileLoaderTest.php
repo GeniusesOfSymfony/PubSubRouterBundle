@@ -8,7 +8,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 
-class XmlFileLoaderTest extends TestCase
+final class XmlFileLoaderTest extends TestCase
 {
     public function testSupports(): void
     {

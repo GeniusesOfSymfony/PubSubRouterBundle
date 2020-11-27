@@ -9,7 +9,7 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class RoutingResolverPassTest extends AbstractCompilerPassTestCase
+final class RoutingResolverPassTest extends AbstractCompilerPassTestCase
 {
     public function testLoadersAreAddedToTheResolver(): void
     {

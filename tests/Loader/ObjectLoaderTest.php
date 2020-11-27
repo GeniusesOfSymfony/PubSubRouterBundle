@@ -7,7 +7,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
-class ObjectLoaderTest extends TestCase
+final class ObjectLoaderTest extends TestCase
 {
     public function testLoadCallsServiceAndReturnsCollection(): void
     {
@@ -90,7 +90,7 @@ class ObjectLoaderTest extends TestCase
             /**
              * @var array<string, object>
              */
-            public $loaderMap = [];
+            public array $loaderMap = [];
 
             protected function doSupports($resource, string $type = null): bool
             {
@@ -111,10 +111,7 @@ class ObjectLoaderTest extends TestCase
     private function createLoaderService(RouteCollection $collection): object
     {
         return new class($collection) {
-            /**
-             * @var RouteCollection
-             */
-            private $collection;
+            private RouteCollection $collection;
 
             public function __construct(RouteCollection $collection)
             {

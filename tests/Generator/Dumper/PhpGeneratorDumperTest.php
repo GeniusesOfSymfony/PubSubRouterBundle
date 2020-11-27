@@ -8,27 +8,12 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
-class PhpGeneratorDumperTest extends TestCase
+final class PhpGeneratorDumperTest extends TestCase
 {
-    /**
-     * @var RouteCollection|null
-     */
-    private $routeCollection;
-
-    /**
-     * @var PhpGeneratorDumper|null
-     */
-    private $generatorDumper;
-
-    /**
-     * @var string|null
-     */
-    private $testTmpFilepath;
-
-    /**
-     * @var string|null
-     */
-    private $largeTestTmpFilepath;
+    private ?RouteCollection $routeCollection = null;
+    private ?PhpGeneratorDumper $generatorDumper = null;
+    private ?string $testTmpFilepath = null;
+    private ?string $largeTestTmpFilepath = null;
 
     protected function setUp(): void
     {

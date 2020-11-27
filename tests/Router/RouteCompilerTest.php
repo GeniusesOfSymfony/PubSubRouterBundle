@@ -5,7 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use PHPUnit\Framework\TestCase;
 
-class RouteCompilerTest extends TestCase
+final class RouteCompilerTest extends TestCase
 {
     /**
      * @dataProvider provideCompileData

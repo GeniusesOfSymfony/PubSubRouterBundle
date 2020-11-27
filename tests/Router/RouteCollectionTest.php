@@ -7,7 +7,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Resource\FileResource;
 
-class RouteCollectionTest extends TestCase
+final class RouteCollectionTest extends TestCase
 {
     public function testRoute(): void
     {

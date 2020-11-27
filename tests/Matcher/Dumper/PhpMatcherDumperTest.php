@@ -7,17 +7,10 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
-class PhpMatcherDumperTest extends TestCase
+final class PhpMatcherDumperTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    private $matcherClass;
-
-    /**
-     * @var string
-     */
-    private $dumpPath;
+    private ?string $matcherClass = null;
+    private ?string $dumpPath = null;
 
     protected function setUp(): void
     {

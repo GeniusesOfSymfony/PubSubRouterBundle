@@ -8,7 +8,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
-class MatcherTest extends TestCase
+final class MatcherTest extends TestCase
 {
     public function testMatch(): void
     {

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 
-class YamlFileLoaderTest extends TestCase
+final class YamlFileLoaderTest extends TestCase
 {
     public function testSupports(): void
     {

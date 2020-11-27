@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class DebugRouterCommandTest extends TestCase
+final class DebugRouterCommandTest extends TestCase
 {
     public function testCommandListsRoutesForARouter(): void
     {

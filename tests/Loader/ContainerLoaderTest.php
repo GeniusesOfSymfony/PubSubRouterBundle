@@ -6,7 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Loader\ContainerLoader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
-class ContainerLoaderTest extends TestCase
+final class ContainerLoaderTest extends TestCase
 {
     /**
      * @dataProvider supportsProvider

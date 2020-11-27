@@ -5,7 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\CompiledRoute;
 use PHPUnit\Framework\TestCase;
 
-class CompiledRouteTest extends TestCase
+final class CompiledRouteTest extends TestCase
 {
     public function testAccessors(): void
     {

@@ -7,7 +7,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler;
 use PHPUnit\Framework\TestCase;
 
-class RouteTest extends TestCase
+final class RouteTest extends TestCase
 {
     public function testConstructor(): void
     {

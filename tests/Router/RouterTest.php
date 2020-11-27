@@ -21,17 +21,14 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\Container;
 
-class RouterTest extends TestCase
+final class RouterTest extends TestCase
 {
-    /**
-     * @var Router
-     */
-    private $router = null;
+    private ?Router $router = null;
 
     /**
-     * @var LoaderInterface|MockObject
+     * @var MockObject&LoaderInterface
      */
-    private $loader = null;
+    private $loader;
 
     protected function setUp(): void
     {

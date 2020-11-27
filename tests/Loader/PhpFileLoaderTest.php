@@ -7,7 +7,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 
-class PhpFileLoaderTest extends TestCase
+final class PhpFileLoaderTest extends TestCase
 {
     public function testSupports(): void
     {

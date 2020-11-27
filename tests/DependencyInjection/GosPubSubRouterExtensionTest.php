@@ -9,7 +9,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 
-class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
+final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

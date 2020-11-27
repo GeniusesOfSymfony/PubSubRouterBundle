@@ -6,7 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\StaticPrefixCollection;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use PHPUnit\Framework\TestCase;
 
-class StaticPrefixCollectionTest extends TestCase
+final class StaticPrefixCollectionTest extends TestCase
 {
     /**
      * @dataProvider routeProvider
