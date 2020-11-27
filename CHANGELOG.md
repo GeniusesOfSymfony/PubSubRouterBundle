@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0 (????-??-??)
+
+- Deprecated `Gos\Bundle\PubSubRouterBundle\Exception\RouterException`, exception classes should implement `Gos\Bundle\PubSubRouterBundle\Exception\PubSubRouterException` instead
+
 ## 2.3.0 (2020-11-02)
 
 - Drop support for Symfony 5.0 (branch is EOL)
