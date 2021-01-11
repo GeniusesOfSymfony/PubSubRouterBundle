@@ -10,7 +10,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.4]
-        symfony: [4.4.*, 5.1.*]
+        symfony: [4.4.*, 5.1.*, 5.2.*]
         composer-flags: ['--prefer-stable']
         phpunit-flags: ['--coverage-clover clover.xml']
         can-fail: [false]
@@ -21,7 +21,7 @@ jobs:
             phpunit-flags: '--coverage-clover clover.xml'
             can-fail: false
           - php: 7.4
-            symfony: 5.2.*@dev
+            symfony: 5.3.*@dev
             composer-flags: '--prefer-stable'
             phpunit-flags: '--coverage-clover clover.xml'
             can-fail: true
