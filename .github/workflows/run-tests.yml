@@ -21,7 +21,7 @@ jobs:
             phpunit-flags: '--coverage-clover clover.xml'
             can-fail: false
           - php: 7.4
-            symfony: 5.3.*@dev
+            symfony: 5.*@dev
             composer-flags: '--prefer-stable'
             phpunit-flags: '--coverage-clover clover.xml'
             can-fail: true
