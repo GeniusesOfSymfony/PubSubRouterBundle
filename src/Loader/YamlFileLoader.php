@@ -18,7 +18,6 @@ final class YamlFileLoader extends CompatibilityFileLoader
         'resource',
         'type',
         'channel',
-        'handler',
         'callback',
         'defaults',
         'requirements',
@@ -133,13 +132,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
             }
         }
 
-        if (isset($config['callback'])) {
-            $callback = $config['callback'];
-        } else {
-            $callback = $config['handler'];
-        }
-
-        $route = new Route($config['channel'], $callback);
+        $route = new Route($config['channel'], $config['callback']);
         $route->addDefaults($defaults);
         $route->addRequirements($requirements);
         $route->addOptions($options);
@@ -173,11 +166,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
                 throw new \InvalidArgumentException(sprintf('You must define a "channel" for the route "%s" in file "%s".', $name, $path));
             }
 
-            if (isset($config['callback']) && isset($config['handler'])) {
-                throw new \InvalidArgumentException(sprintf('The route "%s" in file "%s" must not specify both the "handler" key and the "callback" key.', $name, $path));
-            } elseif (isset($config['handler'])) {
-                trigger_deprecation('gos/pubsub-router-bundle', '2.4', 'Setting the "handler" key for the route "%s" in file "%s" is deprecated and will not be supported in 3.0, use the "callback" key instead.', $name, $path);
-            } elseif (!isset($config['callback'])) {
+            if (!isset($config['callback'])) {
                 throw new \InvalidArgumentException(sprintf('You must define a "callback" for the route "%s" in file "%s".', $name, $path));
             }
         }
