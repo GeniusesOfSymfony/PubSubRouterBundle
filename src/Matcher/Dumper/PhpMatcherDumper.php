@@ -6,6 +6,11 @@ use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
+trigger_deprecation('gos/pubsub-router-bundle', '2.4', 'The "%s" class is deprecated and will be removed in 3.0, use the "%s" class instead.', PhpMatcherDumper::class, CompiledMatcherDumper::class);
+
+/**
+ * @deprecated to be removed in 3.0, use the `Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\CompiledMatcherDumper` class instead
+ */
 class PhpMatcherDumper extends MatcherDumper
 {
     private ?\RuntimeException $signalingException = null;

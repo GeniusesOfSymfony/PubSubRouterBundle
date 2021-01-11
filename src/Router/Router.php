@@ -5,13 +5,11 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 use Gos\Bundle\PubSubRouterBundle\Generator\CompiledGenerator;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\CompiledGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumperInterface;
-use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
 use Gos\Bundle\PubSubRouterBundle\Matcher\CompiledMatcher;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\CompiledMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\MatcherDumperInterface;
-use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
@@ -74,9 +72,9 @@ final class Router implements RouterInterface, WarmableInterface
             'cache_dir' => null,
             'debug' => false,
             'generator_class' => Generator::class,
-            'generator_dumper_class' => PhpGeneratorDumper::class,
+            'generator_dumper_class' => CompiledGeneratorDumper::class,
             'matcher_class' => Matcher::class,
-            'matcher_dumper_class' => PhpMatcherDumper::class,
+            'matcher_dumper_class' => CompiledMatcherDumper::class,
             'resource_type' => null,
         ];
 

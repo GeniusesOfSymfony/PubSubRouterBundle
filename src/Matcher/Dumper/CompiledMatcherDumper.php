@@ -9,9 +9,6 @@ class CompiledMatcherDumper extends MatcherDumper
 {
     private ?\Exception $signalingException = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function dump(array $options = []): string
     {
         return <<<EOF

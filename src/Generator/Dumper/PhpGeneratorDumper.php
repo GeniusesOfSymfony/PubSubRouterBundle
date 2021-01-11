@@ -5,6 +5,11 @@ namespace Gos\Bundle\PubSubRouterBundle\Generator\Dumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 
+trigger_deprecation('gos/pubsub-router-bundle', '2.4', 'The "%s" class is deprecated and will be removed in 3.0, use the "%s" class instead.', PhpGeneratorDumper::class, CompiledGeneratorDumper::class);
+
+/**
+ * @deprecated to be removed in 3.0, use the `Gos\Bundle\PubSubRouterBundle\Generator\Dumper\CompiledGeneratorDumper` class instead
+ */
 class PhpGeneratorDumper extends GeneratorDumper
 {
     /**
