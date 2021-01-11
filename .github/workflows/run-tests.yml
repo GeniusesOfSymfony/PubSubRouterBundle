@@ -19,7 +19,7 @@ jobs:
             composer-flags: '--prefer-stable --prefer-lowest'
             can-fail: false
           - php: 7.4
-            symfony: 5.3.*@dev
+            symfony: 5.*@dev
             composer-flags: '--prefer-stable'
             can-fail: true
           - php: 8.0
