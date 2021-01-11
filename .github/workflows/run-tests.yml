@@ -26,7 +26,7 @@ jobs:
             phpunit-flags: '--coverage-clover clover.xml'
             can-fail: true
           - php: 8.0
-            symfony: 5.1.*
+            symfony: 5.2.*
             composer-flags: '--ignore-platform-req=php'
             phpunit-flags: ''
             can-fail: true
