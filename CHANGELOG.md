@@ -4,6 +4,7 @@
 
 - Added new compiled cache routers (similar to the same from the `symfony/routing` package)
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Exception\RouterException`, exception classes should implement `Gos\Bundle\PubSubRouterBundle\Exception\PubSubRouterException` instead
+- Deprecated `Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper` and `Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper`, use the compiled classes instead
 
 ## 2.3.0 (2020-11-02)
 
