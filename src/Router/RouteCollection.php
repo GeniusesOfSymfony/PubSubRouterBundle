@@ -20,7 +20,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     private array $resources = [];
 
     /**
-     * @param Route[] $routes
+     * @param array<string, Route> $routes
      */
     public function __construct(array $routes = [])
     {
@@ -31,7 +31,6 @@ final class RouteCollection implements \Countable, \IteratorAggregate
 
     public function __clone()
     {
-        /** @var Route $route */
         foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
         }
@@ -99,7 +98,9 @@ final class RouteCollection implements \Countable, \IteratorAggregate
      * Adds defaults to all routes.
      *
      * An existing default value under the same name in a route will be overridden.
-     */
+     *
+     * @param array<string, mixed> $defaults
+      */
     public function addDefaults(array $defaults): void
     {
         if ($defaults) {
@@ -113,6 +114,8 @@ final class RouteCollection implements \Countable, \IteratorAggregate
      * Adds requirements to all routes.
      *
      * An existing requirement under the same name in a route will be overridden.
+     *
+     * @param array<string, string> $requirements
      */
     public function addRequirements(array $requirements): void
     {
@@ -127,6 +130,8 @@ final class RouteCollection implements \Countable, \IteratorAggregate
      * Adds options to all routes.
      *
      * An existing option value under the same name in a route will be overridden.
+     *
+     * @param array<string, mixed> $options
      */
     public function addOptions(array $options): void
     {

@@ -94,7 +94,7 @@ final class Route implements \Serializable
     public function setPattern(string $pattern): self
     {
         if (false !== strpbrk($pattern, '?<')) {
-            $pattern = preg_replace_callback('#\{(\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
+            $pattern = preg_replace_callback('#\{(!?\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
                 if (isset($m[3][0])) {
                     $this->setDefault($m[1], '?' !== $m[3] ? substr($m[3], 1) : null);
                 }
@@ -142,6 +142,9 @@ final class Route implements \Serializable
         return $this->defaults;
     }
 
+    /**
+     * @param array<string, mixed> $defaults
+     */
     public function setDefaults(array $defaults): self
     {
         $this->defaults = [];
@@ -149,6 +152,9 @@ final class Route implements \Serializable
         return $this->addDefaults($defaults);
     }
 
+    /**
+     * @param array<string, mixed> $defaults
+     */
     public function addDefaults(array $defaults): self
     {
         foreach ($defaults as $name => $default) {
@@ -189,6 +195,9 @@ final class Route implements \Serializable
         return $this->requirements;
     }
 
+    /**
+     * @param array<string, string> $requirements
+     */
     public function setRequirements(array $requirements): self
     {
         $this->requirements = [];
@@ -196,6 +205,9 @@ final class Route implements \Serializable
         return $this->addRequirements($requirements);
     }
 
+    /**
+     * @param array<string, string> $requirements
+     */
     public function addRequirements(array $requirements): self
     {
         foreach ($requirements as $key => $regex) {
@@ -230,6 +242,9 @@ final class Route implements \Serializable
         return $this->options;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function setOptions(array $options): self
     {
         $this->options = [
@@ -239,6 +254,9 @@ final class Route implements \Serializable
         return $this->addOptions($options);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function addOptions(array $options): self
     {
         foreach ($options as $name => $option) {
@@ -293,12 +311,18 @@ final class Route implements \Serializable
      */
     private function sanitizeRequirement(string $key, string $regex): string
     {
-        if ('' !== $regex && '^' === $regex[0]) {
-            $regex = (string) substr($regex, 1); // returns false for a single character
+        if ('' !== $regex) {
+            if ('^' === $regex[0]) {
+                $regex = substr($regex, 1);
+            } elseif (0 === strpos($regex, '\\A')) {
+                $regex = substr($regex, 2);
+            }
         }
 
         if ('$' === substr($regex, -1)) {
             $regex = substr($regex, 0, -1);
+        } elseif (\strlen($regex) - 2 === strpos($regex, '\\z')) {
+            $regex = substr($regex, 0, -2);
         }
 
         if ('' === $regex) {

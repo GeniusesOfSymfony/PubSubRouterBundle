@@ -50,16 +50,14 @@ final class Router implements RouterInterface, WarmableInterface
      *   * cache_dir:              The cache directory (or null to disable caching)
      *   * debug:                  Whether to enable debugging or not (false by default)
      *   * generator_class:        The name of a GeneratorInterface implementation
-     *   * generator_base_class:   The base class for the dumped generator class
      *   * generator_cache_class:  The class name for the dumped generator class
      *   * generator_dumper_class: The name of a GeneratorDumperInterface implementation
      *   * matcher_class:          The name of a MatcherInterface implementation
-     *   * matcher_base_class:     The base class for the dumped matcher class
-     *   * matcher_dumper_class:   The class name for the dumped matcher class
-     *   * matcher_cache_class:    The name of a MatcherDumperInterface implementation
+     *   * matcher_cache_class:    The class name for the dumped matcher class
+     *   * matcher_dumper_class:   The name of a MatcherDumperInterface implementation
      *   * resource_type:          Type hint for the main resource (optional)
      *
-     * @param array $options An array of options
+     * @param array<string, mixed> $options An array of options
      *
      * @throws \InvalidArgumentException when an unsupported option is provided
      */
@@ -69,13 +67,11 @@ final class Router implements RouterInterface, WarmableInterface
             'cache_dir' => null,
             'debug' => false,
             'generator_class' => Generator::class,
-            'generator_base_class' => Generator::class,
-            'generator_dumper_class' => PhpGeneratorDumper::class,
             'generator_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Generator',
+            'generator_dumper_class' => PhpGeneratorDumper::class,
             'matcher_class' => Matcher::class,
-            'matcher_base_class' => Matcher::class,
-            'matcher_dumper_class' => PhpMatcherDumper::class,
             'matcher_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Matcher',
+            'matcher_dumper_class' => PhpMatcherDumper::class,
             'resource_type' => null,
         ];
 
