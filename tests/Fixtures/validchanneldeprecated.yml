@@ -1,6 +1,6 @@
 user_chat:
     channel: chat/{user}
-    callback: 'strlen'
+    handler: 'strlen'
     defaults:
         user: 42
     requirements:

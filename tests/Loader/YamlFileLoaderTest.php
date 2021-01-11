@@ -44,10 +44,32 @@ final class YamlFileLoaderTest extends TestCase
         $loader->load('nonvalid.yml');
     }
 
+    public function testLoadThrowsExceptionWithDuplicatedCallbackConfiguration(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $loader->load('nonvalidcallbackandhandler.yml');
+    }
+
     public function testLoadWithRoute(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validchannel.yml');
+        $route = $routeCollection->get('user_chat');
+
+        $this->assertInstanceOf(Route::class, $route);
+        $this->assertSame('chat/{user}', $route->getPattern());
+        $this->assertSame('strlen', $route->getCallback());
+        $this->assertSame(['user' => 42], $route->getDefaults());
+        $this->assertSame(['user' => '\\d+'], $route->getRequirements());
+        $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
+    }
+
+    public function testLoadWithRouteWithDeprecatedHandler(): void
+    {
+        $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routeCollection = $loader->load('validchanneldeprecated.yml');
         $route = $routeCollection->get('user_chat');
 
         $this->assertInstanceOf(Route::class, $route);
