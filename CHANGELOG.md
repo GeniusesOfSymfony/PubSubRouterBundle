@@ -2,6 +2,7 @@
 
 ## 2.4.0 (????-??-??)
 
+- Added new compiled cache routers (similar to the same from the `symfony/routing` package)
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Exception\RouterException`, exception classes should implement `Gos\Bundle\PubSubRouterBundle\Exception\PubSubRouterException` instead
 
 ## 2.3.0 (2020-11-02)

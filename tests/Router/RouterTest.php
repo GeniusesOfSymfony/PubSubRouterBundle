@@ -208,7 +208,6 @@ class RouterTest extends TestCase
     public function provideMatcherOptionsPreventingCaching(): \Generator
     {
         yield ['cache_dir'];
-        yield ['matcher_cache_class'];
     }
 
     /**
@@ -229,7 +228,6 @@ class RouterTest extends TestCase
     public function provideGeneratorOptionsPreventingCaching(): \Generator
     {
         yield ['cache_dir'];
-        yield ['generator_cache_class'];
     }
 
     public function testResourcesAreLoadedToCollection(): void

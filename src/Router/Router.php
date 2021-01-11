@@ -2,12 +2,14 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\CompiledGenerator;
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\CompiledGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumperInterface;
-use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
+use Gos\Bundle\PubSubRouterBundle\Matcher\CompiledMatcher;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\CompiledMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\MatcherDumperInterface;
-use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Matcher\MatcherInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
@@ -62,6 +64,11 @@ class Router implements RouterInterface, WarmableInterface
      */
     private $configCacheFactory;
 
+    /**
+     * @var array<string, array>|null
+     */
+    private static $cache = [];
+
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {
         $this->name = $name;
@@ -83,8 +90,8 @@ class Router implements RouterInterface, WarmableInterface
      *   * generator_dumper_class: The name of a GeneratorDumperInterface implementation
      *   * matcher_class:          The name of a MatcherInterface implementation
      *   * matcher_base_class:     The base class for the dumped matcher class
-     *   * matcher_dumper_class:   The class name for the dumped matcher class
-     *   * matcher_cache_class:    The name of a MatcherDumperInterface implementation
+     *   * matcher_cache_class:    The class name for the dumped matcher class
+     *   * matcher_dumper_class:   The name of a MatcherDumperInterface implementation
      *   * resource_type:          Type hint for the main resource (optional)
      *
      * @param array $options An array of options
@@ -98,11 +105,11 @@ class Router implements RouterInterface, WarmableInterface
             'debug' => false,
             'generator_class' => Generator::class,
             'generator_base_class' => Generator::class,
-            'generator_dumper_class' => PhpGeneratorDumper::class,
+            'generator_dumper_class' => CompiledGeneratorDumper::class,
             'generator_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Generator',
             'matcher_class' => Matcher::class,
             'matcher_base_class' => Matcher::class,
-            'matcher_dumper_class' => PhpMatcherDumper::class,
+            'matcher_dumper_class' => CompiledMatcherDumper::class,
             'matcher_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Matcher',
             'resource_type' => null,
         ];
@@ -111,6 +118,8 @@ class Router implements RouterInterface, WarmableInterface
         $invalid = [];
 
         foreach ($options as $key => $value) {
+            $this->checkDeprecatedOption($key);
+
             if (\array_key_exists($key, $this->options)) {
                 $this->options[$key] = $value;
             } else {
@@ -134,6 +143,8 @@ class Router implements RouterInterface, WarmableInterface
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
 
+        $this->checkDeprecatedOption($key);
+
         $this->options[$key] = $value;
     }
 
@@ -147,6 +158,8 @@ class Router implements RouterInterface, WarmableInterface
         if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
         }
+
+        $this->checkDeprecatedOption($key);
 
         return $this->options[$key];
     }
@@ -220,12 +233,19 @@ class Router implements RouterInterface, WarmableInterface
             return $this->generator;
         }
 
+        $compiled = is_a($this->options['generator_class'], CompiledGenerator::class, true) && Generator::class === $this->options['generator_base_class'] && is_a($this->options['generator_dumper_class'], CompiledGeneratorDumper::class, true);
+
         if (null === $this->options['cache_dir'] || null === $this->options['generator_cache_class']) {
-            $this->generator = new $this->options['generator_class']($this->getCollection());
+            $routes = $this->getCollection();
+
+            if ($compiled) {
+                $routes = (new CompiledGeneratorDumper($routes))->getCompiledRoutes();
+            }
+
+            $this->generator = new $this->options['generator_class']($routes);
         } else {
-            $cache = $this->getConfigCacheFactory()->cache(
-                $this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
-                function (ConfigCacheInterface $cache): void {
+            $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
+                function (ConfigCacheInterface $cache) {
                     $dumper = $this->getGeneratorDumperInstance();
 
                     $options = [
@@ -237,11 +257,15 @@ class Router implements RouterInterface, WarmableInterface
                 }
             );
 
-            if (!class_exists($this->options['generator_cache_class'], false)) {
-                require_once $cache->getPath();
-            }
+            if ($compiled) {
+                $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
+            } else {
+                if (!class_exists($this->options['generator_cache_class'], false)) {
+                    require_once $cache->getPath();
+                }
 
-            $this->generator = new $this->options['generator_cache_class']();
+                $this->generator = new $this->options['generator_cache_class']();
+            }
         }
 
         return $this->generator;
@@ -253,14 +277,20 @@ class Router implements RouterInterface, WarmableInterface
             return $this->matcher;
         }
 
-        if (null === $this->options['cache_dir'] || null === $this->options['matcher_cache_class']) {
-            $this->matcher = new $this->options['matcher_class']($this->getCollection());
+        $compiled = is_a($this->options['matcher_class'], CompiledMatcher::class, true) && Matcher::class === $this->options['matcher_base_class'] && is_a($this->options['matcher_dumper_class'], CompiledMatcherDumper::class, true);
 
-            return $this->matcher;
+        if (null === $this->options['cache_dir'] || null === $this->options['matcher_cache_class']) {
+            $routes = $this->getCollection();
+
+            if ($compiled) {
+                $routes = (new CompiledMatcherDumper($routes))->getCompiledRoutes();
+            }
+
+            return $this->matcher = new $this->options['matcher_class']($routes);
         }
 
         $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['matcher_cache_class'].'.php',
-            function (ConfigCacheInterface $cache): void {
+            function (ConfigCacheInterface $cache) {
                 $dumper = $this->getMatcherDumperInstance();
 
                 $options = [
@@ -271,6 +301,10 @@ class Router implements RouterInterface, WarmableInterface
                 $cache->write($dumper->dump($options), $this->getCollection()->getResources());
             }
         );
+
+        if ($compiled) {
+            return $this->matcher = new $this->options['matcher_class'](self::getCompiledRoutes($cache->getPath()));
+        }
 
         if (!class_exists($this->options['matcher_cache_class'], false)) {
             require_once $cache->getPath();
@@ -299,5 +333,33 @@ class Router implements RouterInterface, WarmableInterface
         }
 
         return $this->configCacheFactory;
+    }
+
+    private function checkDeprecatedOption(string $key): void
+    {
+        switch ($key) {
+            case 'generator_base_class':
+            case 'generator_cache_class':
+            case 'matcher_base_class':
+            case 'matcher_cache_class':
+                trigger_deprecation('gos/pubsub-router-bundle', '2.4', sprintf('Option "%s" given to router %s is deprecated.', $key, static::class));
+        }
+    }
+
+    private static function getCompiledRoutes(string $path): array
+    {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
+            self::$cache = null;
+        }
+
+        if (null === self::$cache) {
+            return require $path;
+        }
+
+        if (isset(self::$cache[$path])) {
+            return self::$cache[$path];
+        }
+
+        return self::$cache[$path] = require $path;
     }
 }

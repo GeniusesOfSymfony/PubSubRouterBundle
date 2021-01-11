@@ -2,9 +2,9 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
-use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\CompiledGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Loader\RouteLoaderInterface;
-use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\CompiledMatcherDumper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -32,31 +32,19 @@ class GosPubSubRouterExtension extends Extension
         $container->registerForAutoconfiguration(RouteLoaderInterface::class)
             ->addTag('gos_pubsub_router.routing.route_loader');
 
-        $container->setParameter('gos_pubsub_router.cache_class_prefix', $container->getParameter('kernel.container_class'));
-
-        $baseRouterOptions = [
+        $routerOptions = [
             'cache_dir' => $container->getParameter('kernel.cache_dir'),
             'debug' => $container->getParameter('kernel.debug'),
             'generator_class' => $config['generator_class'],
-            'generator_base_class' => $config['generator_class'],
-            'generator_dumper_class' => PhpGeneratorDumper::class,
+            'generator_dumper_class' => CompiledGeneratorDumper::class,
             'matcher_class' => $config['matcher_class'],
-            'matcher_base_class' => $config['matcher_class'],
-            'matcher_dumper_class' => PhpMatcherDumper::class,
+            'matcher_dumper_class' => CompiledMatcherDumper::class,
         ];
 
         $registryDefinition = $container->getDefinition('gos_pubsub_router.router_registry');
 
         foreach ($config['routers'] as $routerName => $routerConfig) {
             $lowerRouterName = strtolower($routerName);
-
-            $routerOptions = array_merge(
-                $baseRouterOptions,
-                [
-                    'generator_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst($lowerRouterName).'Generator',
-                    'matcher_cache_class' => $container->getParameter('gos_pubsub_router.cache_class_prefix').ucfirst($lowerRouterName).'Matcher',
-                ]
-            );
 
             $serviceId = 'gos_pubsub_router.router.'.$lowerRouterName;
 
