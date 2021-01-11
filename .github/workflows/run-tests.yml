@@ -23,7 +23,7 @@ jobs:
             composer-flags: '--prefer-stable'
             can-fail: true
           - php: 8.0
-            symfony: 5.1.*
+            symfony: 5.2.*
             composer-flags: '--ignore-platform-req=php'
             can-fail: true
 
