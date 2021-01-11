@@ -2,111 +2,107 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Matcher\Dumper;
 
-use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
-class PhpMatcherDumper extends MatcherDumper
+class CompiledMatcherDumper extends MatcherDumper
 {
-    private ?\RuntimeException $signalingException = null;
+    private ?\Exception $signalingException = null;
 
     /**
-     * Dumps a set of routes to a PHP class.
-     *
-     * Available options:
-     *
-     *  * class:      The class name
-     *  * base_class: The base class name
+     * {@inheritdoc}
      */
     public function dump(array $options = []): string
     {
-        $options = array_replace(
-            [
-                'class' => 'ProjectMatcher',
-                'base_class' => Matcher::class,
-            ],
-            $options
-        );
-
-        // trailing slash support is only enabled if we know how to redirect the user
-        $interfaces = class_implements($options['base_class']);
-
         return <<<EOF
 <?php
-
-use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
-use Gos\Bundle\PubSubRouterBundle\Router\Route;
-
 /**
- * This class has been auto-generated
+ * This file has been auto-generated
  * by the PubSubRouterBundle.
  */
-class {$options['class']} extends {$options['base_class']}
-{
-    public function __construct()
-    {
-    }
-
-{$this->generateMatchMethod()}
-}
-
+return [
+{$this->generateCompiledRoutes()}];
 EOF;
     }
 
-    /**
-     * Generates the code for the match method implementing MatcherInterface.
-     */
-    private function generateMatchMethod(): string
+    public function getCompiledRoutes(bool $forDump = false): array
     {
         // Group hosts by same-suffix, re-order when possible
         $routes = new StaticPrefixCollection();
+
         foreach ($this->getRoutes()->all() as $name => $route) {
             $routes->addRoute('/(.*)', [$name, $route]);
         }
 
         $routes = $this->getRoutes();
 
-        $code = rtrim($this->compileRoutes($routes), "\n");
-
-        $code = <<<EOF
-    {
-$code
-
-EOF;
-
-        return "    public function match(string \$channel): array\n".$code."\n        throw new ResourceNotFoundException();\n    }";
-    }
-
-    /**
-     * Generates PHP code to match a RouteCollection with all its routes.
-     */
-    private function compileRoutes(RouteCollection $routes): string
-    {
         [$staticRoutes, $dynamicRoutes] = $this->groupStaticRoutes($routes);
 
-        $code = $this->compileStaticRoutes($staticRoutes);
+        $compiledRoutes = [$this->compileStaticRoutes($staticRoutes)];
         $chunkLimit = \count($dynamicRoutes);
 
         while (true) {
             try {
-                $this->signalingException = new \RuntimeException('preg_match(): Compilation failed: regular expression is too large');
-                $code .= $this->compileDynamicRoutes($dynamicRoutes, $chunkLimit);
+                $this->signalingException = new \RuntimeException('Compilation failed: regular expression is too large');
+                $compiledRoutes = array_merge($compiledRoutes, $this->compileDynamicRoutes($dynamicRoutes, $chunkLimit));
+
                 break;
             } catch (\Exception $e) {
                 if (1 < $chunkLimit && $this->signalingException === $e) {
                     $chunkLimit = 1 + ($chunkLimit >> 1);
+
                     continue;
                 }
+
                 throw $e;
             }
         }
 
-        return $code;
+        if ($forDump) {
+            $compiledRoutes[1] = $compiledRoutes[3];
+        }
+
+        return $compiledRoutes;
     }
 
-    /**
-     * Splits static routes from dynamic routes, so that they can be matched first, using a simple switch.
-     */
+    private function generateCompiledRoutes(): string
+    {
+        [$staticRoutes, $regexpCode, $dynamicRoutes] = $this->getCompiledRoutes(true);
+
+        $code = '[ // $staticRoutes'."\n";
+
+        foreach ($staticRoutes as $path => $routes) {
+            $code .= sprintf("    %s => [\n", self::export($path));
+
+            foreach ($routes as $route) {
+                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", ...array_map([self::class, 'export'], $route));
+            }
+
+            $code .= "    ],\n";
+        }
+
+        $code .= "],\n";
+
+        $code .= sprintf("[ // \$regexpList%s\n],\n", $regexpCode);
+
+        $code .= '[ // $dynamicRoutes'."\n";
+
+        foreach ($dynamicRoutes as $path => $routes) {
+            $code .= sprintf("    %s => [\n", self::export($path));
+
+            foreach ($routes as $route) {
+                $code .= sprintf("        [%s, %s, %s, %s, %s, %s, %s],\n", ...array_map([self::class, 'export'], $route));
+            }
+
+            $code .= "    ],\n";
+        }
+
+        $code .= "],\n";
+        $code = preg_replace('/ => \[\n        (\[.+?),\n    \],/', ' => [$1],', $code);
+
+        return $this->indent($code, 1);
+    }
+
     private function groupStaticRoutes(RouteCollection $collection): array
     {
         $staticRoutes = $dynamicRegex = [];
@@ -123,6 +119,7 @@ EOF;
                     if (preg_match($rx, $pattern)) {
                         $dynamicRegex[] = $regex;
                         $dynamicRoutes->add($name, $route);
+
                         continue 2;
                     }
                 }
@@ -145,30 +142,23 @@ EOF;
      *
      * @throws \LogicException
      */
-    private function compileStaticRoutes(array $staticRoutes): string
+    private function compileStaticRoutes(array $staticRoutes): array
     {
         if (!$staticRoutes) {
-            return '';
+            return [];
         }
 
-        $code = '';
+        $compiledRoutes = [];
 
         foreach ($staticRoutes as $url => $routes) {
-            if (1 === \count($routes)) {
-                foreach ($routes as $name => $route) {
-                }
-            }
-
-            $code .= sprintf("        case %s:\n", self::export($url));
+            $compiledRoutes[$url] = [];
 
             foreach ($routes as $name => $route) {
-                $code .= $this->compileRoute($route, $name);
+                $compiledRoutes[$url][] = $this->compileRoute($route, $name, []);
             }
-
-            $code .= "            break;\n";
         }
 
-        return sprintf("        switch (\$channel) {\n%s        }\n\n", $this->indent($code));
+        return $compiledRoutes;
     }
 
     /**
@@ -189,22 +179,27 @@ EOF;
      *    matching-but-failing subpattern is excluded by replacing its name by "(*F)", which forces a failure-to-match.
      *    To ease this backlisting operation, the name of subpatterns is also the string offset where the replacement should occur.
      */
-    private function compileDynamicRoutes(RouteCollection $collection, int $chunkLimit): string
+    private function compileDynamicRoutes(RouteCollection $collection, int $chunkLimit): array
     {
         if (!$collection->all()) {
-            return '';
+            return [[], [], ''];
         }
 
+        $regexpList = [];
         $code = '';
         $state = (object) [
-            'regex' => '',
-            'switch' => '',
-            'default' => '',
+            'regexMark' => 0,
+            'regex' => [],
+            'routes' => [],
             'mark' => 0,
             'markTail' => 0,
             'vars' => [],
         ];
         $state->getVars = static function ($m) use ($state) {
+            if ('_route' === $m[1]) {
+                return '?:';
+            }
+
             $state->vars[] = $m[1];
 
             return '';
@@ -231,7 +226,8 @@ EOF;
 
         foreach ($perModifiers as [$modifiers, $routes]) {
             $rx = '{^(?';
-            $code .= self::export($rx);
+            $code .= "\n    {$state->mark} => ".self::export($rx);
+            $startingMark = $state->mark;
             $state->mark += \strlen($rx);
             $state->regex = $rx;
 
@@ -242,55 +238,37 @@ EOF;
 
                 $state->vars = [];
                 $regex = preg_replace_callback('#\?P<([^>]++)>#', $state->getVars, $rx[1]);
+
+                if ($hasTrailingSlash = '/' !== $regex && '/' === $regex[-1]) {
+                    $regex = substr($regex, 0, -1);
+                }
+
                 $tree->addRoute($regex, [$name, $regex, $state->vars, $route]);
             }
 
-            $code .= $this->compileStaticPrefixCollection($tree, $state);
+            $code .= $this->compileStaticPrefixCollection($tree, $state, 0);
 
-            $rx = ")$}{$modifiers}";
-            $code .= "\n                .'{$rx}'";
+            $rx = ")/?$}{$modifiers}";
+            $code .= "\n        .'{$rx}',";
             $state->regex .= $rx;
             $state->markTail = 0;
 
             // if the regex is too large, throw a signaling exception to recompute with smaller chunk size
-            set_error_handler(function (int $type, string $message, string $file, int $line): void { throw 0 === strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
+            set_error_handler(function ($type, $message) { throw false !== strpos($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
+
             try {
                 preg_match($state->regex, '');
             } finally {
                 restore_error_handler();
             }
+
+            $regexpList[$startingMark] = $state->regex;
         }
 
-        if ($state->default) {
-            $state->switch .= <<<EOF
-        default:
-            \$routes = array(
-{$this->indent($state->default, 4)}            );
-
-            list(\$name, \$route, \$vars) = \$routes[\$m];
-{$this->compileSwitchDefault(true)}
-EOF;
-        }
-
-        $matchedPathinfo = '$channel';
+        $state->routes[$state->mark][] = [null, null, null, null, false, false, 0];
         unset($state->getVars);
 
-        return <<<EOF
-        \$matchedChannel = {$matchedPathinfo};
-        \$regex = {$code};
-
-        while (preg_match(\$regex, \$matchedChannel, \$matches)) {
-            switch (\$m = (int) \$matches['MARK']) {
-{$this->indent($state->switch, 2)}            }
-
-            if ({$state->mark} === \$m) {
-                break;
-            }
-            \$regex = substr_replace(\$regex, 'F', \$m - \$offset, 1 + strlen(\$m));
-            \$offset += strlen(\$m);
-        }
-
-EOF;
+        return [$regexpList, $state->routes, $code];
     }
 
     /**
@@ -310,12 +288,13 @@ EOF;
                 $prevRegex = null;
                 $prefix = substr($route->getPrefix(), $prefixLen);
                 $state->mark += \strlen($rx = "|{$prefix}(?");
-                $code .= "\n                .".self::export($rx);
+                $code .= "\n            .".self::export($rx);
                 $state->regex .= $rx;
                 $code .= $this->indent($this->compileStaticPrefixCollection($route, $state, $prefixLen + \strlen($prefix)));
-                $code .= "\n                .')'";
+                $code .= "\n            .')'";
                 $state->regex .= ')';
                 ++$state->markTail;
+
                 continue;
             }
 
@@ -326,147 +305,42 @@ EOF;
              * @var Route  $route
              */
             [$name, $regex, $vars, $route] = $route;
+
             $compiledRoute = $route->compile();
 
             if ($compiledRoute->getRegex() === $prevRegex) {
-                $state->switch = substr_replace($state->switch, $this->compileRoute($route, $name)."\n", -19, 0);
+                $state->routes[$state->mark][] = $this->compileRoute($route, $name, $vars);
+
                 continue;
             }
 
             $state->mark += 3 + $state->markTail + \strlen($regex) - $prefixLen;
-            $state->markTail = 2 + \strlen((string) $state->mark);
+            $state->markTail = 2 + \strlen($state->mark);
             $rx = sprintf('|%s(*:%s)', substr($regex, $prefixLen), $state->mark);
-            $code .= "\n                    .".self::export($rx);
+            $code .= "\n            .".self::export($rx);
             $state->regex .= $rx;
 
-            if (!\is_array($next = $routes[1 + $i] ?? null) || $regex !== $next[1]) {
-                $prevRegex = null;
-                $defaults = $route->getDefaults();
-
-                $state->default .= sprintf(
-                    "%s => array(%s, %s, %s),\n",
-                    $state->mark,
-                    self::export($name),
-                    sprintf(
-                        'new Route(%s, %s, %s, %s, %s)',
-                        self::export($route->getPattern()),
-                        self::export($route->getCallback()),
-                        self::export($route->getDefaults() + $defaults),
-                        self::export($route->getRequirements()),
-                        self::export($route->getOptions())
-                    ),
-                    self::export($vars)
-                );
-            } else {
-                $prevRegex = $compiledRoute->getRegex();
-                $combine = '            $matches = array(';
-                foreach ($vars as $j => $m) {
-                    $combine .= sprintf('%s => $matches[%d] ?? null, ', self::export($m), 1 + $j);
-                }
-                $combine = $vars ? substr_replace($combine, ");\n\n", -2) : '';
-
-                $state->switch .= <<<EOF
-        case {$state->mark}:
-{$combine}{$this->compileRoute($route, $name)}
-            break;
-
-EOF;
-            }
+            $prevRegex = $compiledRoute->getRegex();
+            $state->routes[$state->mark] = [$this->compileRoute($route, $name, $vars)];
         }
-
-        return $code;
-    }
-
-    /**
-     * A simple helper to compiles the switch's "default" for both static and dynamic routes.
-     */
-    private function compileSwitchDefault(bool $hasVars): string
-    {
-        if ($hasVars) {
-            $code = <<<EOF
-
-            \$attributes = array();
-
-            foreach (\$vars as \$i => \$v) {
-                if (isset(\$matches[1 + \$i])) {
-                    \$attributes[\$v] = \$matches[1 + \$i];
-                }
-            }
-
-            \$attributes = \$this->mergeDefaults(\$attributes, \$route->getDefaults());
-
-EOF;
-        } else {
-            $code = <<<EOF
-
-            \$attributes = \$route->getDefaults();
-
-EOF;
-        }
-
-        $code .= <<<EOF
-
-            return array(\$name, \$route, \$attributes);
-
-EOF;
 
         return $code;
     }
 
     /**
      * Compiles a single Route to PHP code used to match it against the path info.
-     *
-     * @throws \LogicException
      */
-    private function compileRoute(Route $route, string $name): string
+    private function compileRoute(Route $route, string $name, array $vars): array
     {
-        $compiledRoute = $route->compile();
-        $matches = (bool) $compiledRoute->getVariables();
-
-        $code = "            // {$name}\n";
-
-        $gotoname = 'not_'.preg_replace('/[^A-Za-z0-9_]/', '', $name);
-
-        // the offset where the return value is appended below, with indendation
-        $retOffset = 12 + \strlen($code);
-
-        // optimize parameters array
-        if ($matches) {
-            $vars = ["array('$name')", '$matches'];
-
-            $code .= sprintf(
-                "            \$ret = array(%s, %s, \$this->mergeDefaults(%s, %s));\n",
-                self::export($name),
-                sprintf(
-                    'new Route(%s, %s, %s, %s, %s)',
-                    self::export($route->getPattern()),
-                    self::export($route->getCallback()),
-                    self::export($route->getDefaults()),
-                    self::export($route->getRequirements()),
-                    self::export($route->getOptions())
-                ),
-                implode(' + ', $vars),
-                self::export($route->getDefaults())
-            );
-        } else {
-            $code .= sprintf(
-                "            \$ret = array(%s, %s, %s);\n",
-                self::export($name),
-                sprintf(
-                    'new Route(%s, %s, %s, %s, %s)',
-                    self::export($route->getPattern()),
-                    self::export($route->getCallback()),
-                    self::export($route->getDefaults()),
-                    self::export($route->getRequirements()),
-                    self::export($route->getOptions())
-                ),
-                self::export($route->getDefaults())
-            );
-        }
-
-        $code = substr_replace($code, 'return', $retOffset, 6);
-
-        return $code;
+        return [
+            $name,
+            $vars,
+            $route->getPattern(),
+            $route->getCallback(),
+            $route->getDefaults(),
+            $route->getRequirements(),
+            $route->getOptions(),
+        ];
     }
 
     private function indent(string $code, int $level = 1): string
@@ -496,11 +370,11 @@ EOF;
         }
 
         if (!$value) {
-            return 'array()';
+            return '[]';
         }
 
         $i = 0;
-        $export = 'array(';
+        $export = '[';
 
         foreach ($value as $k => $v) {
             if ($i === $k) {
@@ -516,6 +390,6 @@ EOF;
             $export .= self::export($v).', ';
         }
 
-        return substr_replace($export, ')', -2);
+        return substr_replace($export, ']', -2);
     }
 }

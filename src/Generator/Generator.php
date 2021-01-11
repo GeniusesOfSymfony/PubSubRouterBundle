@@ -51,13 +51,17 @@ class Generator implements GeneratorInterface
 
         foreach ($tokens as $token) {
             if ('variable' === $token[0]) {
-                if (!$optional || !\array_key_exists($token[3], $defaults) || null !== $mergedParams[$token[3]] && (string) $mergedParams[$token[3]] !== (string) $defaults[$token[3]]) {
+                $varName = $token[3];
+                // variable is not important by default
+                $important = $token[5] ?? false;
+
+                if (!$optional || $important || !\array_key_exists($varName, $defaults) || (null !== $mergedParams[$varName] && (string) $mergedParams[$varName] !== (string) $defaults[$varName])) {
                     // check requirement
-                    if (!preg_match('#^'.$token[2].'$#'.(empty($token[4]) ? '' : 'u'), $mergedParams[$token[3]])) {
-                        throw new InvalidParameterException(strtr($message, ['{parameter}' => $token[3], '{route}' => $routeName, '{expected}' => $token[2], '{given}' => $mergedParams[$token[3]]]));
+                    if (!preg_match('#^'.preg_replace('/\(\?(?:=|<=|!|<!)((?:[^()\\\\]+|\\\\.|\((?1)\))*)\)/', '', $token[2]).'$#i'.(empty($token[4]) ? '' : 'u'), $mergedParams[$token[3]])) {
+                        throw new InvalidParameterException(strtr($message, ['{parameter}' => $varName, '{route}' => $routeName, '{expected}' => $token[2], '{given}' => $mergedParams[$varName]]));
                     }
 
-                    $url = $token[1].$mergedParams[$token[3]].$url;
+                    $url = $token[1].$mergedParams[$varName].$url;
                     $optional = false;
                 }
             } else {

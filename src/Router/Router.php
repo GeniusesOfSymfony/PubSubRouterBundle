@@ -2,10 +2,14 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use Gos\Bundle\PubSubRouterBundle\Generator\CompiledGenerator;
+use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\CompiledGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\GeneratorDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper;
 use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
 use Gos\Bundle\PubSubRouterBundle\Generator\GeneratorInterface;
+use Gos\Bundle\PubSubRouterBundle\Matcher\CompiledMatcher;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\CompiledMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\MatcherDumperInterface;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper;
 use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
@@ -34,6 +38,11 @@ final class Router implements RouterInterface, WarmableInterface
      */
     private array $options = [];
 
+    /**
+     * @var array<string, array>|null
+     */
+    private static ?array $cache = [];
+
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {
         $this->name = $name;
@@ -50,10 +59,8 @@ final class Router implements RouterInterface, WarmableInterface
      *   * cache_dir:              The cache directory (or null to disable caching)
      *   * debug:                  Whether to enable debugging or not (false by default)
      *   * generator_class:        The name of a GeneratorInterface implementation
-     *   * generator_cache_class:  The class name for the dumped generator class
      *   * generator_dumper_class: The name of a GeneratorDumperInterface implementation
      *   * matcher_class:          The name of a MatcherInterface implementation
-     *   * matcher_cache_class:    The class name for the dumped matcher class
      *   * matcher_dumper_class:   The name of a MatcherDumperInterface implementation
      *   * resource_type:          Type hint for the main resource (optional)
      *
@@ -67,10 +74,8 @@ final class Router implements RouterInterface, WarmableInterface
             'cache_dir' => null,
             'debug' => false,
             'generator_class' => Generator::class,
-            'generator_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Generator',
             'generator_dumper_class' => PhpGeneratorDumper::class,
             'matcher_class' => Matcher::class,
-            'matcher_cache_class' => 'Project'.ucfirst(strtolower($this->name)).'Matcher',
             'matcher_dumper_class' => PhpMatcherDumper::class,
             'resource_type' => null,
         ];
@@ -188,28 +193,25 @@ final class Router implements RouterInterface, WarmableInterface
             return $this->generator;
         }
 
-        if (null === $this->options['cache_dir'] || null === $this->options['generator_cache_class']) {
-            $this->generator = new $this->options['generator_class']($this->getCollection());
+        if (null === $this->options['cache_dir']) {
+            $routes = $this->getCollection();
+            $compiled = is_a($this->options['generator_class'], CompiledGenerator::class, true);
+
+            if ($compiled) {
+                $routes = (new CompiledGeneratorDumper($routes))->getCompiledRoutes();
+            }
+
+            $this->generator = new $this->options['generator_class']($routes);
         } else {
-            $cache = $this->getConfigCacheFactory()->cache(
-                $this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
-                function (ConfigCacheInterface $cache): void {
+            $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.strtolower($this->name).'_pubsub_router_generating_routes.php',
+                function (ConfigCacheInterface $cache) {
                     $dumper = $this->getGeneratorDumperInstance();
 
-                    $options = [
-                        'class' => $this->options['generator_cache_class'],
-                        'base_class' => $this->options['generator_base_class'],
-                    ];
-
-                    $cache->write($dumper->dump($options), $this->getCollection()->getResources());
+                    $cache->write($dumper->dump(), $this->getCollection()->getResources());
                 }
             );
 
-            if (!class_exists($this->options['generator_cache_class'], false)) {
-                require_once $cache->getPath();
-            }
-
-            $this->generator = new $this->options['generator_cache_class']();
+            $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
         }
 
         return $this->generator;
@@ -221,30 +223,26 @@ final class Router implements RouterInterface, WarmableInterface
             return $this->matcher;
         }
 
-        if (null === $this->options['cache_dir'] || null === $this->options['matcher_cache_class']) {
-            $this->matcher = new $this->options['matcher_class']($this->getCollection());
+        if (null === $this->options['cache_dir']) {
+            $routes = $this->getCollection();
+            $compiled = is_a($this->options['matcher_class'], CompiledMatcher::class, true);
 
-            return $this->matcher;
+            if ($compiled) {
+                $routes = (new CompiledMatcherDumper($routes))->getCompiledRoutes();
+            }
+
+            return $this->matcher = new $this->options['matcher_class']($routes);
         }
 
-        $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['matcher_cache_class'].'.php',
-            function (ConfigCacheInterface $cache): void {
+        $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.strtolower($this->name).'_pubsub_router_matching_routes.php',
+            function (ConfigCacheInterface $cache) {
                 $dumper = $this->getMatcherDumperInstance();
 
-                $options = [
-                    'class' => $this->options['matcher_cache_class'],
-                    'base_class' => $this->options['matcher_base_class'],
-                ];
-
-                $cache->write($dumper->dump($options), $this->getCollection()->getResources());
+                $cache->write($dumper->dump(), $this->getCollection()->getResources());
             }
         );
 
-        if (!class_exists($this->options['matcher_cache_class'], false)) {
-            require_once $cache->getPath();
-        }
-
-        return $this->matcher = new $this->options['matcher_cache_class']();
+        return $this->matcher = new $this->options['matcher_class'](self::getCompiledRoutes($cache->getPath()));
     }
 
     protected function getGeneratorDumperInstance(): GeneratorDumperInterface
@@ -267,5 +265,22 @@ final class Router implements RouterInterface, WarmableInterface
         }
 
         return $this->configCacheFactory;
+    }
+
+    private static function getCompiledRoutes(string $path): array
+    {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
+            self::$cache = null;
+        }
+
+        if (null === self::$cache) {
+            return require $path;
+        }
+
+        if (isset(self::$cache[$path])) {
+            return self::$cache[$path];
+        }
+
+        return self::$cache[$path] = require $path;
     }
 }

@@ -25,7 +25,6 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->load();
 
         $this->assertContainerBuilderNotHasService('gos_pubsub_router.router.test');
-        $this->assertContainerBuilderHasParameter('gos_pubsub_router.cache_class_prefix');
     }
 
     public function dataSupportedExtensions(): \Generator
