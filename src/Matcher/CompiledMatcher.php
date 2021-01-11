@@ -29,7 +29,6 @@ class CompiledMatcher extends Matcher
     {
         foreach ($this->staticRoutes[$channel] ?? [] as [$name, $vars, $pattern, $callback, $defaults, $requirements, $options]) {
             $route = new Route($pattern, $callback, $defaults, $requirements, $options);
-            $route->compile();
 
             return [$name, $route, $this->getAttributes($route, $channel, [self::REQUIREMENT_MATCH, []])];
         }
@@ -46,7 +45,6 @@ class CompiledMatcher extends Matcher
                     }
 
                     $route = new Route($pattern, $callback, $defaults, $requirements, $options);
-                    $route->compile();
 
                     $status = [self::REQUIREMENT_MATCH, null];
 

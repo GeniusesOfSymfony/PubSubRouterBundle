@@ -15,7 +15,7 @@ final class CompiledMatcherTest extends MatcherTest
 {
     protected function getMatcher(RouteCollection $routes): MatcherInterface
     {
-        $dumper = new CompiledMatcherDumper($routes);
+        $dumper = new CompiledMatcherDumper(clone $routes);
 
         return new CompiledMatcher($dumper->getCompiledRoutes());
     }

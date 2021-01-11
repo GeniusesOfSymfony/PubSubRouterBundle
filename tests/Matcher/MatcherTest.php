@@ -16,7 +16,6 @@ class MatcherTest extends TestCase
         // test the patterns are matched and parameters are returned
         $collection = new RouteCollection();
         $collection->add('foo', $route = new Route('foo/{bar}', 'strlen'));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
 
         try {
@@ -30,7 +29,6 @@ class MatcherTest extends TestCase
         // test that defaults are merged
         $collection = new RouteCollection();
         $collection->add('foo', $route = new Route('foo/{bar}', 'strlen', ['def' => 'test']));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
 
         $this->assertEquals(['foo', $route, ['bar' => 'baz', 'def' => 'test']], $matcher->match('foo/baz'));
@@ -38,7 +36,6 @@ class MatcherTest extends TestCase
         // route with an optional variable as the first segment
         $collection = new RouteCollection();
         $collection->add('bar', $route = new Route('{bar}/foo', 'strlen', ['bar' => 'bar'], ['bar' => 'foo|bar']));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
 
         $this->assertEquals(['bar', $route, ['bar' => 'bar']], $matcher->match('bar/foo'));
@@ -46,7 +43,6 @@ class MatcherTest extends TestCase
 
         $collection = new RouteCollection();
         $collection->add('bar', $route = new Route('{bar}', 'strlen', ['bar' => 'bar'], ['bar' => 'foo|bar']));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
 
         $this->assertEquals(['bar', $route, ['bar' => 'foo']], $matcher->match('foo'));
@@ -55,7 +51,6 @@ class MatcherTest extends TestCase
         // route with only optional variables
         $collection = new RouteCollection();
         $collection->add('bar', $route = new Route('{foo}/{bar}', 'strlen', ['foo' => 'foo', 'bar' => 'bar']));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
 
         $this->assertEquals(['bar', $route, ['foo' => 'foo', 'bar' => 'bar']], $matcher->match(''));
@@ -67,7 +62,6 @@ class MatcherTest extends TestCase
     {
         $collection = new RouteCollection();
         $collection->add('$péß^a|', $route = new Route('bar', 'strlen'));
-        $route->compile();
         $matcher = $this->getMatcher($collection);
         $this->assertEquals(['$péß^a|', $route, []], $matcher->match('bar'));
     }
@@ -76,11 +70,9 @@ class MatcherTest extends TestCase
     {
         $collection = new RouteCollection();
         $collection->add('foo', $route = new Route('foo', 'strlen'));
-        $route->compile();
 
         $collection1 = new RouteCollection();
         $collection1->add('foo', $route = new Route('foo1', 'strlen'));
-        $route->compile();
 
         $collection->addCollection($collection1);
 

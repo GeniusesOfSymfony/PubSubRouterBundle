@@ -35,29 +35,20 @@ final class CompiledMatcherDumperTest extends TestCase
 
         [$name, $route, $attributes] = $matcher->match('overridden');
 
-        $expectedRoute = new Route('overridden', 'strlen');
-        $expectedRoute->compile();
-
         $this->assertSame('overridden', $name, 'The matched route name is returned');
-        $this->assertEquals($expectedRoute, $route, 'The Route object is in the expected state');
+        $this->assertEquals(new Route('overridden', 'strlen'), $route, 'The Route object is in the expected state');
         $this->assertSame([], $attributes, 'The route attributes are returned after merging defaults');
 
         [$name, $route, $attributes] = $matcher->match('test/gos/');
 
-        $expectedRoute = new Route('test/{foo}/', 'strlen');
-        $expectedRoute->compile();
-
         $this->assertSame('baz4', $name, 'The matched route name is returned');
-        $this->assertEquals($expectedRoute, $route, 'The Route object is in the expected state');
+        $this->assertEquals(new Route('test/{foo}/', 'strlen'), $route, 'The Route object is in the expected state');
         $this->assertSame(['foo' => 'gos'], $attributes, 'The route attributes are returned after merging defaults');
 
         [$name, $route, $attributes] = $matcher->match('hello/gos');
 
-        $expectedRoute = new Route('hello/{who}', 'strlen', ['who' => 'World!']);
-        $expectedRoute->compile();
-
         $this->assertSame('helloWorld', $name, 'The matched route name is returned');
-        $this->assertEquals($expectedRoute, $route, 'The Route object is in the expected state');
+        $this->assertEquals(new Route('hello/{who}', 'strlen', ['who' => 'World!']), $route, 'The Route object is in the expected state');
         $this->assertSame(['who' => 'gos'], $attributes, 'The route attributes are returned after merging defaults');
     }
 
