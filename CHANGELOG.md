@@ -7,6 +7,7 @@
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Exception\RouterException`, exception classes should implement `Gos\Bundle\PubSubRouterBundle\Exception\PubSubRouterException` instead
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper` and `Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper`, use the compiled classes instead
 - Deprecated the "handler" key used to configure a route's callback in the YAML file loader, use the "callback" key instead
+- Deprecated the "channel" key used to configure a route's pattern in the XML and YAML file loaders, use the "pattern" key instead
 
 ## 2.3.0 (2020-11-02)
 

@@ -66,7 +66,7 @@ class YamlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
-    public function testLoadWithRouteWithDeprecatedHandler(): void
+    public function testLoadWithRouteWithDeprecatedProperties(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
         $routeCollection = $loader->load('validchanneldeprecated.yml');

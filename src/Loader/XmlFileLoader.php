@@ -76,11 +76,19 @@ final class XmlFileLoader extends CompatibilityFileLoader
             throw new \InvalidArgumentException(sprintf('The <route> element in file "%s" must have an "id" attribute.', $filepath));
         }
 
-        if (!$node->hasAttribute('channel')) {
-            throw new \InvalidArgumentException(sprintf('The routing file "%s" requires the "channel" attribute for route ID "%s".', $filepath, $id));
+        if ($node->hasAttribute('pattern') && $node->hasAttribute('channel')) {
+            throw new \InvalidArgumentException(sprintf('The routing file "%s" requires that both the "pattern" attribute and the "channel" attribute cannot be set for route ID "%s".', $filepath, $id));
+        } elseif ($node->hasAttribute('channel')) {
+            trigger_deprecation('gos/pubsub-router-bundle', '2.4', 'The routing file "%s" uses the deprecated "channel" attribute for route ID "%s" and will not be supported in 3.0, use the "pattern" key instead.', $filepath, $id);
+        } elseif (!$node->hasAttribute('pattern')) {
+            throw new \InvalidArgumentException(sprintf('The routing file "%s" requires the "pattern" attribute for route ID "%s".', $filepath, $id));
         }
 
-        $channel = $node->getAttribute('channel');
+        if ($node->hasAttribute('pattern')) {
+            $pattern = $node->getAttribute('pattern');
+        } else {
+            $pattern = $node->getAttribute('channel');
+        }
 
         if (!$node->hasAttribute('callback')) {
             throw new \InvalidArgumentException(sprintf('The routing file "%s" requires the "callback" attribute for route ID "%s".', $filepath, $id));
@@ -90,7 +98,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
 
         [$defaults, $requirements, $options] = $this->parseConfigs($node, $filepath);
 
-        $route = new Route($channel, $callback);
+        $route = new Route($pattern, $callback);
         $route->addDefaults($defaults);
         $route->addRequirements($requirements);
         $route->addOptions($options);
