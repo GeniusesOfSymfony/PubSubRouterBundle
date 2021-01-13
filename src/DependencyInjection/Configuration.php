@@ -2,8 +2,8 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\DependencyInjection;
 
-use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
-use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
+use Gos\Bundle\PubSubRouterBundle\Generator\CompiledGenerator;
+use Gos\Bundle\PubSubRouterBundle\Matcher\CompiledMatcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -23,8 +23,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('matcher_class')->defaultValue(Matcher::class)->end()
-                ->scalarNode('generator_class')->defaultValue(Generator::class)->end()
+                ->scalarNode('matcher_class')->defaultValue(CompiledMatcher::class)->end()
+                ->scalarNode('generator_class')->defaultValue(CompiledGenerator::class)->end()
                 ->scalarNode('router_class')->defaultValue(Router::class)->end()
                 ->arrayNode('routers')
                     ->useAttributeAsKey('name')
