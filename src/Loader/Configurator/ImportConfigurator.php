@@ -8,10 +8,7 @@ final class ImportConfigurator
 {
     use Traits\RouteTrait;
 
-    /**
-     * @var RouteCollection
-     */
-    private $parent;
+    private RouteCollection $parent;
 
     public function __construct(RouteCollection $parent, RouteCollection $route)
     {

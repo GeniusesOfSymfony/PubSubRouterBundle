@@ -9,20 +9,9 @@ final class RoutingConfigurator
 {
     use Traits\AddTrait;
 
-    /**
-     * @var PhpFileLoader
-     */
-    private $loader;
-
-    /**
-     * @var string
-     */
-    private $path;
-
-    /**
-     * @var string
-     */
-    private $file;
+    private PhpFileLoader $loader;
+    private string $path;
+    private string $file;
 
     public function __construct(RouteCollection $collection, PhpFileLoader $loader, string $path, string $file)
     {

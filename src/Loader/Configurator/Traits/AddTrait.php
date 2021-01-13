@@ -9,12 +9,8 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 trait AddTrait
 {
-    /**
-     * @var RouteCollection
-     */
-    private $collection;
-
-    private $name = '';
+    private RouteCollection $collection;
+    private string $name = '';
 
     /**
      * Adds a route.

@@ -10,15 +10,8 @@ final class CollectionConfigurator
     use Traits\AddTrait;
     use Traits\RouteTrait;
 
-    /**
-     * @var RouteCollection
-     */
-    private $parent;
-
-    /**
-     * @var CollectionConfigurator|null
-     */
-    private $parentConfigurator;
+    private RouteCollection $parent;
+    private ?CollectionConfigurator $parentConfigurator;
 
     public function __construct(RouteCollection $parent, string $name, self $parentConfigurator = null)
     {
