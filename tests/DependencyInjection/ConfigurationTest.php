@@ -3,8 +3,8 @@
 namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\Configuration;
-use Gos\Bundle\PubSubRouterBundle\Generator\CompiledGenerator;
-use Gos\Bundle\PubSubRouterBundle\Matcher\CompiledMatcher;
+use Gos\Bundle\PubSubRouterBundle\Generator\Generator;
+use Gos\Bundle\PubSubRouterBundle\Matcher\Matcher;
 use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -93,8 +93,8 @@ final class ConfigurationTest extends TestCase
     protected static function getBundleDefaultConfig(): array
     {
         return [
-            'matcher_class' => CompiledMatcher::class,
-            'generator_class' => CompiledGenerator::class,
+            'matcher_class' => Matcher::class,
+            'generator_class' => Generator::class,
             'router_class' => Router::class,
             'routers' => [],
         ];
