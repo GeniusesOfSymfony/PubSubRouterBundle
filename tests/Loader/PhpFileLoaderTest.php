@@ -4,8 +4,10 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\PhpFileLoader;
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\FileResource;
 
 final class PhpFileLoaderTest extends TestCase
 {
@@ -51,5 +53,55 @@ final class PhpFileLoaderTest extends TestCase
             $this->assertSame('\d+', $route->getRequirement('user'));
             $this->assertSame('car', $route->getOption('foo'), 'The default value for the foo option should be overridden');
         }
+    }
+
+    public function testRoutingConfigurator(): void
+    {
+        $loader = new PhpFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routeCollection = $loader->load('php_dsl.php');
+        $routes = $routeCollection->all();
+
+        $this->assertCount(2, $routes, 'Two routes are loaded');
+        $this->assertContainsOnly(Route::class, $routes);
+
+        $expectedCollection = new RouteCollection();
+        $expectedCollection->add(
+            'user_chat',
+            new Route(
+                'chat/{user}',
+                'strlen',
+                [
+                    'user' => 42,
+                ],
+                [
+                    'user' => '\d+',
+                ],
+                [
+                    'foo' => 'bar',
+                ]
+            )
+        );
+
+        $expectedCollection->add(
+            'user_read',
+            new Route(
+                'users/{user}',
+                'strlen',
+                [
+                    'user' => 42,
+                ],
+                [
+                    'user' => '\d+',
+                ],
+                [
+                    'foo' => 'bar',
+                ]
+            )
+        );
+
+        $expectedCollection->addResource(new FileResource(realpath(__DIR__.'/../Fixtures/php_dsl_import.php')));
+        $expectedCollection->addResource(new FileResource(realpath(__DIR__.'/../Fixtures/php_dsl.php')));
+
+        $this->assertEquals($expectedCollection, $routeCollection);
     }
 }
