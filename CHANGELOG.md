@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.4.0 (????-??-??)
+## 2.4.0 (2021-01-12)
 
 - Added new compiled cache routers (similar to the same from the `symfony/routing` package)
 - Added PHP DSL to configure routers with a shorter PHP syntax
