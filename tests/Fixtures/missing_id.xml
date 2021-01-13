@@ -4,5 +4,5 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing">
 
-    <route channel="chat/{user}" callback="strlen"></route>
+    <route pattern="chat/{user}" callback="strlen"></route>
 </routes>

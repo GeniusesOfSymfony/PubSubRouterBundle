@@ -17,7 +17,6 @@ final class YamlFileLoader extends CompatibilityFileLoader
     private const AVAILABLE_KEYS = [
         'resource',
         'type',
-        'channel',
         'pattern',
         'callback',
         'defaults',
@@ -133,13 +132,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
             }
         }
 
-        if (isset($config['pattern'])) {
-            $pattern = $config['pattern'];
-        } else {
-            $pattern = $config['channel'];
-        }
-
-        $route = new Route($pattern, $config['callback']);
+        $route = new Route($config['pattern'], $config['callback']);
         $route->addDefaults($defaults);
         $route->addRequirements($requirements);
         $route->addOptions($options);
@@ -161,7 +154,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
         }
 
         if (isset($config['resource'])) {
-            if (isset($config['channel']) || isset($config['pattern'])) {
+            if (isset($config['pattern'])) {
                 throw new \InvalidArgumentException(sprintf('The routing file "%s" must not specify both the "resource" key and the "pattern" key for "%s". Choose between an import and a route definition.', $path, $name));
             }
         } else {
@@ -169,11 +162,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
                 throw new \InvalidArgumentException(sprintf('The "type" key for the route definition "%s" in "%s" is unsupported. It is only available for imports in combination with the "resource" key.', $name, $path));
             }
 
-            if (isset($config['pattern']) && isset($config['channel'])) {
-                throw new \InvalidArgumentException(sprintf('The route "%s" in file "%s" must not specify both the "channel" key and the "pattern" key.', $name, $path));
-            } elseif (isset($config['channel'])) {
-                trigger_deprecation('gos/pubsub-router-bundle', '2.4', 'Setting the "channel" key for the route "%s" in file "%s" is deprecated and will not be supported in 3.0, use the "pattern" key instead.', $name, $path);
-            } elseif (!isset($config['pattern'])) {
+            if (!isset($config['pattern'])) {
                 throw new \InvalidArgumentException(sprintf('You must define a "pattern" for the route "%s" in file "%s".', $name, $path));
             }
 
