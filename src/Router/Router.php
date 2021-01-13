@@ -245,7 +245,7 @@ class Router implements RouterInterface, WarmableInterface
             $this->generator = new $this->options['generator_class']($routes);
         } else {
             $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
-                function (ConfigCacheInterface $cache) {
+                function (ConfigCacheInterface $cache): void {
                     $dumper = $this->getGeneratorDumperInstance();
 
                     $options = [
@@ -290,7 +290,7 @@ class Router implements RouterInterface, WarmableInterface
         }
 
         $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['matcher_cache_class'].'.php',
-            function (ConfigCacheInterface $cache) {
+            function (ConfigCacheInterface $cache): void {
                 $dumper = $this->getMatcherDumperInstance();
 
                 $options = [
@@ -348,7 +348,7 @@ class Router implements RouterInterface, WarmableInterface
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), FILTER_VALIDATE_BOOLEAN))) {
             self::$cache = null;
         }
 

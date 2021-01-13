@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
+use Gos\Bundle\PubSubRouterBundle\Loader\Configurator\RoutingConfigurator;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Symfony\Component\Config\Resource\FileResource;
 
@@ -28,13 +29,13 @@ class PhpFileLoader extends CompatibilityFileLoader
 
         $result = $load($path);
 
-        if (!($result instanceof RouteCollection)) {
-            $type = \is_object($result) ? \get_class($result) : \gettype($result);
-
-            throw new \LogicException(sprintf('The %s file must return a callback or a RouteCollection: %s returned', $path, $type));
+        if (\is_callable($result)) {
+            $collection = $this->callConfigurator($result, $path, $resource);
+        } elseif ($result instanceof RouteCollection) {
+            $collection = $result;
+        } else {
+            throw new \LogicException(sprintf('The %s file must return a callback or a RouteCollection: %s returned', $path, get_debug_type($result)));
         }
-
-        $collection = $result;
 
         $collection->addResource(new FileResource($path));
 
@@ -47,6 +48,15 @@ class PhpFileLoader extends CompatibilityFileLoader
     protected function doSupports($resource, string $type = null): bool
     {
         return \is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
+    }
+
+    private function callConfigurator(callable $result, string $path, string $file): RouteCollection
+    {
+        $collection = new RouteCollection();
+
+        $result(new RoutingConfigurator($collection, $this, $path, $file));
+
+        return $collection;
     }
 
     private function createProtectedLoader(): self

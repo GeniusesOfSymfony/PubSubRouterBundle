@@ -3,6 +3,7 @@
 ## 2.4.0 (????-??-??)
 
 - Added new compiled cache routers (similar to the same from the `symfony/routing` package)
+- Added PHP DSL to configure routers with a shorter PHP syntax
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Exception\RouterException`, exception classes should implement `Gos\Bundle\PubSubRouterBundle\Exception\PubSubRouterException` instead
 - Deprecated `Gos\Bundle\PubSubRouterBundle\Generator\Dumper\PhpGeneratorDumper` and `Gos\Bundle\PubSubRouterBundle\Matcher\Dumper\PhpMatcherDumper`, use the compiled classes instead
 - Deprecated the "handler" key used to configure a route's callback in the YAML file loader, use the "callback" key instead
