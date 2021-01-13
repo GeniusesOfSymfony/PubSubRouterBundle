@@ -1,5 +1,5 @@
 user_chat:
-    channel: chat/{user}
+    pattern: chat/{user}
     callback: 'strlen'
     defaults:
         user: 42

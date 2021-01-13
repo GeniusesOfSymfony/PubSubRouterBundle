@@ -36,6 +36,7 @@
     </xsd:sequence>
     <xsd:attribute name="id" type="xsd:string" use="required" />
     <xsd:attribute name="channel" type="xsd:string" />
+    <xsd:attribute name="pattern" type="xsd:string" />
     <xsd:attribute name="callback" type="xsd:string" />
   </xsd:complexType>
 

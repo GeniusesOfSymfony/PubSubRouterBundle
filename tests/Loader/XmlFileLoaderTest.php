@@ -35,6 +35,20 @@ final class XmlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
+    public function testLoadWithRouteWithDeprecatedProperties(): void
+    {
+        $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routeCollection = $loader->load('validchanneldeprecated.xml');
+        $route = $routeCollection->get('user_chat');
+
+        $this->assertInstanceOf(Route::class, $route);
+        $this->assertSame('chat/{user}', $route->getPattern());
+        $this->assertSame('strlen', $route->getCallback());
+        $this->assertSame(['user' => 42], $route->getDefaults());
+        $this->assertSame(['user' => '\\d+'], $route->getRequirements());
+        $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
+    }
+
     public function testLoadWithImport(): void
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
