@@ -19,12 +19,12 @@ final class ImportConfigurator
         $this->route = $route;
     }
 
-    public function __sleep(): void
+    public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.self::class);
     }
 
-    public function __wakeup(): void
+    public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.self::class);
     }
