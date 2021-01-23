@@ -15,7 +15,7 @@ final class CompiledRoute implements \Serializable
      * @param array  $tokens       An array of tokens to use to generate URL for this route
      * @param array  $variables    An array of variables
      */
-    public function __construct($staticPrefix, $regex, array $tokens, array $variables)
+    public function __construct(string $staticPrefix, string $regex, array $tokens, array $variables)
     {
         $this->staticPrefix = $staticPrefix;
         $this->regex = $regex;

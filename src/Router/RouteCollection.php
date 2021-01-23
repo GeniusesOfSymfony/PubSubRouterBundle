@@ -100,7 +100,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
      * An existing default value under the same name in a route will be overridden.
      *
      * @param array<string, mixed> $defaults
-      */
+     */
     public function addDefaults(array $defaults): void
     {
         if ($defaults) {
