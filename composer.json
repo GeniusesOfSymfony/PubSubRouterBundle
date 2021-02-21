@@ -12,22 +12,22 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
-        "symfony/config": "^4.4 || ^5.2",
-        "symfony/console": "^4.4 || ^5.2",
-        "symfony/dependency-injection": "^4.4 || ^5.2",
-        "symfony/http-foundation": "^4.4 || ^5.2",
-        "symfony/http-kernel": "^4.4 || ^5.2",
+        "php": "^8.0",
+        "symfony/config": "^5.2",
+        "symfony/console": "^5.2",
+        "symfony/dependency-injection": "^5.2",
+        "symfony/http-foundation": "^5.2",
+        "symfony/http-kernel": "^5.2",
         "symfony/polyfill-php80": "^1.22",
-        "symfony/yaml": "^4.4 || ^5.2"
+        "symfony/yaml": "^5.2"
     },
     "require-dev": {
-        "matthiasnoback/symfony-dependency-injection-test": "^4.1.2",
-        "phpstan/extension-installer": "^1.0.5",
-        "phpstan/phpstan": "^0.12.50",
-        "phpstan/phpstan-phpunit": "^0.12.16",
-        "phpstan/phpstan-symfony": "^0.12.8",
-        "phpunit/phpunit": "^9.3"
+        "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.78",
+        "phpstan/phpstan-phpunit": "^0.12.17",
+        "phpstan/phpstan-symfony": "^0.12.20",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "src/" }

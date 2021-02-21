@@ -2,7 +2,8 @@
 
 ## Changes
 
-- The minimum supported PHP version is now 7.4
+- The minimum supported PHP version is now 8.0
+- The minimum supported Symfony version is now 5.2
 - Made all `@final` annotated classes final
 
 ## Removals
