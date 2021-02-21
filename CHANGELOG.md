@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0 (????-??-??)
+
+- Drop support for Symfony 5.1 (branch is EOL)
+
 ## 2.4.0 (2021-01-12)
 
 - Added new compiled cache routers (similar to the same from the `symfony/routing` package)

@@ -12,9 +12,9 @@ Support
 
 | Version | Status                       | Symfony Versions   |
 | ------- | ---------------------------- | ------------------ |
-| 1.x     | Bug Fixes Until July 1, 2021 | 3.4, 4.4, 5.1, 5.2 |
-| 2.x     | Actively Supported           | 4.4, 5.1, 5.2      |
-| 3.x     | In Development               | 4.4, 5.1, 5.2      |
+| 1.x     | Bug Fixes Until July 1, 2021 | 3.4, 4.4, 5.2      |
+| 2.x     | Actively Supported           | 4.4, 5.2           |
+| 3.x     | In Development               | 5.2                |
 
 Features
 -------
