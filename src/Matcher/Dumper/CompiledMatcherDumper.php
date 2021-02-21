@@ -312,7 +312,7 @@ EOF;
             }
 
             $state->mark += 3 + $state->markTail + \strlen($regex) - $prefixLen;
-            $state->markTail = 2 + \strlen($state->mark);
+            $state->markTail = 2 + \strlen((string) $state->mark);
             $rx = sprintf('|%s(*:%s)', substr($regex, $prefixLen), $state->mark);
             $code .= "\n            .".self::export($rx);
             $state->regex .= $rx;

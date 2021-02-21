@@ -29,7 +29,7 @@ final class Router implements RouterInterface, WarmableInterface
     private ?RouteCollection $collection = null;
 
     /**
-     * @var array<array{resource: string, type: string|null}|string>
+     * @var array<array{resource: string|callable, type: string|null}|string>
      */
     private array $resources;
 
@@ -47,8 +47,8 @@ final class Router implements RouterInterface, WarmableInterface
     private static ?array $cache = [];
 
     /**
-     * @param array<array{resource: string, type: string|null}|string> $resources
-     * @param array<string, mixed>                                     $options
+     * @param array<array{resource: string|callable, type: string|null}|string> $resources
+     * @param array<string, mixed>                                              $options
      */
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {

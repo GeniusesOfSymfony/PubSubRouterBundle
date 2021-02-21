@@ -51,6 +51,20 @@ parameters:
       message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\Router::warmUp\(\) has parameter \$cacheDir with no typehint specified\./'
       path: %currentWorkingDirectory%/src/Router/Router.php
 
+    # Ignore incompatible typehints and runtime checks from configurator
+    -
+      message: '/Parameter #1 \$collection of method Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCollection::addCollection\(\) expects Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCollection, Gos\\Bundle\\PubSubRouterBundle\\Router\\Route\|Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCollection given\./'
+      path: %currentWorkingDirectory%/src/Loader/Configurator/ImportConfigurator.php
+
+    -
+      message: '/Instanceof between \*NEVER\* and Gos\\Bundle\\PubSubRouterBundle\\Loader\\Configurator\\RouteConfigurator will always evaluate to false\./'
+      path: %currentWorkingDirectory%/src/Loader/Configurator/Traits/AddTrait.php
+
+    # Ignore unused variable warning, variable is declared for use by file included in function
+    -
+      message: '/Anonymous function has an unused use \$loader\./'
+      path: %currentWorkingDirectory%/src/Loader/PhpFileLoader.php
+
     # Runtime check which matches doc block
     -
       message: '/Result of && is always false\./'
@@ -60,6 +74,11 @@ parameters:
     -
       message: "/Strict comparison using === between '\\?' and '\\(' will always evaluate to false\\./"
       path: %currentWorkingDirectory%/src/Router/RouteCompiler.php
+
+    # Ignore warnings about undefined properties from stubs in tests
+    -
+      message: '/Access to an undefined property Gos\\Bundle\\PubSubRouterBundle\\Loader\\ObjectLoader::\$loaderMap\./'
+      path: %currentWorkingDirectory%/tests/Loader/ObjectLoaderTest.php
 
     # Ignore parameter warning for not error checking realpath() return in tests
     -
