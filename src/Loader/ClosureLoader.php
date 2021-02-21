@@ -3,22 +3,21 @@
 namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\Loader;
 
-final class ClosureLoader extends CompatibilityLoader
+final class ClosureLoader extends Loader
 {
     /**
-     * @param mixed $closure
+     * @param mixed $resource
      *
      * @throws \LogicException if the loader does not return a RouteCollection
      */
-    protected function doLoad($closure, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
-        $routeCollection = $closure();
+        $routeCollection = $resource();
 
         if (!$routeCollection instanceof RouteCollection) {
-            $type = \is_object($routeCollection) ? \get_class($routeCollection) : \gettype($routeCollection);
-
-            throw new \LogicException(sprintf('Route loaders must return a RouteCollection: %s returned', $type));
+            throw new \LogicException(sprintf('Route loaders must return a RouteCollection: %s returned', get_debug_type($routeCollection)));
         }
 
         return $routeCollection;
@@ -27,7 +26,7 @@ final class ClosureLoader extends CompatibilityLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
         return $resource instanceof \Closure && (!$type || 'closure' === $type);
     }

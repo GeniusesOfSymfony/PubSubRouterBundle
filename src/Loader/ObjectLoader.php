@@ -3,9 +3,10 @@
 namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Resource\FileResource;
 
-abstract class ObjectLoader extends CompatibilityLoader
+abstract class ObjectLoader extends Loader
 {
     abstract protected function getObject(string $id): object;
 
@@ -16,7 +17,7 @@ abstract class ObjectLoader extends CompatibilityLoader
      * @throws \InvalidArgumentException if the resource cannot be processed
      * @throws \LogicException           if the loader does not return a RouteCollection
      */
-    protected function doLoad($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
         if (!preg_match('/^[^\:]+(?:::(?:[^\:]+))?$/', $resource)) {
             throw new \InvalidArgumentException(sprintf('Invalid resource "%s" passed to the %s route loader: use the format "object_id::method" or "object_id" if your object class has an "__invoke" method.', $resource, \is_string($type) ? '"'.$type.'"' : 'object'));

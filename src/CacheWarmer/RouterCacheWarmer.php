@@ -25,7 +25,7 @@ final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriber
      *
      * @return string[] A list of classes to preload on PHP 7.4+
      */
-    public function warmUp($cacheDir)
+    public function warmUp(string $cacheDir): array
     {
         /** @var RouterRegistry $registry */
         $registry = $this->container->get('gos_pubsub_router.router_registry');
@@ -44,12 +44,12 @@ final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriber
         return array_unique($classes);
     }
 
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'gos_pubsub_router.router_registry' => RouterRegistry::class,

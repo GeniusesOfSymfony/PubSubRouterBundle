@@ -35,5 +35,8 @@
     "autoload-dev": {
         "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\Tests\\": "tests/" }
     },
+    "suggest": {
+        "ext-dom": "* to use the XML file loader"
+    },
     "minimum-stability": "dev"
 }

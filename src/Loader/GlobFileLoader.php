@@ -3,13 +3,17 @@
 namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\FileLoader;
 
-class GlobFileLoader extends CompatibilityFileLoader
+/**
+ * @final
+ */
+class GlobFileLoader extends FileLoader
 {
     /**
      * @param mixed $resource
      */
-    protected function doLoad($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
         $collection = new RouteCollection();
 
@@ -25,7 +29,7 @@ class GlobFileLoader extends CompatibilityFileLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
         return 'glob' === $type;
     }

@@ -16,7 +16,7 @@ final class ContainerLoader extends ObjectLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
         return 'service' === $type;
     }

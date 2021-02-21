@@ -17,7 +17,7 @@ trait AddTrait
      *
      * @param callable|string $callback A callable function that handles this route or a string to be used with a service locator
      */
-    public function __invoke(string $name, string $pattern, $callback): RouteConfigurator
+    public function __invoke(string $name, string $pattern, callable | string $callback): RouteConfigurator
     {
         return $this->add($name, $pattern, $callback);
     }
@@ -27,7 +27,7 @@ trait AddTrait
      *
      * @param callable|string $callback A callable function that handles this route or a string to be used with a service locator
      */
-    public function add(string $name, string $pattern, $callback): RouteConfigurator
+    public function add(string $name, string $pattern, callable | string $callback): RouteConfigurator
     {
         $parentConfigurator = $this instanceof CollectionConfigurator ? $this : ($this instanceof RouteConfigurator ? $this->parentConfigurator : null);
         $route = $this->createRoute($this->collection, $name, $pattern, $callback);
@@ -40,7 +40,7 @@ trait AddTrait
      *
      * @param callable|string $callback A callable function that handles this route or a string to be used with a service locator
      */
-    final protected function createRoute(RouteCollection $collection, string $name, string $pattern, $callback): RouteCollection
+    final protected function createRoute(RouteCollection $collection, string $name, string $pattern, callable | string $callback): RouteCollection
     {
         $routes = new RouteCollection();
         $routes->add($name, $route = new Route($pattern, $callback));

@@ -22,10 +22,9 @@ final class RoutingConfigurator
     }
 
     /**
-     * @param mixed                $resource The resource to import
      * @param string|string[]|null $exclude  Glob patterns to exclude from the import
      */
-    public function import($resource, string $type = null, bool $ignoreErrors = false, $exclude = null): ImportConfigurator
+    public function import(mixed $resource, string $type = null, bool $ignoreErrors = false, string | array | null $exclude = null): ImportConfigurator
     {
         $this->loader->setCurrentDir(\dirname($this->path));
 

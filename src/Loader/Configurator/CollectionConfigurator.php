@@ -13,7 +13,7 @@ final class CollectionConfigurator
     private RouteCollection $parent;
     private ?CollectionConfigurator $parentConfigurator;
 
-    public function __construct(RouteCollection $parent, string $name, self $parentConfigurator = null)
+    public function __construct(RouteCollection $parent, string $name, ?self $parentConfigurator = null)
     {
         $this->parent = $parent;
         $this->name = $name;

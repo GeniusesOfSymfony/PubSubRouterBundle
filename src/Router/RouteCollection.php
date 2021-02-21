@@ -37,17 +37,14 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \ArrayIterator<Route>
+     * @return \ArrayIterator<string, Route>
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->routes);
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return \count($this->routes);
     }
@@ -73,7 +70,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @param string|string[] $name
      */
-    public function remove($name): void
+    public function remove(string | array $name): void
     {
         foreach ((array) $name as $n) {
             unset($this->routes[$n]);

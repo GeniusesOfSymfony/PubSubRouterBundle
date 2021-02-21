@@ -4,10 +4,11 @@ namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Util\XmlUtils;
 
-final class XmlFileLoader extends CompatibilityFileLoader
+final class XmlFileLoader extends FileLoader
 {
     const NAMESPACE_URI = 'https://github.com/GeniusesOfSymfony/PubSubRouterBundle/schema/routing';
     const SCHEME_PATH = '/schema/routing/routing-1.0.xsd';
@@ -15,7 +16,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
     /**
      * @throws \InvalidArgumentException when the file cannot be loaded or when the XML cannot be parsed because it does not validate against the scheme
      */
-    protected function doLoad($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
 
@@ -62,9 +63,9 @@ final class XmlFileLoader extends CompatibilityFileLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
-        return \is_string($resource) && 'xml' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'xml' === $type);
+        return \is_string($resource) && 'xml' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'xml' === $type);
     }
 
     /**
@@ -150,7 +151,7 @@ final class XmlFileLoader extends CompatibilityFileLoader
      */
     private function loadFile(string $file): \DOMDocument
     {
-        return XmlUtils::loadFile($file, __DIR__.static::SCHEME_PATH);
+        return XmlUtils::loadFile($file, __DIR__.self::SCHEME_PATH);
     }
 
     /**

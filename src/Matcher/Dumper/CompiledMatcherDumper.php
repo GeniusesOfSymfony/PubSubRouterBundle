@@ -346,13 +346,11 @@ EOF;
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws \InvalidArgumentException if the value contains invalid data
      *
      * @internal
      */
-    public static function export($value): string
+    public static function export(mixed $value): string
     {
         if (null === $value) {
             return 'null';

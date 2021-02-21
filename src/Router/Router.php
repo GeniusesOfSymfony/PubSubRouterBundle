@@ -27,7 +27,12 @@ final class Router implements RouterInterface, WarmableInterface
     private ?GeneratorInterface $generator = null;
     private LoaderInterface $loader;
     private ?RouteCollection $collection = null;
+
+    /**
+     * @var array<array{resource: string, type: string|null}|string>
+     */
     private array $resources;
+
     private string $name;
     private ?ConfigCacheFactoryInterface $configCacheFactory = null;
 
@@ -41,6 +46,10 @@ final class Router implements RouterInterface, WarmableInterface
      */
     private static ?array $cache = [];
 
+    /**
+     * @param array<array{resource: string, type: string|null}|string> $resources
+     * @param array<string, mixed>                                     $options
+     */
     public function __construct(string $name, LoaderInterface $loader, array $resources, array $options = [])
     {
         $this->name = $name;
@@ -95,11 +104,9 @@ final class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws \InvalidArgumentException when an unsupported option is provided
      */
-    public function setOption(string $key, $value): void
+    public function setOption(string $key, mixed $value): void
     {
         if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -109,11 +116,9 @@ final class Router implements RouterInterface, WarmableInterface
     }
 
     /**
-     * @return mixed
-     *
      * @throws \InvalidArgumentException when an unsupported option is provided
      */
-    public function getOption(string $key)
+    public function getOption(string $key): mixed
     {
         if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -148,7 +153,7 @@ final class Router implements RouterInterface, WarmableInterface
      *
      * @return string[] A list of classes to preload on PHP 7.4+
      */
-    public function warmUp($cacheDir)
+    public function warmUp(string $cacheDir): array
     {
         $currentDir = $this->getOption('cache_dir');
 
@@ -243,19 +248,16 @@ final class Router implements RouterInterface, WarmableInterface
         return $this->matcher = new $this->options['matcher_class'](self::getCompiledRoutes($cache->getPath()));
     }
 
-    protected function getGeneratorDumperInstance(): GeneratorDumperInterface
+    private function getGeneratorDumperInstance(): GeneratorDumperInterface
     {
         return new $this->options['generator_dumper_class']($this->getCollection());
     }
 
-    protected function getMatcherDumperInstance(): MatcherDumperInterface
+    private function getMatcherDumperInstance(): MatcherDumperInterface
     {
         return new $this->options['matcher_dumper_class']($this->getCollection());
     }
 
-    /**
-     * Provides the ConfigCache factory implementation, falling back to a default implementation if necessary.
-     */
     private function getConfigCacheFactory(): ConfigCacheFactoryInterface
     {
         if (null === $this->configCacheFactory) {
@@ -267,7 +269,7 @@ final class Router implements RouterInterface, WarmableInterface
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), FILTER_VALIDATE_BOOLEAN))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
             self::$cache = null;
         }
 

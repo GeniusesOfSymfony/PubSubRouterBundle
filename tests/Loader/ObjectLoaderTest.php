@@ -92,7 +92,7 @@ final class ObjectLoaderTest extends TestCase
              */
             public array $loaderMap = [];
 
-            protected function doSupports($resource, string $type = null): bool
+            public function supports($resource, string $type = null): bool
             {
                 return 'service' === $type;
             }

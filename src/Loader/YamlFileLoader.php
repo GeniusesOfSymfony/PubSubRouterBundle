@@ -4,6 +4,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
@@ -12,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-final class YamlFileLoader extends CompatibilityFileLoader
+final class YamlFileLoader extends FileLoader
 {
     private const AVAILABLE_KEYS = [
         'resource',
@@ -32,7 +33,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
      *
      * @throws \InvalidArgumentException if the resource cannot be processed
      */
-    protected function doLoad($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
 
@@ -175,7 +176,7 @@ final class YamlFileLoader extends CompatibilityFileLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
         return \is_string($resource)
             && \in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true)

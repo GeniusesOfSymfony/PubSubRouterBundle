@@ -12,10 +12,7 @@ final class RouteConfigurator
 
     private ?CollectionConfigurator $parentConfigurator;
 
-    /**
-     * @param RouteCollection|Route $route
-     */
-    public function __construct(RouteCollection $collection, $route, string $name = '', CollectionConfigurator $parentConfigurator = null)
+    public function __construct(RouteCollection $collection, RouteCollection | Route $route, string $name = '', CollectionConfigurator $parentConfigurator = null)
     {
         $this->collection = $collection;
         $this->route = $route;

@@ -45,7 +45,7 @@ final class Route implements \Serializable
      * @param array<string, string> $requirements An array of requirements for parameters (regexes)
      * @param array<string, mixed>  $options      An array of options
      */
-    public function __construct(string $pattern, $callback, array $defaults = [], array $requirements = [], array $options = [])
+    public function __construct(string $pattern, callable | string $callback, array $defaults = [], array $requirements = [], array $options = [])
     {
         $this->setPattern($pattern);
         $this->setCallback($callback);
@@ -113,25 +113,13 @@ final class Route implements \Serializable
         return $this;
     }
 
-    /**
-     * @return callable|string
-     */
-    public function getCallback()
+    public function getCallback(): callable | string
     {
         return $this->callback;
     }
 
-    /**
-     * @param callable|string $callback
-     *
-     * @throws \InvalidArgumentException if the callback is not a valid type
-     */
-    public function setCallback($callback): self
+    public function setCallback(callable | string $callback): self
     {
-        if (!\is_callable($callback) && !\is_string($callback)) {
-            throw new \InvalidArgumentException(sprintf('The callback for a route must be a PHP callable or a string, a "%s" was given.', \gettype($callback)));
-        }
-
         $this->callback = $callback;
 
         return $this;
@@ -167,9 +155,9 @@ final class Route implements \Serializable
     }
 
     /**
-     * @return mixed
+     * @return mixed The default value or null when not given
      */
-    public function getDefault(string $name)
+    public function getDefault(string $name): mixed
     {
         return $this->defaults[$name] ?? null;
     }
@@ -179,10 +167,7 @@ final class Route implements \Serializable
         return isset($this->defaults[$name]);
     }
 
-    /**
-     * @param mixed $default
-     */
-    public function setDefault(string $name, $default): self
+    public function setDefault(string $name, mixed $default): self
     {
         $this->defaults[$name] = $default;
         $this->compiled = null;
@@ -237,6 +222,9 @@ final class Route implements \Serializable
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getOptions(): array
     {
         return $this->options;
@@ -268,10 +256,7 @@ final class Route implements \Serializable
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setOption(string $name, $value): self
+    public function setOption(string $name, mixed $value): self
     {
         $this->options[$name] = $value;
         $this->compiled = null;
@@ -282,7 +267,7 @@ final class Route implements \Serializable
     /**
      * @return mixed The option value or null when not given
      */
-    public function getOption(string $name)
+    public function getOption(string $name): mixed
     {
         return $this->options[$name] ?? null;
     }

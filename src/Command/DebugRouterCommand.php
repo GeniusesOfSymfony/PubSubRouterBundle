@@ -35,18 +35,18 @@ final class DebugRouterCommand extends Command
             ->setDescription('Dump route definitions');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var string $rname */
-        $rname = $input->getOption('router_name');
+        /** @var string $routerName */
+        $routerName = $input->getOption('router_name');
 
-        if (!$this->registry->hasRouter($rname)) {
+        if (!$this->registry->hasRouter($routerName)) {
             $io->error(
                 sprintf(
                     'Unknown router %s, available routers are [ %s ]',
-                    $rname,
+                    $routerName,
                     implode(', ', array_keys($this->registry->getRouters()))
                 )
             );
@@ -54,7 +54,7 @@ final class DebugRouterCommand extends Command
             return 1;
         }
 
-        $router = $this->registry->getRouter($rname);
+        $router = $this->registry->getRouter($routerName);
 
         $table = new Table($output);
         $table->setHeaders(['Name', 'Pattern', 'Callback']);

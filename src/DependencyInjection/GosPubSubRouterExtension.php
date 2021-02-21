@@ -61,7 +61,7 @@ final class GosPubSubRouterExtension extends Extension
         }
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'gos_pubsub_router';
     }

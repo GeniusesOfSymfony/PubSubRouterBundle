@@ -4,19 +4,20 @@ namespace Gos\Bundle\PubSubRouterBundle\Loader;
 
 use Gos\Bundle\PubSubRouterBundle\Loader\Configurator\RoutingConfigurator;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
+use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;
 
 /**
  * @final
  */
-class PhpFileLoader extends CompatibilityFileLoader
+class PhpFileLoader extends FileLoader
 {
     /**
      * @param mixed $resource
      *
      * @throws \LogicException if the resource does not return a RouteCollection
      */
-    protected function doLoad($resource, string $type = null): RouteCollection
+    public function load($resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
         $this->setCurrentDir(\dirname($path));
@@ -45,9 +46,9 @@ class PhpFileLoader extends CompatibilityFileLoader
     /**
      * @param mixed $resource
      */
-    protected function doSupports($resource, string $type = null): bool
+    public function supports($resource, string $type = null): bool
     {
-        return \is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'php' === $type);
+        return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }
 
     private function callConfigurator(callable $result, string $path, string $file): RouteCollection
