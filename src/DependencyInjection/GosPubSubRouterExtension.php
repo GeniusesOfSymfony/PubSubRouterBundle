@@ -19,8 +19,8 @@ final class GosPubSubRouterExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('services.yaml');
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader->load('services.php');
 
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
