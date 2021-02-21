@@ -5,6 +5,7 @@
 - The minimum supported PHP version is now 8.0
 - The minimum supported Symfony version is now 5.2
 - Made all `@final` annotated classes final
+- The `symfony/yaml` package is now an optional dependency, if you are using it ensure your application is installing the package
 
 ## Removals
 
