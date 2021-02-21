@@ -18,76 +18,75 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 return static function (ContainerConfigurator $container): void {
     $container->services()
         ->set('gos_pubsub_router.cache_warmer.router', RouterCacheWarmer::class)
-        ->args(
-            [
-                service(ContainerInterface::class),
-            ]
-        )
-        ->tag('container.service_subscriber', ['id' => 'gos_pubsub_router.router_registry'])
-        ->tag('kernel.cache_warmer')
+            ->args(
+                [
+                    service(ContainerInterface::class),
+                ]
+            )
+            ->tag('container.service_subscriber', ['id' => 'gos_pubsub_router.router_registry'])
+            ->tag('kernel.cache_warmer')
 
         ->set('gos_pubsub_router.command.debug_router', DebugRouterCommand::class)
-        ->args(
-            [
-                service('gos_pubsub_router.router_registry'),
-            ]
-        )
-        ->tag('console.command')
+            ->args(
+                [
+                    service('gos_pubsub_router.router_registry'),
+                ]
+            )
+            ->tag('console.command')
 
         ->set('gos_pubsub_router.loader.closure', ClosureLoader::class)
-        ->tag('gos_pubsub_router.routing.loader')
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.loader.container', ContainerLoader::class)
-        ->args(
-            [
-                tagged_locator('gos_pubsub_router.routing.route_loader'),
-            ]
-        )
-        ->tag('gos_pubsub_router.routing.loader')
+            ->args(
+                [
+                    tagged_locator('gos_pubsub_router.routing.route_loader'),
+                ]
+            )
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.loader.glob', GlobFileLoader::class)
-        ->args(
-            [
-                service('file_locator'),
-            ]
-        )
-        ->tag('gos_pubsub_router.routing.loader')
+            ->args(
+                [
+                    service('file_locator'),
+                ]
+            )
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.loader.php', PhpFileLoader::class)
-        ->args(
-            [
-                service('file_locator'),
-            ]
-        )
-        ->tag('gos_pubsub_router.routing.loader')
+            ->args(
+                [
+                    service('file_locator'),
+                ]
+            )
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.loader.xml', XmlFileLoader::class)
-        ->args(
-            [
-                service('file_locator'),
-            ]
-        )
-        ->tag('gos_pubsub_router.routing.loader')
-        ->private()
+            ->args(
+                [
+                    service('file_locator'),
+                ]
+            )
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.loader.yaml', YamlFileLoader::class)
-        ->args(
-            [
-                service('file_locator'),
-            ]
-        )
-        ->tag('gos_pubsub_router.routing.loader')
+            ->args(
+                [
+                    service('file_locator'),
+                ]
+            )
+            ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.router_registry', RouterRegistry::class)
-        ->public()
-        ->alias(RouterRegistry::class, 'gos_pubsub_router.router_registry')
+            ->public()
+            ->alias(RouterRegistry::class, 'gos_pubsub_router.router_registry')
 
         ->set('gos_pubsub_router.routing.loader', DelegatingLoader::class)
-        ->args(
-            [
-                service('gos_pubsub_router.routing.resolver'),
-            ]
-        )
+            ->args(
+                [
+                    service('gos_pubsub_router.routing.resolver'),
+                ]
+            )
 
         ->set('gos_pubsub_router.routing.resolver', LoaderResolver::class)
     ;
