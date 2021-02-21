@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0 (????-??-??)
+
+- Drop support for Symfony 5.1 (branch is EOL)
+
 ## 1.6.0 (2020-11-02)
 
 - Drop support for Symfony 5.0 (branch is EOL)

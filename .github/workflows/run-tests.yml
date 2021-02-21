@@ -10,7 +10,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.2, 7.3, 7.4]
-        symfony: [3.4.*, 4.4.*, 5.1.*, 5.2.*]
+        symfony: [3.4.*, 4.4.*, 5.2.*]
         composer-flags: ['--prefer-stable']
         can-fail: [false]
         include:
