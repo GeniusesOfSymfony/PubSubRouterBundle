@@ -85,9 +85,7 @@ final class RouteTest extends TestCase
 
         $route->setDefault(
             '_controller',
-            $closure = function () {
-                return 'Hello';
-            }
+            $closure = fn () => 'Hello'
         );
         $this->assertEquals($closure, $route->getDefault('_controller'), '->setDefault() sets a default value');
 

@@ -35,9 +35,7 @@ abstract class ObjectLoader extends Loader
         $routeCollection = $loaderObject->$method($this);
 
         if (!$routeCollection instanceof RouteCollection) {
-            $type = \is_object($routeCollection) ? \get_class($routeCollection) : \gettype($routeCollection);
-
-            throw new \LogicException(sprintf('The %s::%s method must return a RouteCollection: %s returned', \get_class($loaderObject), $method, $type));
+            throw new \LogicException(sprintf('The %s::%s method must return a RouteCollection: %s returned', \get_class($loaderObject), $method, get_debug_type($routeCollection)));
         }
 
         $this->addClassResource(new \ReflectionClass($loaderObject), $routeCollection);

@@ -32,7 +32,7 @@ final class RouterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $this->loader = $this->createMock(LoaderInterface::class);
         $this->router = new Router('test', $this->loader, ['routing.yml']);
     }
 

@@ -179,7 +179,7 @@ final class YamlFileLoader extends FileLoader
     public function supports($resource, string $type = null): bool
     {
         return \is_string($resource)
-            && \in_array(pathinfo($resource, PATHINFO_EXTENSION), ['yml', 'yaml'], true)
+            && \in_array(pathinfo($resource, \PATHINFO_EXTENSION), ['yml', 'yaml'], true)
             && (!$type || 'yaml' === $type);
     }
 }
