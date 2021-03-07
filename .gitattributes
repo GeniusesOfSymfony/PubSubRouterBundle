@@ -3,7 +3,6 @@
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.php_cs export-ignore
-/.scrutinizer.yml export-ignore
 /CHANGELOG.md export-ignore
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist export-ignore
