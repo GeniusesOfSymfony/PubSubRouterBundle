@@ -14,24 +14,15 @@ final class RoutingResolverPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
-    private string $resolverServiceId;
-    private string $loaderTag;
-
-    public function __construct(string $resolverServiceId = 'gos_pubsub_router.routing.resolver', string $loaderTag = 'gos_pubsub_router.routing.loader')
-    {
-        $this->resolverServiceId = $resolverServiceId;
-        $this->loaderTag = $loaderTag;
-    }
-
     public function process(ContainerBuilder $container): void
     {
-        if (false === $container->hasDefinition($this->resolverServiceId)) {
+        if (false === $container->hasDefinition('gos_pubsub_router.routing.resolver')) {
             return;
         }
 
-        $definition = $container->getDefinition($this->resolverServiceId);
+        $definition = $container->getDefinition('gos_pubsub_router.routing.resolver');
 
-        foreach ($this->findAndSortTaggedServices($this->loaderTag, $container) as $id) {
+        foreach ($this->findAndSortTaggedServices('gos_pubsub_router.routing.loader', $container) as $id) {
             $definition->addMethodCall('addLoader', [new Reference($id)]);
         }
     }
