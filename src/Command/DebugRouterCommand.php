@@ -37,7 +37,7 @@ class DebugRouterCommand extends Command
             ->addArgument('router', InputArgument::OPTIONAL, 'The router to show information about')
             ->addArgument('route', InputArgument::OPTIONAL, 'An optional route name from the router to describe')
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
-            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, or json)', 'txt')
+            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (json, md, txt, or xml)', 'txt')
             ->setDescription('Display current routes for a pubsub router');
     }
 
