@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<route class="Gos\Bundle\PubSubRouterBundle\Router\Route" callback="strlen()">
+  <path regex="#^chat(?:/(?P&lt;user&gt;\d+))?$#sD">chat/{user}</path>
+  <defaults>
+    <default key="user">42</default>
+  </defaults>
+  <requirements>
+    <requirement key="user">\d+</requirement>
+  </requirements>
+  <options>
+    <option key="compiler_class">Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler</option>
+    <option key="foo">bar</option>
+  </options>
+</route>

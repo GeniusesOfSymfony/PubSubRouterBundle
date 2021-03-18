@@ -1,0 +1,11 @@
+{
+    "pattern": "routes",
+    "patternRegex": "#^routes$#sD",
+    "callback": "Gos\\Bundle\\PubSubRouterBundle\\Tests\\Console\\Descriptor\\DescriptorProvider, getRoutes",
+    "requirements": "NO CUSTOM",
+    "class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\Route",
+    "defaults": [],
+    "options": {
+        "compiler_class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCompiler"
+    }
+}

@@ -2,10 +2,10 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Command;
 
-use Gos\Bundle\PubSubRouterBundle\Router\Route;
+use Gos\Bundle\PubSubRouterBundle\Console\Helper\DescriptorHelper;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,9 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DebugRouterCommand extends Command
 {
-    /**
-     * @var string|null
-     */
     protected static $defaultName = 'gos:pubsub-router:debug';
 
     private RouterRegistry $registry;
@@ -31,16 +28,44 @@ final class DebugRouterCommand extends Command
     {
         $this
             ->setAliases(['gos:prouter:debug'])
+            ->addArgument('router', InputArgument::OPTIONAL, 'The router to show information about')
+            ->addArgument('route', InputArgument::OPTIONAL, 'An optional route name from the router to describe')
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
-            ->setDescription('Dump route definitions');
+            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (json, md, txt, or xml)', 'txt')
+            ->setDescription('Display current routes for a pubsub router');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var string $routerName */
-        $routerName = $input->getOption('router_name');
+        /** @var string|null $routerArgument */
+        $routerArgument = $input->getArgument('router');
+
+        /** @var string|null $routerOption */
+        $routerOption = $input->getOption('router_name');
+
+        /** @var string|null $routeArgument */
+        $routeArgument = $input->getArgument('route');
+
+        if (null !== $routerArgument) {
+            if (null !== $routerOption) {
+                $routerName = $routerOption;
+                $routeName = $routerArgument;
+            } else {
+                $routerName = $routerArgument;
+                $routeName = $routeArgument;
+            }
+        } elseif (null !== $routerOption) {
+            trigger_deprecation('gos/pubsub-router-bundle', '2.5', 'The "router_name" option of the "gos:prouter:debug" command is deprecated and will be removed in 3.0, use the router argument instead.');
+
+            $routerName = $routerOption;
+            $routeName = null;
+        } else {
+            $io->error('A router must be provided.');
+
+            return 1;
+        }
 
         if (!$this->registry->hasRouter($routerName)) {
             $io->error(
@@ -56,63 +81,37 @@ final class DebugRouterCommand extends Command
 
         $router = $this->registry->getRouter($routerName);
 
-        $table = new Table($output);
-        $table->setHeaders(['Name', 'Pattern', 'Callback']);
+        $helper = new DescriptorHelper();
 
-        /**
-         * @var string $name
-         * @var Route  $route
-         */
-        foreach ($router->getCollection() as $name => $route) {
-            if (\is_array($route->getCallback())) {
-                $callback = implode(', ', $route->getCallback());
-            } elseif (\is_callable($route->getCallback())) {
-                $callback = $this->formatCallable($route->getCallback());
-            } else {
-                $callback = $route->getCallback();
+        if ($routeName) {
+            $route = $router->getCollection()->get($routeName);
+
+            if (null === $route) {
+                $io->error(sprintf('The "%s" route does not exist on the "%s" router.', $routeName, $routerName));
+
+                return 1;
             }
 
-            $table->addRow([$name, $route->getPattern(), $callback]);
+            $helper->describe(
+                $io,
+                $route,
+                [
+                    'format' => $input->getOption('format'),
+                    'name' => $routeName,
+                    'output' => $io,
+                ]
+            );
+        } else {
+            $helper->describe(
+                $io,
+                $router->getCollection(),
+                [
+                    'format' => $input->getOption('format'),
+                    'output' => $io,
+                ]
+            );
         }
-
-        $table->render();
 
         return 0;
-    }
-
-    /**
-     * @param callable $callable
-     */
-    private function formatCallable($callable): string
-    {
-        if (\is_array($callable)) {
-            if (\is_object($callable[0])) {
-                return sprintf('%s::%s()', \get_class($callable[0]), $callable[1]);
-            }
-
-            return sprintf('%s::%s()', $callable[0], $callable[1]);
-        }
-
-        if (\is_string($callable)) {
-            return sprintf('%s()', $callable);
-        }
-
-        if ($callable instanceof \Closure) {
-            $r = new \ReflectionFunction($callable);
-            if (str_contains($r->name, '{closure}')) {
-                return 'Closure()';
-            }
-            if ($class = $r->getClosureScopeClass()) {
-                return sprintf('%s::%s()', $class->name, $r->name);
-            }
-
-            return $r->name.'()';
-        }
-
-        if (\is_object($callable) && method_exists($callable, '__invoke')) {
-            return sprintf('%s::__invoke()', \get_class($callable));
-        }
-
-        throw new \InvalidArgumentException('Callable is not describable.');
     }
 }

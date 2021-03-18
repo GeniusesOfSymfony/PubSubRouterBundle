@@ -1,0 +1,8 @@
+- Pattern: routes
+- Pattern Regex: #^routes$#sD
+- Callback: Gos\Bundle\PubSubRouterBundle\Tests\Console\Descriptor\DescriptorProvider, getRoutes
+- Requirements: NO CUSTOM
+- Class: Gos\Bundle\PubSubRouterBundle\Router\Route
+- Defaults: NONE
+- Options: 
+    - `compiler_class`: Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler
