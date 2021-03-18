@@ -11,17 +11,17 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 class RouteCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var Route[]
+     * @var array<string, Route>
      */
     protected $routes = [];
 
     /**
-     * @var ResourceInterface[]
+     * @var array<string, ResourceInterface>
      */
     private $resources = [];
 
     /**
-     * @param Route[] $routes
+     * @param array<string, Route> $routes
      */
     public function __construct(array $routes = [])
     {
@@ -32,14 +32,13 @@ class RouteCollection implements \Countable, \IteratorAggregate
 
     public function __clone()
     {
-        /** @var Route $route */
         foreach ($this->routes as $name => $route) {
             $this->routes[$name] = clone $route;
         }
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \ArrayIterator<string, Route>
      */
     public function getIterator()
     {
@@ -60,7 +59,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return Route[]
+     * @return array<string, Route>
      */
     public function all(): array
     {
@@ -100,6 +99,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
      * Adds defaults to all routes.
      *
      * An existing default value under the same name in a route will be overridden.
+     *
+     * @param array<string, mixed> $defaults
      */
     public function addDefaults(array $defaults): void
     {
@@ -114,6 +115,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
      * Adds requirements to all routes.
      *
      * An existing requirement under the same name in a route will be overridden.
+     *
+     * @param array<string, string> $requirements
      */
     public function addRequirements(array $requirements): void
     {
@@ -128,6 +131,8 @@ class RouteCollection implements \Countable, \IteratorAggregate
      * Adds options to all routes.
      *
      * An existing option value under the same name in a route will be overridden.
+     *
+     * @param array<string, mixed> $options
      */
     public function addOptions(array $options): void
     {
@@ -139,7 +144,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return ResourceInterface[] An array of resources
+     * @return ResourceInterface[]
      */
     public function getResources(): array
     {
