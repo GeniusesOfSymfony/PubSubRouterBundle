@@ -28,9 +28,8 @@ final class DebugRouterCommand extends Command
     {
         $this
             ->setAliases(['gos:prouter:debug'])
-            ->addArgument('router', InputArgument::OPTIONAL, 'The router to show information about')
+            ->addArgument('router', InputArgument::REQUIRED, 'The router to show information about')
             ->addArgument('route', InputArgument::OPTIONAL, 'An optional route name from the router to describe')
-            ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (json, md, txt, or xml)', 'txt')
             ->setDescription('Display current routes for a pubsub router');
     }
@@ -39,33 +38,11 @@ final class DebugRouterCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var string|null $routerArgument */
-        $routerArgument = $input->getArgument('router');
+        /** @var string $routerName */
+        $routerName = $input->getArgument('router');
 
-        /** @var string|null $routerOption */
-        $routerOption = $input->getOption('router_name');
-
-        /** @var string|null $routeArgument */
-        $routeArgument = $input->getArgument('route');
-
-        if (null !== $routerArgument) {
-            if (null !== $routerOption) {
-                $routerName = $routerOption;
-                $routeName = $routerArgument;
-            } else {
-                $routerName = $routerArgument;
-                $routeName = $routeArgument;
-            }
-        } elseif (null !== $routerOption) {
-            trigger_deprecation('gos/pubsub-router-bundle', '2.5', 'The "router_name" option of the "gos:prouter:debug" command is deprecated and will be removed in 3.0, use the router argument instead.');
-
-            $routerName = $routerOption;
-            $routeName = null;
-        } else {
-            $io->error('A router must be provided.');
-
-            return 1;
-        }
+        /** @var string|null $routeName */
+        $routeName = $input->getArgument('route');
 
         if (!$this->registry->hasRouter($routerName)) {
             $io->error(

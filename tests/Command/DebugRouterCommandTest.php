@@ -26,31 +26,6 @@ final class DebugRouterCommandTest extends TestCase
         $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
     }
 
-    public function testCommandListsRoutesForARouterWhenGivenTheRouterNameAsAnOption(): void
-    {
-        $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
-
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(
-            [
-                '--router_name' => 'test',
-            ]
-        );
-
-        $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
-    }
-
-    public function testCommandRaisesErrorIfRouterNameIsNotGiven(): void
-    {
-        $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
-
-        $commandTester = new CommandTester($command);
-        $commandTester->execute([]);
-
-        $this->assertTrue(false !== strpos($commandTester->getDisplay(), 'A router must be provided.'));
-        $this->assertSame(1, $commandTester->getStatusCode());
-    }
-
     public function testCommandRaisesErrorIfRouterDoesNotExist(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
@@ -78,21 +53,6 @@ final class DebugRouterCommandTest extends TestCase
             [
                 'router' => 'test',
                 'route' => 'user_chat',
-            ]
-        );
-
-        $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_route.txt', $commandTester->getDisplay());
-    }
-
-    public function testCommandDescribesANamedRouteForARouterWhenGivenTheRouterNameAsAnOption(): void
-    {
-        $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
-
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(
-            [
-                '--router_name' => 'test',
-                'router' => 'user_chat',
             ]
         );
 
