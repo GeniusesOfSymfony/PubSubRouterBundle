@@ -34,7 +34,7 @@ final class XmlDescriptor extends Descriptor
         return $dom;
     }
 
-    private function getRouteDocument(Route $route, string $name = null): \DOMDocument
+    private function getRouteDocument(Route $route, ?string $name = null): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->appendChild($routeXML = $dom->createElement('route'));
@@ -84,22 +84,6 @@ final class XmlDescriptor extends Descriptor
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    private function getRouteData(Route $route): array
-    {
-        return [
-            'pattern' => $route->getPattern(),
-            'patternRegex' => $route->compile()->getRegex(),
-            'callback' => $this->formatRouteCallback($route),
-            'requirements' => $route->getRequirements() ?: 'NO CUSTOM',
-            'class' => \get_class($route),
-            'defaults' => $route->getDefaults(),
-            'options' => $route->getOptions(),
-        ];
-    }
-
-    /**
      * @param callable $callable
      */
     private function formatCallable($callable): string
@@ -119,7 +103,7 @@ final class XmlDescriptor extends Descriptor
         if ($callable instanceof \Closure) {
             $r = new \ReflectionFunction($callable);
 
-            if (false !== strpos($r->name, '{closure}')) {
+            if (str_contains($r->name, '{closure}')) {
                 return 'Closure()';
             }
 

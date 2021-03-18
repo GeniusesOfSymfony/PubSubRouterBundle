@@ -12,10 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class Descriptor implements DescriptorInterface
 {
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+    protected ?OutputInterface $output = null;
 
     /**
      * Describes an object if supported.
@@ -52,12 +49,7 @@ abstract class Descriptor implements DescriptorInterface
         $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
     }
 
-    /**
-     * Formats a value as string.
-     *
-     * @param mixed $value
-     */
-    protected function formatValue($value): string
+    protected function formatValue(mixed $value): string
     {
         if (\is_object($value)) {
             return sprintf('object(%s)', \get_class($value));
