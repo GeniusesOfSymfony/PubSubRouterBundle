@@ -15,9 +15,9 @@ abstract class AbstractDescriptorTestCase extends TestCase
     /**
      * @dataProvider getDescribeRouteCollectionTestData
      */
-    public function testDescribeRouteCollection(RouteCollection $routes, string $expectedDescription, string $file): void
+    public function testDescribeRouteCollection(RouteCollection $routes, string $file): void
     {
-        $this->assertDescription($expectedDescription, $routes, $file);
+        $this->assertDescription($routes, $file);
     }
 
     public function getDescribeRouteCollectionTestData(): array
@@ -28,9 +28,9 @@ abstract class AbstractDescriptorTestCase extends TestCase
     /**
      * @dataProvider getDescribeRouteTestData
      */
-    public function testDescribeRoute(Route $route, string $expectedDescription, string $file): void
+    public function testDescribeRoute(Route $route, string $file): void
     {
-        $this->assertDescription($expectedDescription, $route, $file);
+        $this->assertDescription($route, $file);
     }
 
     public function getDescribeRouteTestData(): array
@@ -42,7 +42,7 @@ abstract class AbstractDescriptorTestCase extends TestCase
 
     abstract protected function getFormat(): string;
 
-    private function assertDescription(string $expectedDescription, object $describedObject, string $file, array $options = []): void
+    private function assertDescription(object $describedObject, string $file, array $options = []): void
     {
         $options['is_debug'] = false;
         $options['raw_output'] = true;
@@ -56,9 +56,9 @@ abstract class AbstractDescriptorTestCase extends TestCase
         $this->getDescriptor()->describe($output, $describedObject, $options);
 
         if ('json' === $this->getFormat()) {
-            $this->assertEquals(json_encode(json_decode($expectedDescription), \JSON_PRETTY_PRINT), json_encode(json_decode($output->fetch()), \JSON_PRETTY_PRINT));
+            $this->assertJsonStringEqualsJsonFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
         } else {
-            $this->assertStringMatchesFormatFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
+            $this->assertStringEqualsFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
         }
     }
 
@@ -68,8 +68,7 @@ abstract class AbstractDescriptorTestCase extends TestCase
 
         foreach ($objects as $name => $object) {
             $file = sprintf('%s.%s', trim($name, '.'), $this->getFormat());
-            $description = file_get_contents(__DIR__.'/../../Fixtures/descriptor/'.$file);
-            $data[] = [$object, $description, $file];
+            $data[] = [$object, $file];
         }
 
         return $data;

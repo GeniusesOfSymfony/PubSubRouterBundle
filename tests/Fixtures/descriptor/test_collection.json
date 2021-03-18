@@ -1,0 +1,29 @@
+{
+    "list_routes": {
+        "pattern": "routes",
+        "patternRegex": "#^routes$#sD",
+        "callback": "Gos\\Bundle\\PubSubRouterBundle\\Tests\\Console\\Descriptor\\DescriptorProvider, getRoutes",
+        "requirements": "NO CUSTOM",
+        "class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\Route",
+        "defaults": [],
+        "options": {
+            "compiler_class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCompiler"
+        }
+    },
+    "user_chat": {
+        "pattern": "chat\/{user}",
+        "patternRegex": "#^chat(?:\/(?P<user>\\d+))?$#sD",
+        "callback": "strlen()",
+        "requirements": {
+            "user": "\\d+"
+        },
+        "class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\Route",
+        "defaults": {
+            "user": 42
+        },
+        "options": {
+            "compiler_class": "Gos\\Bundle\\PubSubRouterBundle\\Router\\RouteCompiler",
+            "foo": "bar"
+        }
+    }
+}

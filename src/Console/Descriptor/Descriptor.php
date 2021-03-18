@@ -24,6 +24,8 @@ abstract class Descriptor implements DescriptorInterface
      */
     public function describe(OutputInterface $output, $object, array $options = []): void
     {
+        $this->output = $output;
+
         switch (true) {
             case $object instanceof RouteCollection:
                 $this->describeRouteCollection($object, $options);
