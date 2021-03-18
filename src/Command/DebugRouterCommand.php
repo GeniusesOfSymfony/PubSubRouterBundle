@@ -35,6 +35,7 @@ class DebugRouterCommand extends Command
         $this
             ->setAliases(['gos:prouter:debug'])
             ->addArgument('router', InputArgument::OPTIONAL, 'The router to show information about')
+            ->addArgument('route', InputArgument::OPTIONAL, 'An optional route name from the router to describe')
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
             ->setDescription('Display current routes for a pubsub router');
     }
@@ -49,12 +50,22 @@ class DebugRouterCommand extends Command
         /** @var string|null $routerOption */
         $routerOption = $input->getOption('router_name');
 
+        /** @var string|null $routeArgument */
+        $routeArgument = $input->getArgument('route');
+
         if (null !== $routerArgument) {
-            $routerName = $routerArgument;
+            if (null !== $routerOption) {
+                $routerName = $routerOption;
+                $routeName = $routerArgument;
+            } else {
+                $routerName = $routerArgument;
+                $routeName = $routeArgument;
+            }
         } elseif (null !== $routerOption) {
             trigger_deprecation('gos/pubsub-router-bundle', '2.5', 'The "router_name" option of the "gos:prouter:debug" command is deprecated and will be removed in 3.0, use the router argument instead.');
 
             $routerName = $routerOption;
+            $routeName = null;
         } else {
             $io->error('A router must be provided.');
 
@@ -77,13 +88,32 @@ class DebugRouterCommand extends Command
 
         $helper = new DescriptorHelper();
 
-        $helper->describe(
-            $io,
-            $router->getCollection(),
-            [
-                'output' => $io,
-            ]
-        );
+        if ($routeName) {
+            $route = $router->getCollection()->get($routeName);
+
+            if (null === $route) {
+                $io->error(sprintf('The "%s" route does not exist on the "%s" router.', $routeName, $routerName));
+
+                return 1;
+            }
+
+            $helper->describe(
+                $io,
+                $route,
+                [
+                    'name' => $routeName,
+                    'output' => $io,
+                ]
+            );
+        } else {
+            $helper->describe(
+                $io,
+                $router->getCollection(),
+                [
+                    'output' => $io,
+                ]
+            );
+        }
 
         return 0;
     }

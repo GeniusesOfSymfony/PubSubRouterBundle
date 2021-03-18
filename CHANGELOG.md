@@ -3,6 +3,8 @@
 ## 2.5.0 (????-??-??)
 
 - Drop support for Symfony 5.1 (branch is EOL)
+- Deprecated the `router_name` argument of the `gos:pubsub-router:debug` command in favor of an argument
+- Added support for describing a single route from a router to the `gos:pubsub-router:debug` command
 
 ## 2.4.0 (2021-01-12)
 

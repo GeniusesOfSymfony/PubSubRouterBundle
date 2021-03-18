@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Console\Descriptor;
 
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Symfony\Component\Console\Descriptor\DescriptorInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +27,11 @@ abstract class Descriptor implements DescriptorInterface
 
                 break;
 
+            case $object instanceof Route:
+                $this->describeRoute($object, $options);
+
+                break;
+
             default:
                 throw new \InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object)));
         }
@@ -41,5 +47,25 @@ abstract class Descriptor implements DescriptorInterface
         $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
     }
 
+    /**
+     * Formats a value as string.
+     *
+     * @param mixed $value
+     */
+    protected function formatValue($value): string
+    {
+        if (\is_object($value)) {
+            return sprintf('object(%s)', \get_class($value));
+        }
+
+        if (\is_string($value)) {
+            return $value;
+        }
+
+        return preg_replace("/\n\s*/s", '', var_export($value, true));
+    }
+
     abstract protected function describeRouteCollection(RouteCollection $routes, array $options = []): void;
+
+    abstract protected function describeRoute(Route $route, array $options = []): void;
 }

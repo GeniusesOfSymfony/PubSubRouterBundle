@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Console\Descriptor;
 
+use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Symfony\Component\Console\Helper\Table;
 
@@ -13,16 +14,33 @@ final class TextDescriptor extends Descriptor
         $tableRows = [];
 
         foreach ($routes->all() as $name => $route) {
-            if (\is_array($route->getCallback())) {
-                $callback = implode(', ', $route->getCallback());
-            } elseif (\is_callable($route->getCallback())) {
-                $callback = $this->formatCallable($route->getCallback());
-            } else {
-                $callback = $route->getCallback();
-            }
-
-            $tableRows[] = [$name, $route->getPattern(), $callback];
+            $tableRows[] = [$name, $route->getPattern(), $this->formatRouteCallback($route)];
         }
+
+        if (isset($options['output'])) {
+            $options['output']->table($tableHeaders, $tableRows);
+        } else {
+            (new Table($this->getOutput()))
+                ->setHeaders($tableHeaders)
+                ->setRows($tableRows)
+                ->render();
+        }
+    }
+
+    protected function describeRoute(Route $route, array $options = []): void
+    {
+        $tableHeaders = ['Property', 'Value'];
+
+        $tableRows = [
+            ['Route Name', $options['name'] ?? ''],
+            ['Pattern', $route->getPattern()],
+            ['Pattern Regex', $route->compile()->getRegex()],
+            ['Callback', $this->formatRouteCallback($route)],
+            ['Requirements', ($route->getRequirements() ? $this->formatRouterConfig($route->getRequirements()) : 'NO CUSTOM')],
+            ['Class', \get_class($route)],
+            ['Defaults', $this->formatRouterConfig($route->getDefaults())],
+            ['Options', $this->formatRouterConfig($route->getOptions())],
+        ];
 
         if (isset($options['output'])) {
             $options['output']->table($tableHeaders, $tableRows);
@@ -70,5 +88,35 @@ final class TextDescriptor extends Descriptor
         }
 
         throw new \InvalidArgumentException('Callable is not describable.');
+    }
+
+    private function formatRouteCallback(Route $route): string
+    {
+        if (\is_array($route->getCallback())) {
+            return implode(', ', $route->getCallback());
+        }
+
+        if (\is_callable($route->getCallback())) {
+            return $this->formatCallable($route->getCallback());
+        }
+
+        return $route->getCallback();
+    }
+
+    private function formatRouterConfig(array $config): string
+    {
+        if (empty($config)) {
+            return 'NONE';
+        }
+
+        ksort($config);
+
+        $configAsString = '';
+
+        foreach ($config as $key => $value) {
+            $configAsString .= sprintf("\n%s: %s", $key, $this->formatValue($value));
+        }
+
+        return trim($configAsString);
     }
 }
