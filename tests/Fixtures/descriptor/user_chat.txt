@@ -1,0 +1,14 @@
+ --------------- -------------------------------------------------------------------- 
+ [32m Property      [39m [32m Value                                                              [39m 
+ --------------- -------------------------------------------------------------------- 
+  Route Name                                                                          
+  Pattern         chat/{user}                                                         
+  Pattern Regex   #^chat(?:/(?P<user>\d+))?$#sD                                       
+  Callback        strlen()                                                            
+  Requirements    user: \d+                                                           
+  Class           Gos\Bundle\PubSubRouterBundle\Router\Route                          
+  Defaults        user: 42                                                            
+[39;49m  Options         compiler_class: Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler[39;49m[39;49m  [39;49m
+[39;49m                  [39;49mfoo: bar                                                            
+ --------------- -------------------------------------------------------------------- 
+
