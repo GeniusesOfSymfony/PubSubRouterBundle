@@ -12,7 +12,21 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class DebugRouterCommandTest extends TestCase
 {
-    public function testCommandListsRoutesForARouter(): void
+    public function testCommandListsRoutesForARouterWhenGivenTheRouterNameAsAnArgument(): void
+    {
+        $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            [
+                'router' => 'test',
+            ]
+        );
+
+        $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
+    }
+
+    public function testCommandListsRoutesForARouterWhenGivenTheRouterNameAsAnOption(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
 
@@ -26,6 +40,17 @@ class DebugRouterCommandTest extends TestCase
         $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
     }
 
+    public function testCommandRaisesErrorIfRouterNameIsNotGiven(): void
+    {
+        $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([]);
+
+        $this->assertTrue(false !== strpos($commandTester->getDisplay(), 'A router must be provided.'));
+        $this->assertSame(1, $commandTester->getStatusCode());
+    }
+
     public function testCommandRaisesErrorIfRouterDoesNotExist(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
@@ -33,7 +58,7 @@ class DebugRouterCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [
-                '--router_name' => 'missing',
+                'router' => 'missing',
             ]
         );
 

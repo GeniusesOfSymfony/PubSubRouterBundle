@@ -6,6 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,22 +34,38 @@ class DebugRouterCommand extends Command
     protected function configure(): void
     {
         $this
+            ->addArgument('router', InputArgument::OPTIONAL, 'The router to show information about')
             ->addOption('router_name', 'r', InputOption::VALUE_REQUIRED, 'Router name')
-            ->setDescription('Dump route definitions');
+            ->setDescription('Display current routes for a pubsub router');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var string $rname */
-        $rname = $input->getOption('router_name');
+        /** @var string|null $routerArgument */
+        $routerArgument = $input->getArgument('router');
 
-        if (!$this->registry->hasRouter($rname)) {
+        /** @var string|null $routerOption */
+        $routerOption = $input->getOption('router_name');
+
+        if (null !== $routerArgument) {
+            $routerName = $routerArgument;
+        } elseif (null !== $routerOption) {
+            trigger_deprecation('gos/pubsub-router-bundle', '2.5', 'The "router_name" option of the "gos:prouter:debug" command is deprecated and will be removed in 3.0, use the router argument instead.');
+
+            $routerName = $routerOption;
+        } else {
+            $io->error('A router must be provided.');
+
+            return 1;
+        }
+
+        if (!$this->registry->hasRouter($routerName)) {
             $io->error(
                 sprintf(
                     'Unknown router %s, available routers are [ %s ]',
-                    $rname,
+                    $routerName,
                     implode(', ', array_keys($this->registry->getRouters()))
                 )
             );
@@ -56,7 +73,7 @@ class DebugRouterCommand extends Command
             return 1;
         }
 
-        $router = $this->registry->getRouter($rname);
+        $router = $this->registry->getRouter($routerName);
 
         $table = new Table($output);
         $table->setHeaders(['Name', 'Pattern', 'Callback']);
