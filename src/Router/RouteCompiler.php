@@ -63,7 +63,7 @@ final class RouteCompiler implements RouteCompilerInterface
 
         // Match all variables enclosed in "{}" and iterate over them. But we only want to match the innermost variable
         // in case of nested "{}", e.g. {foo{bar}}. This in ensured because \w does not match "{" or "}" itself.
-        preg_match_all('#\{\w+\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        preg_match_all('#\{\w+\}#', $pattern, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             $varName = substr($match[0][0], 1, -1);
@@ -80,7 +80,7 @@ final class RouteCompiler implements RouteCompilerInterface
                 $precedingChar = substr($precedingText, -1);
             }
 
-            $isSeparator = '' !== $precedingChar && false !== strpos(static::SEPARATORS, $precedingChar);
+            $isSeparator = '' !== $precedingChar && str_contains(static::SEPARATORS, $precedingChar);
 
             // A PCRE subpattern name must start with a non-digit. Also a PHP variable cannot start with a digit so the
             // variable would not be usable as a Controller action argument.
@@ -152,7 +152,7 @@ final class RouteCompiler implements RouteCompilerInterface
         }
 
         // find the first optional token
-        $firstOptional = PHP_INT_MAX;
+        $firstOptional = \PHP_INT_MAX;
 
         for ($i = \count($tokens) - 1; $i >= 0; --$i) {
             $token = $tokens[$i];
@@ -232,7 +232,7 @@ final class RouteCompiler implements RouteCompilerInterface
             preg_match('/^./u', $pattern, $pattern);
         }
 
-        return false !== strpos(static::SEPARATORS, $pattern[0]) ? $pattern[0] : '';
+        return str_contains(static::SEPARATORS, $pattern[0]) ? $pattern[0] : '';
     }
 
     /**
