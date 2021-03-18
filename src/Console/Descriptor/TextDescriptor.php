@@ -6,6 +6,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Symfony\Component\Console\Helper\Table;
 
+/**
+ * @internal
+ */
 final class TextDescriptor extends Descriptor
 {
     protected function describeRouteCollection(RouteCollection $routes, array $options = []): void

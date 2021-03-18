@@ -7,6 +7,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use Symfony\Component\Console\Descriptor\DescriptorInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ */
 abstract class Descriptor implements DescriptorInterface
 {
     /**
