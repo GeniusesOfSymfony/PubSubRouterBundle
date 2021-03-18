@@ -84,22 +84,6 @@ final class XmlDescriptor extends Descriptor
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    private function getRouteData(Route $route): array
-    {
-        return [
-            'pattern' => $route->getPattern(),
-            'patternRegex' => $route->compile()->getRegex(),
-            'callback' => $this->formatRouteCallback($route),
-            'requirements' => $route->getRequirements() ?: 'NO CUSTOM',
-            'class' => \get_class($route),
-            'defaults' => $route->getDefaults(),
-            'options' => $route->getOptions(),
-        ];
-    }
-
-    /**
      * @param callable $callable
      */
     private function formatCallable($callable): string
