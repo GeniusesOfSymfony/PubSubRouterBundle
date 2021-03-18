@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<route class="Gos\Bundle\PubSubRouterBundle\Router\Route" callback="Gos\Bundle\PubSubRouterBundle\Tests\Console\Descriptor\DescriptorProvider, getRoutes">
+  <path regex="#^routes$#sD">routes</path>
+  <options>
+    <option key="compiler_class">Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler</option>
+  </options>
+</route>

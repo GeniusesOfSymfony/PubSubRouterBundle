@@ -47,6 +47,7 @@ abstract class AbstractDescriptorTestCase extends TestCase
         $options['is_debug'] = false;
         $options['raw_output'] = true;
         $options['raw_text'] = true;
+
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
 
         if ('txt' === $this->getFormat()) {
@@ -57,6 +58,8 @@ abstract class AbstractDescriptorTestCase extends TestCase
 
         if ('json' === $this->getFormat()) {
             $this->assertJsonStringEqualsJsonFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
+        } elseif ('xml' === $this->getFormat()) {
+            $this->assertXmlStringEqualsXmlFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
         } else {
             $this->assertStringEqualsFile(__DIR__.'/../../Fixtures/descriptor/'.$file, $output->fetch());
         }

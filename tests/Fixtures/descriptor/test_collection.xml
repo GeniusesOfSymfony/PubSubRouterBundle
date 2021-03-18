@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+  <route name="list_routes" class="Gos\Bundle\PubSubRouterBundle\Router\Route" callback="Gos\Bundle\PubSubRouterBundle\Tests\Console\Descriptor\DescriptorProvider, getRoutes">
+    <path regex="#^routes$#sD">routes</path>
+    <options>
+      <option key="compiler_class">Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler</option>
+    </options>
+  </route>
+  <route name="user_chat" class="Gos\Bundle\PubSubRouterBundle\Router\Route" callback="strlen()">
+    <path regex="#^chat(?:/(?P&lt;user&gt;\d+))?$#sD">chat/{user}</path>
+    <defaults>
+      <default key="user">42</default>
+    </defaults>
+    <requirements>
+      <requirement key="user">\d+</requirement>
+    </requirements>
+    <options>
+      <option key="compiler_class">Gos\Bundle\PubSubRouterBundle\Router\RouteCompiler</option>
+      <option key="foo">bar</option>
+    </options>
+  </route>
+</routes>
