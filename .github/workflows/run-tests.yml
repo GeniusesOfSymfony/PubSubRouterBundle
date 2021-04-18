@@ -20,7 +20,7 @@ jobs:
             can-fail: false
           - php: 8.0
             symfony: 5.*@dev
-            composer-flags: '--prefer-stable'
+            composer-flags: ''
             can-fail: true
         exclude:
           - php: 8.0
