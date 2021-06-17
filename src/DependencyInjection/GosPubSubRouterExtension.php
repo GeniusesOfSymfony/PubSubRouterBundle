@@ -57,6 +57,7 @@ class GosPubSubRouterExtension extends Extension
                     $routerOptions,
                 ]
             );
+            $definition->addMethodCall('setConfigCacheFactory', [new Reference('config_cache_factory')]);
 
             // Register router to the container
             $container->setDefinition($serviceId, $definition);

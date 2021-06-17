@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0 (????-??-??)
+
+- Set correct cache factory on routers
+
 ## 2.5.0 (2021-03-18)
 
 - Drop support for Symfony 5.1 (branch is EOL)
