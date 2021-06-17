@@ -78,7 +78,6 @@ return static function (ContainerConfigurator $container): void {
             ->tag('gos_pubsub_router.routing.loader')
 
         ->set('gos_pubsub_router.router_registry', RouterRegistry::class)
-            ->public()
             ->alias(RouterRegistry::class, 'gos_pubsub_router.router_registry')
 
         ->set('gos_pubsub_router.routing.loader', DelegatingLoader::class)
