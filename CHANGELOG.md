@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.7.0 (????-??-??)
+## 1.7.0 (2021-06-17)
 
 - Drop support for Symfony 5.1 (branch is EOL)
+- Set correct cache factory on routers
 
 ## 1.6.0 (2020-11-02)
 

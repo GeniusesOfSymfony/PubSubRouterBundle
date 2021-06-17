@@ -5,6 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Tests\DependencyInjection;
 use Gos\Bundle\PubSubRouterBundle\DependencyInjection\GosPubSubRouterExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
 
 class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
@@ -39,7 +40,11 @@ class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->load($routerConfig);
 
-        $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'gos_pubsub_router.router.test',
+            'setConfigCacheFactory',
+            [new Reference('config_cache_factory')]
+        );
 
         $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
