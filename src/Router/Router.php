@@ -204,20 +204,18 @@ final class Router implements RouterInterface, WarmableInterface
                 $routes = (new CompiledGeneratorDumper($routes))->getCompiledRoutes();
             }
 
-            $this->generator = new $this->options['generator_class']($routes);
-        } else {
-            $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.strtolower($this->name).'_pubsub_router_generating_routes.php',
-                function (ConfigCacheInterface $cache): void {
-                    $dumper = $this->getGeneratorDumperInstance();
-
-                    $cache->write($dumper->dump(), $this->getCollection()->getResources());
-                }
-            );
-
-            $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
+            return $this->generator = new $this->options['generator_class']($routes);
         }
 
-        return $this->generator;
+        $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.strtolower($this->name).'_pubsub_router_generating_routes.php',
+            function (ConfigCacheInterface $cache): void {
+                $dumper = $this->getGeneratorDumperInstance();
+
+                $cache->write($dumper->dump(), $this->getCollection()->getResources());
+            }
+        );
+
+        return $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
     }
 
     public function getMatcher(): MatcherInterface
