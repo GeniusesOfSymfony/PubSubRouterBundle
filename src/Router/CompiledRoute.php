@@ -2,7 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-final class CompiledRoute implements \Serializable
+final class CompiledRoute
 {
     private string $staticPrefix;
     private string $regex;
@@ -23,11 +23,6 @@ final class CompiledRoute implements \Serializable
         $this->variables = $variables;
     }
 
-    public function serialize()
-    {
-        return serialize($this->__serialize());
-    }
-
     public function __serialize(): array
     {
         return [
@@ -36,11 +31,6 @@ final class CompiledRoute implements \Serializable
             'tokens' => $this->tokens,
             'variables' => $this->variables,
         ];
-    }
-
-    public function unserialize($serialized): void
-    {
-        $this->__unserialize(unserialize($serialized));
     }
 
     public function __unserialize(array $data): void

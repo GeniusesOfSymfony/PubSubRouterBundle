@@ -5,7 +5,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  */
-final class Route implements \Serializable
+final class Route
 {
     private string $pattern = '';
 
@@ -54,11 +54,6 @@ final class Route implements \Serializable
         $this->setOptions($options);
     }
 
-    public function serialize()
-    {
-        return serialize($this->__serialize());
-    }
-
     public function __serialize(): array
     {
         return [
@@ -69,11 +64,6 @@ final class Route implements \Serializable
             'options' => $this->options,
             'compiled' => $this->compiled,
         ];
-    }
-
-    public function unserialize($serialized): void
-    {
-        $this->__unserialize(unserialize($serialized));
     }
 
     public function __unserialize(array $data): void
