@@ -8,6 +8,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\ResourceCheckerConfigCacheFactory;
+use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 {
@@ -18,6 +21,9 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.cache_dir', __DIR__);
         $this->container->setParameter('kernel.container_class', 'GosPubSubRouterBundleProjectContainer');
         $this->container->setParameter('kernel.debug', true);
+
+        $this->registerService('config_cache_factory', ResourceCheckerConfigCacheFactory::class)
+            ->addArgument(new TaggedIteratorArgument('config_cache.resource_checker'));
     }
 
     public function testContainerIsLoadedWithDefaultConfiguration(): void
@@ -53,7 +59,11 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->load($routerConfig);
 
-        $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'gos_pubsub_router.router.test',
+            'setConfigCacheFactory',
+            [new Reference('config_cache_factory')]
+        );
 
         $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
@@ -88,7 +98,11 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->load($routerConfig);
 
-        $this->assertContainerBuilderHasService('gos_pubsub_router.router.test');
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'gos_pubsub_router.router.test',
+            'setConfigCacheFactory',
+            [new Reference('config_cache_factory')]
+        );
 
         $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
