@@ -1,8 +1,9 @@
 # Changelog
 
-## 2.6.0 (????-??-??)
+## 2.6.0 (2021-06-17)
 
 - Set correct cache factory on routers
+- Deprecate public access to the `gos_pubsub_router.router_registry` service
 
 ## 2.5.0 (2021-03-18)
 

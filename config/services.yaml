@@ -64,6 +64,8 @@ services:
     gos_pubsub_router.router_registry:
         class: Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry
         public: true
+        tags:
+            - { name: container.private, package: 'gos/pubsub-router-bundle', version: '2.6' }
 
     gos_pubsub_router.routing.loader:
         class: Symfony\Component\Config\Loader\DelegatingLoader
