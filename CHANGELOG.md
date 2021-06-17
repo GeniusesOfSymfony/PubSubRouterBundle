@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.7.0 (????-??-??)
+
+- Add support for Symfony 6
+- Drop support for Symfony 5.2 (branch is EOL)
+
 ## 2.6.0 (2021-06-17)
 
 - Set correct cache factory on routers

@@ -41,7 +41,7 @@ class DebugRouterCommand extends Command
             ->setDescription('Display current routes for a pubsub router');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

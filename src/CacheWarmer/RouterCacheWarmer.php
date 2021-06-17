@@ -50,12 +50,15 @@ class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterf
         return array_unique($classes);
     }
 
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }
 
-    public static function getSubscribedServices()
+    /**
+     * @phpstan-return array<string, string|class-string>
+     */
+    public static function getSubscribedServices(): array
     {
         return [
             'gos_pubsub_router.router_registry' => RouterRegistry::class,
