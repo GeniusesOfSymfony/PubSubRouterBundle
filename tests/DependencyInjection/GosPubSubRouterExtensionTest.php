@@ -69,6 +69,9 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
 
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
 
+        // Make the registry public to use it
+        $registryDefinition->setPublic(true);
+
         $this->compile();
 
         /** @var RouterRegistry $registry */
@@ -107,6 +110,9 @@ final class GosPubSubRouterExtensionTest extends AbstractExtensionTestCase
         $registryDefinition = $this->container->getDefinition('gos_pubsub_router.router_registry');
 
         $this->assertCount(1, $registryDefinition->getMethodCalls(), 'The router should be added to the registry');
+
+        // Make the registry public to use it
+        $registryDefinition->setPublic(true);
 
         $this->compile();
 
