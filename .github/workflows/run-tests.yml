@@ -10,12 +10,12 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.0]
-        symfony: [5.2.*, 5.3.*]
+        symfony: [5.3.*]
         composer-flags: ['--prefer-stable']
         can-fail: [false]
         include:
           - php: 8.0
-            symfony: 5.2.*
+            symfony: 5.3.*
             composer-flags: '--prefer-stable --prefer-lowest'
             can-fail: false
           - php: 8.0

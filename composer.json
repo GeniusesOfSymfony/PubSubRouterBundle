@@ -13,11 +13,11 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "symfony/config": "^5.2",
-        "symfony/console": "^5.2",
-        "symfony/dependency-injection": "^5.2",
-        "symfony/http-foundation": "^5.2",
-        "symfony/http-kernel": "^5.2"
+        "symfony/config": "^5.3",
+        "symfony/console": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/http-foundation": "^5.3",
+        "symfony/http-kernel": "^5.3"
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
@@ -26,7 +26,7 @@
         "phpstan/phpstan-phpunit": "^0.12.18",
         "phpstan/phpstan-symfony": "^0.12.20",
         "phpunit/phpunit": "^9.5",
-        "symfony/yaml": "^5.2"
+        "symfony/yaml": "^5.3"
     },
     "conflict": {
         "symfony/yaml": "<5.2"
@@ -39,7 +39,7 @@
     },
     "suggest": {
         "ext-dom": "* to use the XML file loader",
-        "symfony/yaml": "^5.2 to use the YAML file loader"
+        "symfony/yaml": "^5.3 to use the YAML file loader"
     },
     "minimum-stability": "dev"
 }

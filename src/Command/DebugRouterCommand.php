@@ -14,6 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class DebugRouterCommand extends Command
 {
     protected static $defaultName = 'gos:pubsub-router:debug';
+    protected static $defaultDescription = 'Display current routes for a PubSub router';
 
     private RouterRegistry $registry;
 
@@ -31,7 +32,7 @@ final class DebugRouterCommand extends Command
             ->addArgument('router', InputArgument::REQUIRED, 'The router to show information about')
             ->addArgument('route', InputArgument::OPTIONAL, 'An optional route name from the router to describe')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (json, md, txt, or xml)', 'txt')
-            ->setDescription('Display current routes for a pubsub router');
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
