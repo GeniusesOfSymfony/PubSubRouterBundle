@@ -10,11 +10,11 @@ GosPubSubRouterBundle is a Symfony Bundle whose goal is to plug any logic behind
 Support
 -------
 
-| Version | Status                       | Symfony Versions   |
-| ------- | ---------------------------- | ------------------ |
-| 1.x     | Bug Fixes Until July 1, 2021 | 3.4, 4.4, 5.2, 5.3 |
-| 2.x     | Actively Supported           | 4.4, 5.2, 5.3      |
-| 3.x     | In Development               | 5.2, 5.3           |
+| Version | Status                  | Symfony Versions   |
+| ------- | ----------------------- | ------------------ |
+| 1.x     | **No Longer Supported** | 3.4, 4.4, 5.2, 5.3 |
+| 2.x     | Actively Supported      | 4.4, 5.2, 5.3      |
+| 3.x     | In Development          | 5.2, 5.3           |
 
 Features
 -------
