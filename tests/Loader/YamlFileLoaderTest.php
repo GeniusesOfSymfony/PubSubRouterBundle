@@ -44,6 +44,9 @@ class YamlFileLoaderTest extends TestCase
         $loader->load('nonvalid.yml');
     }
 
+    /**
+     * @group legacy
+     */
     public function testLoadThrowsExceptionWithDuplicatedCallbackConfiguration(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -66,6 +69,9 @@ class YamlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLoadWithRouteWithDeprecatedProperties(): void
     {
         $loader = new YamlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));

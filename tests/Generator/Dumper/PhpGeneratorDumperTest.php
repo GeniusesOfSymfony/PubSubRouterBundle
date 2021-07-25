@@ -8,6 +8,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group legacy
+ */
 class PhpGeneratorDumperTest extends TestCase
 {
     /**

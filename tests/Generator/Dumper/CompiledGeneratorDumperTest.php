@@ -91,6 +91,9 @@ final class CompiledGeneratorDumperTest extends TestCase
         $this->assertEquals('testing2', $withoutParameter);
     }
 
+    /**
+     * @group legacy
+     */
     public function testDumpWithoutRoutes(): void
     {
         $this->expectException(ResourceNotFoundException::class);

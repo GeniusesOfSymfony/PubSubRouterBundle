@@ -35,6 +35,9 @@ class XmlFileLoaderTest extends TestCase
         $this->assertSame(['compiler_class' => RouteCompiler::class, 'foo' => 'bar'], $route->getOptions());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLoadWithRouteWithDeprecatedProperties(): void
     {
         $loader = new XmlFileLoader(new FileLocator([__DIR__.'/../Fixtures']));

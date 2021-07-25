@@ -26,6 +26,9 @@ class DebugRouterCommandTest extends TestCase
         $this->assertStringEqualsFile(__DIR__.'/../Fixtures/command_output/valid_router.txt', $commandTester->getDisplay());
     }
 
+    /**
+     * @group legacy
+     */
     public function testCommandListsRoutesForARouterWhenGivenTheRouterNameAsAnOption(): void
     {
         $command = new DebugRouterCommand($this->buildRegistryWithValidRouter());
