@@ -26,6 +26,7 @@
         "phpstan/phpstan-phpunit": "^0.12.21",
         "phpstan/phpstan-symfony": "^0.12.41",
         "phpunit/phpunit": "^9.5",
+        "psr/container": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^5.3",
         "symfony/yaml": "^5.3"
     },

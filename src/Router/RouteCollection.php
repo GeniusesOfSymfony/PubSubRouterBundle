@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use ReturnTypeWillChange;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
 /**
