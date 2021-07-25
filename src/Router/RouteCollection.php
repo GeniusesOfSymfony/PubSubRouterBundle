@@ -2,6 +2,7 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
+use ReturnTypeWillChange;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
 /**
@@ -42,6 +43,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @return \ArrayIterator<string, Route>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->routes);
@@ -50,6 +52,7 @@ class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return \count($this->routes);
