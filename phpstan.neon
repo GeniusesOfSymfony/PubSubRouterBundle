@@ -1,5 +1,5 @@
 parameters:
-  level: 7
+  level: 8
   paths:
     - %currentWorkingDirectory%/src
     - %currentWorkingDirectory%/tests
@@ -65,6 +65,7 @@ parameters:
     -
       message: '/Parameter #1 \$resource of class Symfony\\Component\\Config\\Resource\\FileResource constructor expects string, string\|false given\./'
       path: %currentWorkingDirectory%/tests/Loader/YamlFileLoaderTest.php
+
   reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
   checkGenericClassInNonGenericObjectType: false

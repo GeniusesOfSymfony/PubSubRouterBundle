@@ -7,6 +7,8 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  * @final
+ *
+ * @implements \IteratorAggregate<Route>
  */
 class RouteCollection implements \Countable, \IteratorAggregate
 {

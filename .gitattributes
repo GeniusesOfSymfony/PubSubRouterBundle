@@ -4,6 +4,6 @@
 /.gitignore export-ignore
 /.php_cs export-ignore
 /CHANGELOG.md export-ignore
-/phpstan.neon.dist export-ignore
+/phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
 /README.md export-ignore

@@ -11,9 +11,24 @@ use PHPUnit\Framework\TestCase;
 
 final class CompiledGeneratorDumperTest extends TestCase
 {
+    /**
+     * @var RouteCollection|null
+     */
     private $routeCollection = null;
+
+    /**
+     * @var CompiledGeneratorDumper|null
+     */
     private $generatorDumper = null;
+
+    /**
+     * @var string|null
+     */
     private $testTmpFilepath = null;
+
+    /**
+     * @var string|null
+     */
     private $largeTestTmpFilepath = null;
 
     protected function setUp(): void

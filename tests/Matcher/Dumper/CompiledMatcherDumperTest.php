@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 final class CompiledMatcherDumperTest extends TestCase
 {
+    /**
+     * @var string|null
+     */
     private $dumpPath = null;
 
     protected function setUp(): void
