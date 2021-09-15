@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
@@ -17,7 +17,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setRiskyAllowed(true)
     ->setFinder(
-        PhpCsFixer\Finder::create()
+        (new PhpCsFixer\Finder())
             ->notPath('Fixtures/dumper') // Generated fixtures
             ->in(__DIR__.'/src')
             ->in(__DIR__.'/tests')
