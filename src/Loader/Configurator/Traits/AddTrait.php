@@ -14,6 +14,9 @@ trait AddTrait
      */
     private $collection;
 
+    /**
+     * @var string
+     */
     private $name = '';
 
     /**

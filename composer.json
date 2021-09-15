@@ -25,9 +25,9 @@
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.1.2",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^0.12.93",
-        "phpstan/phpstan-phpunit": "^0.12.21",
-        "phpstan/phpstan-symfony": "^0.12.41",
+        "phpstan/phpstan": "^0.12.99",
+        "phpstan/phpstan-phpunit": "^0.12.22",
+        "phpstan/phpstan-symfony": "^0.12.44",
         "phpunit/phpunit": "^8.5 || ^9.3",
         "psr/container": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^5.3"

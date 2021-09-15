@@ -47,7 +47,7 @@ abstract class ObjectLoader extends CompatibilityLoader
     private function addClassResource(\ReflectionClass $class, RouteCollection $collection): void
     {
         do {
-            if (is_file($class->getFileName())) {
+            if (false !== $class->getFileName() && is_file($class->getFileName())) {
                 $collection->addResource(new FileResource($class->getFileName()));
             }
         } while ($class = $class->getParentClass());
