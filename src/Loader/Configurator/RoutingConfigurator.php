@@ -22,7 +22,7 @@ final class RoutingConfigurator
     }
 
     /**
-     * @param string|string[]|null $exclude  Glob patterns to exclude from the import
+     * @param string|string[]|null $exclude Glob patterns to exclude from the import
      */
     public function import(mixed $resource, string $type = null, bool $ignoreErrors = false, string | array | null $exclude = null): ImportConfigurator
     {
