@@ -49,6 +49,9 @@ final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriber
         return true;
     }
 
+    /**
+     * @phpstan-return array<string, string|class-string>
+     */
     public static function getSubscribedServices(): array
     {
         return [

@@ -13,11 +13,11 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "symfony/config": "^5.3",
-        "symfony/console": "^5.3",
-        "symfony/dependency-injection": "^5.3",
-        "symfony/http-foundation": "^5.3",
-        "symfony/http-kernel": "^5.3"
+        "symfony/config": "^5.3 || ^6.0",
+        "symfony/console": "^5.3 || ^6.0",
+        "symfony/dependency-injection": "^5.3 || ^6.0",
+        "symfony/http-foundation": "^5.3 || ^6.0",
+        "symfony/http-kernel": "^5.3 || ^6.0",
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
@@ -27,8 +27,8 @@
         "phpstan/phpstan-symfony": "^0.12.44",
         "phpunit/phpunit": "^9.5",
         "psr/container": "^1.0 || ^2.0",
-        "symfony/phpunit-bridge": "^5.3",
-        "symfony/yaml": "^5.3"
+        "symfony/phpunit-bridge": "^5.3 || ^6.0",
+        "symfony/yaml": "^5.3 || ^6.0"
     },
     "conflict": {
         "symfony/yaml": "<5.2"
@@ -41,7 +41,7 @@
     },
     "suggest": {
         "ext-dom": "* to use the XML file loader",
-        "symfony/yaml": "^5.3 to use the YAML file loader"
+        "symfony/yaml": "^5.3 || ^6.0 to use the YAML file loader"
     },
     "minimum-stability": "dev"
 }
