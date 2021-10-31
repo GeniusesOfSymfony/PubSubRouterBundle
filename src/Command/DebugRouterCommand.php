@@ -5,6 +5,9 @@ namespace Gos\Bundle\PubSubRouterBundle\Command;
 use Gos\Bundle\PubSubRouterBundle\Console\Helper\DescriptorHelper;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -119,5 +122,40 @@ class DebugRouterCommand extends Command
         }
 
         return 0;
+    }
+
+    /**
+     * @throws InvalidArgumentException if an invalid router is provided
+     */
+    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+    {
+        if ($input->mustSuggestArgumentValuesFor('router') || $input->mustSuggestOptionValuesFor('router_name')) {
+            $suggestions->suggestValues(array_keys($this->registry->getRouters()));
+
+            return;
+        }
+
+        if ($input->mustSuggestArgumentValuesFor('route')) {
+            /** @var string|null $routerName */
+            $routerName = $input->getArgument('router');
+
+            if (null !== $routerName) {
+                if (!$this->registry->hasRouter($routerName)) {
+                    throw new InvalidArgumentException(sprintf('Unknown router %s, available routers are [ %s ]', $routerName, implode(', ', array_keys($this->registry->getRouters()))));
+                }
+
+                $router = $this->registry->getRouter($routerName);
+
+                $suggestions->suggestValues(array_keys($router->getCollection()->all()));
+
+                return;
+            }
+        }
+
+        if ($input->mustSuggestOptionValuesFor('format')) {
+            $suggestions->suggestValues((new DescriptorHelper())->getFormats());
+
+            return;
+        }
     }
 }

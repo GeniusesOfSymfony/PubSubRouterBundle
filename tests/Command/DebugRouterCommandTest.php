@@ -8,6 +8,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\Router;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Console\Tester\CommandCompletionTester;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class DebugRouterCommandTest extends TestCase
@@ -113,6 +114,38 @@ class DebugRouterCommandTest extends TestCase
 
         $this->assertTrue(false !== strpos($commandTester->getDisplay(), 'The "missing" route does not exist on the "test" router.'));
         $this->assertSame(1, $commandTester->getStatusCode());
+    }
+
+    public function dataCommandAutocompletion(): \Generator
+    {
+        yield 'argument router' => [
+            [''],
+            ['test'],
+        ];
+
+        yield 'argument route_name for router' => [
+            ['test', ''],
+            ['user_chat'],
+        ];
+
+        yield 'option --format' => [
+            ['--format', ''],
+            ['json', 'md', 'txt', 'xml'],
+        ];
+    }
+
+    /**
+     * @dataProvider dataCommandAutocompletion
+     */
+    public function testCommandAutocompletion(array $input, array $suggestions): void
+    {
+        if (!class_exists(CommandCompletionTester::class)) {
+            $this->markTestSkipped('Command autocomplete requires symfony/console 5.4 or later.');
+        }
+
+        $tester = new CommandCompletionTester(new DebugRouterCommand($this->buildRegistryWithValidRouter()));
+
+        $this->assertSame($suggestions, $tester->complete($input));
     }
 
     private function buildRegistryWithValidRouter(): RouterRegistry

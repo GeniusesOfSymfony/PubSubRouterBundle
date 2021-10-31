@@ -4,6 +4,7 @@
 
 - Add support for Symfony 6
 - Drop support for Symfony 5.2 (branch is EOL)
+- Add support for command auto-completion for Symfony 5.4
 
 ## 2.6.0 (2021-06-17)
 
