@@ -101,7 +101,7 @@ final class DebugRouterCommand extends Command
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {
-        if ($input->mustSuggestArgumentValuesFor('router') || $input->mustSuggestOptionValuesFor('router_name')) {
+        if ($input->mustSuggestArgumentValuesFor('router')) {
             $suggestions->suggestValues(array_keys($this->registry->getRouters()));
 
             return;
