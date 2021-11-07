@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.7.0 (????-??-??)
+## 2.7.0 (2021-11-07)
 
 - Add support for Symfony 6
 - Drop support for Symfony 5.2 (branch is EOL)
