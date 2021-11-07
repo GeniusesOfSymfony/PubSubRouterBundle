@@ -16,7 +16,7 @@ final class XmlFileLoader extends FileLoader
     /**
      * @throws \InvalidArgumentException when the file cannot be loaded or when the XML cannot be parsed because it does not validate against the scheme
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
 
