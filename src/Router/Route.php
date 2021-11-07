@@ -84,7 +84,7 @@ final class Route
     public function setPattern(string $pattern): self
     {
         if (false !== strpbrk($pattern, '?<')) {
-            $pattern = preg_replace_callback('#\{(!?\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
+            $pattern = preg_replace_callback('#\{(!?\w++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m): string {
                 if (isset($m[3][0])) {
                     $this->setDefault($m[1], '?' !== $m[3] ? substr($m[3], 1) : null);
                 }

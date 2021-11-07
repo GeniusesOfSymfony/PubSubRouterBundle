@@ -37,9 +37,17 @@ final class Router implements RouterInterface, WarmableInterface
     private ?ConfigCacheFactoryInterface $configCacheFactory = null;
 
     /**
-     * @var array<string, mixed>
+     * @var array{
+     *     cache_dir: string|null,
+     *     debug: bool,
+     *     generator_class: class-string<GeneratorInterface>,
+     *     generator_dumper_class: class-string<GeneratorDumperInterface>,
+     *     matcher_class: class-string<MatcherInterface>,
+     *     matcher_dumper_class: class-string<MatcherDumperInterface>,
+     *     resource_type: string|null,
+     * }
      */
-    private array $options = [];
+    private array $options;
 
     /**
      * @var array<string, array>|null

@@ -22,9 +22,9 @@
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^0.12.99",
-        "phpstan/phpstan-phpunit": "^0.12.22",
-        "phpstan/phpstan-symfony": "^0.12.44",
+        "phpstan/phpstan": "^1.1.1",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-symfony": "^1.0.1",
         "phpunit/phpunit": "^9.5",
         "psr/container": "^1.0 || ^2.0",
         "symfony/phpunit-bridge": "^5.3 || ^6.0",

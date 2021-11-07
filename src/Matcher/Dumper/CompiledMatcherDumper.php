@@ -236,7 +236,7 @@ EOF;
                 $state->vars = [];
                 $regex = preg_replace_callback('#\?P<([^>]++)>#', $state->getVars, $rx[1]);
 
-                if ($hasTrailingSlash = '/' !== $regex && '/' === $regex[-1]) {
+                if ('/' !== $regex && '/' === $regex[-1]) {
                     $regex = substr($regex, 0, -1);
                 }
 
