@@ -5,17 +5,6 @@ parameters:
   paths:
     - %currentWorkingDirectory%/src
     - %currentWorkingDirectory%/tests
-  excludes_analyse:
+  excludePaths:
     - %currentWorkingDirectory%/tests/Fixtures/*
-  ignoreErrors:
-    # Router fixture classes (not autoloaded)
-    - '/Instantiated class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator|ProjectMatcher) not found\./'
-    - '/Call to method generate\(\) on an unknown class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator)\./'
-    - '/Call to method match\(\) on an unknown class ProjectMatcher\./'
-
-    # Runtime check which matches doc block
-    -
-      message: '/Result of && is always false\./'
-      path: %currentWorkingDirectory%/src/Router/Route.php
-
   checkMissingIterableValueType: false

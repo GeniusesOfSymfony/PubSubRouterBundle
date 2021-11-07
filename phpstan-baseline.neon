@@ -21,6 +21,11 @@ parameters:
 			path: src/Loader/Configurator/ImportConfigurator.php
 
 		-
+			message: "#^Anonymous class extends @final class Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Loader\\\\PhpFileLoader\\.$#"
+			count: 1
+			path: src/Loader/PhpFileLoader.php
+
+		-
 			message: "#^Anonymous function has an unused use \\$loader\\.$#"
 			count: 1
 			path: src/Loader/PhpFileLoader.php
@@ -41,12 +46,22 @@ parameters:
 			path: src/Loader/XmlFileLoader.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between string and array\\(\\) will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between string and array\\{\\} will always evaluate to false\\.$#"
 			count: 1
 			path: src/Loader/XmlFileLoader.php
 
 		-
+			message: "#^Offset 1 on array\\{0, null\\} on left side of \\?\\? always exists and is always null\\.$#"
+			count: 1
+			path: src/Matcher/CompiledMatcher.php
+
+		-
 			message: "#^Cannot call method getMessage\\(\\) on Exception\\|null\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Cannot use array destructuring on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\.$#"
 			count: 1
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
@@ -76,9 +91,19 @@ parameters:
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
 		-
+			message: "#^Cannot use array destructuring on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/PhpMatcherDumper.php
+
+		-
 			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\PhpMatcherDumper\\:\\:indent\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: src/Matcher/Dumper/PhpMatcherDumper.php
+
+		-
+			message: "#^Offset 1 on array\\{0, null\\} on left side of \\?\\? always exists and is always null\\.$#"
+			count: 1
+			path: src/Matcher/Matcher.php
 
 		-
 			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
@@ -86,9 +111,44 @@ parameters:
 			path: src/Router/Route.php
 
 		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: src/Router/Route.php
+
+		-
 			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Router/RouteCompiler.php
+
+		-
+			message: "#^Array \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept key \\(int\\|string\\)\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Array \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept key string\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:getGenerator\\(\\) should return Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface but returns object\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:getMatcher\\(\\) should return Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface but returns object\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$generator \\(Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\|null\\) does not accept object\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$matcher \\(Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\|null\\) does not accept object\\.$#"
+			count: 1
+			path: src/Router/Router.php
 
 		-
 			message: "#^Cannot call method add\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\|null\\.$#"
@@ -111,6 +171,31 @@ parameters:
 			path: tests/Generator/Dumper/CompiledGeneratorDumperTest.php
 
 		-
+			message: "#^Call to method generate\\(\\) on an unknown class DefaultRoutesGenerator\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Call to method generate\\(\\) on an unknown class NonExistingRoutesGenerator\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Call to method generate\\(\\) on an unknown class ProjectGenerator\\.$#"
+			count: 2
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Call to method generate\\(\\) on an unknown class ProjectLargeGenerator\\.$#"
+			count: 2
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Call to method generate\\(\\) on an unknown class WithoutRoutesGenerator\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
 			message: "#^Cannot call method add\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\|null\\.$#"
 			count: 7
 			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
@@ -118,6 +203,31 @@ parameters:
 		-
 			message: "#^Cannot call method dump\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\PhpGeneratorDumper\\|null\\.$#"
 			count: 5
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Instantiated class DefaultRoutesGenerator not found\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Instantiated class NonExistingRoutesGenerator not found\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Instantiated class ProjectGenerator not found\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Instantiated class ProjectLargeGenerator not found\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Instantiated class WithoutRoutesGenerator not found\\.$#"
+			count: 1
 			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
 
 		-
@@ -159,6 +269,16 @@ parameters:
 			message: "#^Parameter \\#1 \\$filename of function unlink expects string, string\\|null given\\.$#"
 			count: 1
 			path: tests/Matcher/Dumper/CompiledMatcherDumperTest.php
+
+		-
+			message: "#^Call to method match\\(\\) on an unknown class ProjectMatcher\\.$#"
+			count: 3
+			path: tests/Matcher/Dumper/PhpMatcherDumperTest.php
+
+		-
+			message: "#^Instantiated class ProjectMatcher not found\\.$#"
+			count: 1
+			path: tests/Matcher/Dumper/PhpMatcherDumperTest.php
 
 		-
 			message: "#^Cannot call method getPattern\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\|null\\.$#"

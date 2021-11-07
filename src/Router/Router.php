@@ -50,9 +50,21 @@ class Router implements RouterInterface, WarmableInterface
     protected $resources = [];
 
     /**
-     * @var array
+     * @var array{
+     *     cache_dir: string|null,
+     *     debug: bool,
+     *     generator_class: class-string<GeneratorInterface>,
+     *     generator_base_class: class-string<GeneratorInterface>,
+     *     generator_cache_class: non-empty-string|null,
+     *     generator_dumper_class: class-string<GeneratorDumperInterface>,
+     *     matcher_class: class-string<MatcherInterface>,
+     *     matcher_base_class: class-string<MatcherInterface>,
+     *     matcher_cache_class: non-empty-string|null,
+     *     matcher_dumper_class: class-string<MatcherDumperInterface>,
+     *     resource_type: string|null,
+     * }
      */
-    protected $options = [];
+    protected $options;
 
     /**
      * @var string
@@ -242,33 +254,31 @@ class Router implements RouterInterface, WarmableInterface
                 $routes = (new CompiledGeneratorDumper($routes))->getCompiledRoutes();
             }
 
-            $this->generator = new $this->options['generator_class']($routes);
-        } else {
-            $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
-                function (ConfigCacheInterface $cache): void {
-                    $dumper = $this->getGeneratorDumperInstance();
-
-                    $options = [
-                        'class' => $this->options['generator_cache_class'],
-                        'base_class' => $this->options['generator_base_class'],
-                    ];
-
-                    $cache->write($dumper->dump($options), $this->getCollection()->getResources());
-                }
-            );
-
-            if ($compiled) {
-                $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
-            } else {
-                if (!class_exists($this->options['generator_cache_class'], false)) {
-                    require_once $cache->getPath();
-                }
-
-                $this->generator = new $this->options['generator_cache_class']();
-            }
+            return $this->generator = new $this->options['generator_class']($routes);
         }
 
-        return $this->generator;
+        $cache = $this->getConfigCacheFactory()->cache($this->options['cache_dir'].'/'.$this->options['generator_cache_class'].'.php',
+            function (ConfigCacheInterface $cache): void {
+                $dumper = $this->getGeneratorDumperInstance();
+
+                $options = [
+                    'class' => $this->options['generator_cache_class'],
+                    'base_class' => $this->options['generator_base_class'],
+                ];
+
+                $cache->write($dumper->dump($options), $this->getCollection()->getResources());
+            }
+        );
+
+        if ($compiled) {
+            return $this->generator = new $this->options['generator_class'](self::getCompiledRoutes($cache->getPath()));
+        }
+
+        if (!class_exists($this->options['generator_cache_class'], false)) {
+            require_once $cache->getPath();
+        }
+
+        return $this->generator = new $this->options['generator_cache_class']();
     }
 
     public function getMatcher(): MatcherInterface
