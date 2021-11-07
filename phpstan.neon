@@ -1,3 +1,5 @@
+includes:
+  - phpstan-baseline.neon
 parameters:
   level: 8
   paths:
@@ -6,66 +8,14 @@ parameters:
   excludes_analyse:
     - %currentWorkingDirectory%/tests/Fixtures/*
   ignoreErrors:
-    # Symfony config builder
-    - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::addDefaultsIfNotSet\(\)\./'
-
     # Router fixture classes (not autoloaded)
     - '/Instantiated class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator|ProjectMatcher) not found\./'
     - '/Call to method generate\(\) on an unknown class (ProjectGenerator|ProjectLargeGenerator|WithoutRoutesGenerator|NonExistingRoutesGenerator|DefaultRoutesGenerator)\./'
     - '/Call to method match\(\) on an unknown class ProjectMatcher\./'
-
-    # Class used for compatibility checks
-    -
-      message: '/Class Symfony\\Component\\Config\\Exception\\FileLoaderLoadException not found\./'
-      path: %currentWorkingDirectory%/src/Loader/CompatibilityYamlFileLoader.php
-
-    # Ignore missing deprecated error handler argument
-    -
-      message: '/Parameter #1 \$error_handler of function set_error_handler expects \(callable\(int, string, string, int, array\)\: bool\)\|null, Closure\(int, string, string, int\)\: void given\./'
-      path: %currentWorkingDirectory%/src/Matcher/Dumper/PhpMatcherDumper.php
-
-    # Ignore array access warning on mixed variable structure
-    -
-      message: '/Cannot access offset 1 on array<int, string>\|Gos\\Bundle\\PubSubRouterBundle\\Matcher\\Dumper\\StaticPrefixCollection\./'
-      path: %currentWorkingDirectory%/src/Matcher/Dumper/PhpMatcherDumper.php
-
-    # Ignore missing typehints for Serializable
-    -
-      message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\CompiledRoute::serialize\(\) has no return typehint specified\./'
-      path: %currentWorkingDirectory%/src/Router/CompiledRoute.php
-
-    -
-      message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\CompiledRoute::unserialize\(\) has parameter \$serialized with no typehint specified\./'
-      path: %currentWorkingDirectory%/src/Router/CompiledRoute.php
-
-    -
-      message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\Route::serialize\(\) has no return typehint specified\./'
-      path: %currentWorkingDirectory%/src/Router/Route.php
-
-    -
-      message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\Route::unserialize\(\) has parameter \$serialized with no typehint specified\./'
-      path: %currentWorkingDirectory%/src/Router/Route.php
-
-    # Ignore missing typehints from parent interfaces
-    -
-      message: '/Method Gos\\Bundle\\PubSubRouterBundle\\Router\\Router::warmUp\(\) has parameter \$cacheDir with no typehint specified\./'
-      path: %currentWorkingDirectory%/src/Router/Router.php
 
     # Runtime check which matches doc block
     -
       message: '/Result of && is always false\./'
       path: %currentWorkingDirectory%/src/Router/Route.php
 
-    # Ignore warning about comparison always evaluating to false
-    -
-      message: "/Strict comparison using === between '\\?' and '\\(' will always evaluate to false\\./"
-      path: %currentWorkingDirectory%/src/Router/RouteCompiler.php
-
-    # Ignore parameter warning for not error checking realpath() return in tests
-    -
-      message: '/Parameter #1 \$resource of class Symfony\\Component\\Config\\Resource\\FileResource constructor expects string, string\|false given\./'
-      path: %currentWorkingDirectory%/tests/Loader/YamlFileLoaderTest.php
-
-  reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
-  checkGenericClassInNonGenericObjectType: false

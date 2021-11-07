@@ -11,7 +11,7 @@ class ObjectLoaderTest extends TestCase
 {
     public function testLoadCallsServiceAndReturnsCollection(): void
     {
-        $loader = $this->createObjectLoader();
+        $loader = new TestObjectLoader();
 
         $collection = new RouteCollection();
         $collection->add('foo', new Route('/foo', 'strlen'));
@@ -36,7 +36,7 @@ class ObjectLoaderTest extends TestCase
     public function testExceptionWithoutSyntax(string $resourceString): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $loader = $this->createObjectLoader();
+        $loader = new TestObjectLoader();
         $loader->load($resourceString);
     }
 
@@ -55,7 +55,7 @@ class ObjectLoaderTest extends TestCase
     public function testExceptionOnNoObjectReturned(): void
     {
         $this->expectException(\TypeError::class);
-        $loader = $this->createObjectLoader();
+        $loader = new TestObjectLoader();
         $loader->loaderMap = ['my_service' => 'NOT_AN_OBJECT'];
         $loader->load('my_service::method');
     }
@@ -63,7 +63,7 @@ class ObjectLoaderTest extends TestCase
     public function testExceptionOnBadMethod(): void
     {
         $this->expectException(\BadMethodCallException::class);
-        $loader = $this->createObjectLoader();
+        $loader = new TestObjectLoader();
         $loader->loaderMap = ['my_service' => new \stdClass()];
         $loader->load('my_service::method');
     }
@@ -79,33 +79,9 @@ class ObjectLoaderTest extends TestCase
 
         $this->expectException(\LogicException::class);
 
-        $loader = $this->createObjectLoader();
+        $loader = new TestObjectLoader();
         $loader->loaderMap = ['my_service' => $service];
         $loader->load('my_service::loadRoutes');
-    }
-
-    private function createObjectLoader(): ObjectLoader
-    {
-        return new class() extends ObjectLoader {
-            /**
-             * @var array<string, object>
-             */
-            public $loaderMap = [];
-
-            protected function doSupports($resource, string $type = null): bool
-            {
-                return 'service' === $type;
-            }
-
-            protected function getObject(string $id): object
-            {
-                if (!isset($this->loaderMap[$id])) {
-                    throw new \InvalidArgumentException(sprintf('The "%s" ID is not registered.', $id));
-                }
-
-                return $this->loaderMap[$id];
-            }
-        };
     }
 
     private function createLoaderService(RouteCollection $collection): object
@@ -126,5 +102,27 @@ class ObjectLoaderTest extends TestCase
                 return $this->collection;
             }
         };
+    }
+}
+
+final class TestObjectLoader extends ObjectLoader
+{
+    /**
+     * @var array<string, object>
+     */
+    public $loaderMap = [];
+
+    protected function doSupports($resource, string $type = null): bool
+    {
+        return 'service' === $type;
+    }
+
+    protected function getObject(string $id): object
+    {
+        if (!isset($this->loaderMap[$id])) {
+            throw new \InvalidArgumentException(sprintf('The "%s" ID is not registered.', $id));
+        }
+
+        return $this->loaderMap[$id];
     }
 }

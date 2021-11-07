@@ -64,8 +64,8 @@ class CompiledMatcher extends Matcher
                     return [$name, $route, $this->getAttributes($route, $channel, array_replace($ret, $status[1] ?? []))];
                 }
 
-                $regex = substr_replace($regex, 'F', $m - $offset, 1 + \strlen($m));
-                $offset += \strlen($m);
+                $regex = substr_replace($regex, 'F', $m - $offset, 1 + \strlen((string) $m));
+                $offset += \strlen((string) $m);
             }
         }
 

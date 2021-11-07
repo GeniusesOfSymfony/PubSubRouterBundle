@@ -11,23 +11,21 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 /**
  * @author Johann Saunier <johann_27@hotmail.fr>
  * @final
  */
-class GosPubSubRouterExtension extends Extension
+class GosPubSubRouterExtension extends ConfigurableExtension
 {
     /**
      * @throws InvalidArgumentException if a configured router uses a reserved name
      */
-    public function load(array $configs, ContainerBuilder $container): void
+    protected function loadInternal(array $mergedConfig, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
-
-        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
         $container->registerForAutoconfiguration(RouteLoaderInterface::class)
             ->addTag('gos_pubsub_router.routing.route_loader');
@@ -35,21 +33,21 @@ class GosPubSubRouterExtension extends Extension
         $routerOptions = [
             'cache_dir' => $container->getParameter('kernel.cache_dir'),
             'debug' => $container->getParameter('kernel.debug'),
-            'generator_class' => $config['generator_class'],
+            'generator_class' => $mergedConfig['generator_class'],
             'generator_dumper_class' => CompiledGeneratorDumper::class,
-            'matcher_class' => $config['matcher_class'],
+            'matcher_class' => $mergedConfig['matcher_class'],
             'matcher_dumper_class' => CompiledMatcherDumper::class,
         ];
 
         $registryDefinition = $container->getDefinition('gos_pubsub_router.router_registry');
 
-        foreach ($config['routers'] as $routerName => $routerConfig) {
+        foreach ($mergedConfig['routers'] as $routerName => $routerConfig) {
             $lowerRouterName = strtolower($routerName);
 
             $serviceId = 'gos_pubsub_router.router.'.$lowerRouterName;
 
             $definition = new Definition(
-                $config['router_class'],
+                $mergedConfig['router_class'],
                 [
                     $lowerRouterName,
                     new Reference('gos_pubsub_router.routing.loader'),

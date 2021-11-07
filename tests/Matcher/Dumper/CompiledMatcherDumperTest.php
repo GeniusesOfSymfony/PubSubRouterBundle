@@ -14,7 +14,7 @@ final class CompiledMatcherDumperTest extends TestCase
     /**
      * @var string|null
      */
-    private $dumpPath = null;
+    private $dumpPath;
 
     protected function setUp(): void
     {

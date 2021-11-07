@@ -239,7 +239,7 @@ EOF;
                 $state->vars = [];
                 $regex = preg_replace_callback('#\?P<([^>]++)>#', $state->getVars, $rx[1]);
 
-                if ($hasTrailingSlash = '/' !== $regex && '/' === $regex[-1]) {
+                if ('/' !== $regex && '/' === $regex[-1]) {
                     $regex = substr($regex, 0, -1);
                 }
 
@@ -315,7 +315,7 @@ EOF;
             }
 
             $state->mark += 3 + $state->markTail + \strlen($regex) - $prefixLen;
-            $state->markTail = 2 + \strlen($state->mark);
+            $state->markTail = 2 + \strlen((string) $state->mark);
             $rx = sprintf('|%s(*:%s)', substr($regex, $prefixLen), $state->mark);
             $code .= "\n            .".self::export($rx);
             $state->regex .= $rx;

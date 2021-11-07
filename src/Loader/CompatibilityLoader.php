@@ -16,7 +16,8 @@ if (class_exists(FileLoaderLoadException::class)) {
     abstract class CompatibilityLoader extends Loader
     {
         /**
-         * @param mixed $resource
+         * @param mixed       $resource
+         * @param string|null $type
          */
         public function load($resource, $type = null): RouteCollection
         {
@@ -29,7 +30,8 @@ if (class_exists(FileLoaderLoadException::class)) {
         abstract protected function doLoad($resource, string $type = null): RouteCollection;
 
         /**
-         * @param mixed $resource
+         * @param mixed       $resource
+         * @param string|null $type
          */
         public function supports($resource, $type = null): bool
         {

@@ -1,0 +1,167 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot call method importNode\\(\\) on DOMDocument\\|null\\.$#"
+			count: 1
+			path: src/Console/Descriptor/XmlDescriptor.php
+
+		-
+			message: "#^Parameter \\#1 \\$content of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Console\\\\Descriptor\\\\Descriptor\\:\\:write\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Console/Descriptor/XmlDescriptor.php
+
+		-
+			message: "#^Instanceof between \\*NEVER\\* and Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Loader\\\\Configurator\\\\RouteConfigurator will always evaluate to false\\.$#"
+			count: 1
+			path: src/Loader/Configurator/CollectionConfigurator.php
+
+		-
+			message: "#^Parameter \\#1 \\$collection of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\:\\:addCollection\\(\\) expects Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection, Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\|Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection given\\.$#"
+			count: 1
+			path: src/Loader/Configurator/ImportConfigurator.php
+
+		-
+			message: "#^Anonymous function has an unused use \\$loader\\.$#"
+			count: 1
+			path: src/Loader/PhpFileLoader.php
+
+		-
+			message: "#^Cannot access property \\$childNodes on DOMElement\\|null\\.$#"
+			count: 1
+			path: src/Loader/XmlFileLoader.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Loader/XmlFileLoader.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 2
+			path: src/Loader/XmlFileLoader.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between string and array\\(\\) will always evaluate to false\\.$#"
+			count: 1
+			path: src/Loader/XmlFileLoader.php
+
+		-
+			message: "#^Cannot call method getMessage\\(\\) on Exception\\|null\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Invalid type Exception\\|null to throw\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\CompiledMatcherDumper\\:\\:indent\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Offset \\-1 does not exist on array\\|string\\|null\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\CompiledMatcherDumper\\:\\:indent\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, array\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/CompiledMatcherDumper.php
+
+		-
+			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\PhpMatcherDumper\\:\\:indent\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Matcher/Dumper/PhpMatcherDumper.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/Router/Route.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/Router/RouteCompiler.php
+
+		-
+			message: "#^Cannot call method add\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\|null\\.$#"
+			count: 7
+			path: tests/Generator/Dumper/CompiledGeneratorDumperTest.php
+
+		-
+			message: "#^Cannot call method dump\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\CompiledGeneratorDumper\\|null\\.$#"
+			count: 5
+			path: tests/Generator/Dumper/CompiledGeneratorDumperTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function file_put_contents expects string, string\\|null given\\.$#"
+			count: 5
+			path: tests/Generator/Dumper/CompiledGeneratorDumperTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function unlink expects string, string\\|null given\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/CompiledGeneratorDumperTest.php
+
+		-
+			message: "#^Cannot call method add\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\|null\\.$#"
+			count: 7
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Cannot call method dump\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\PhpGeneratorDumper\\|null\\.$#"
+			count: 5
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function file_put_contents expects string, string\\|null given\\.$#"
+			count: 5
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function unlink expects string, string\\|null given\\.$#"
+			count: 1
+			path: tests/Generator/Dumper/PhpGeneratorDumperTest.php
+
+		-
+			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Tests\\\\Loader\\\\TestObjectLoader\\:\\:\\$loaderMap \\(array\\<string, object\\>\\) does not accept array\\<string, string\\>\\.$#"
+			count: 1
+			path: tests/Loader/ObjectLoaderTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class Symfony\\\\Component\\\\Config\\\\Resource\\\\FileResource constructor expects string, string\\|false given\\.$#"
+			count: 2
+			path: tests/Loader/PhpFileLoaderTest.php
+
+		-
+			message: "#^Cannot call method getDefaults\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\|null\\.$#"
+			count: 1
+			path: tests/Loader/XmlFileLoaderTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class Symfony\\\\Component\\\\Config\\\\Resource\\\\FileResource constructor expects string, string\\|false given\\.$#"
+			count: 1
+			path: tests/Loader/YamlFileLoaderTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function file_put_contents expects string, string\\|null given\\.$#"
+			count: 1
+			path: tests/Matcher/Dumper/CompiledMatcherDumperTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function unlink expects string, string\\|null given\\.$#"
+			count: 1
+			path: tests/Matcher/Dumper/CompiledMatcherDumperTest.php
+
+		-
+			message: "#^Cannot call method getPattern\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\|null\\.$#"
+			count: 3
+			path: tests/Router/RouteCollectionTest.php
+

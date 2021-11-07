@@ -14,22 +14,22 @@ final class CompiledGeneratorDumperTest extends TestCase
     /**
      * @var RouteCollection|null
      */
-    private $routeCollection = null;
+    private $routeCollection;
 
     /**
      * @var CompiledGeneratorDumper|null
      */
-    private $generatorDumper = null;
+    private $generatorDumper;
 
     /**
      * @var string|null
      */
-    private $testTmpFilepath = null;
+    private $testTmpFilepath;
 
     /**
      * @var string|null
      */
-    private $largeTestTmpFilepath = null;
+    private $largeTestTmpFilepath;
 
     protected function setUp(): void
     {

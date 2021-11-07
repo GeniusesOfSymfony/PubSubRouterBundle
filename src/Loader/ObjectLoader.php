@@ -44,6 +44,9 @@ abstract class ObjectLoader extends CompatibilityLoader
         return $routeCollection;
     }
 
+    /**
+     * @param \ReflectionClass<object> $class
+     */
     private function addClassResource(\ReflectionClass $class, RouteCollection $collection): void
     {
         do {
