@@ -9,8 +9,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.0]
-        symfony: [5.3.*]
+        php: [8.0, 8.1]
         composer-flags: ['--prefer-stable']
         can-fail: [false]
         include:
@@ -21,10 +20,6 @@ jobs:
           - php: 8.0
             symfony: 5.4.*@dev
             composer-flags: ''
-            can-fail: true
-          - php: 8.1
-            symfony: 5.3.*
-            composer-flags: '--ignore-platform-req=php'
             can-fail: true
           - php: 8.0
             symfony: 6.0.*@dev
@@ -47,13 +42,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: composer:v2
+          tools: composer:v2, flex
           extensions: curl, iconv, mbstring, pdo, pdo_sqlite, sqlite, zip
           coverage: none
 
       - name: Install dependencies
         run: |
-          composer global require --no-scripts --no-plugins symfony/flex
           composer update ${{ matrix.composer-flags }} --prefer-dist --no-suggest
         env:
           SYMFONY_REQUIRE: ${{ matrix.symfony }}
