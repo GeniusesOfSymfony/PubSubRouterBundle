@@ -31,7 +31,7 @@
         "symfony/yaml": "^5.4 || ^6.0"
     },
     "conflict": {
-        "symfony/yaml": "<5.2"
+        "symfony/yaml": "<5.4"
     },
     "autoload": {
         "psr-4": { "Gos\\Bundle\\PubSubRouterBundle\\": "src/" }

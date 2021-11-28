@@ -29,11 +29,9 @@ final class YamlFileLoader extends FileLoader
     private ?YamlParser $yamlParser = null;
 
     /**
-     * @param mixed $resource
-     *
      * @throws \InvalidArgumentException if the resource cannot be processed
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
 
@@ -173,10 +171,7 @@ final class YamlFileLoader extends FileLoader
         }
     }
 
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return \is_string($resource)
             && \in_array(pathinfo($resource, \PATHINFO_EXTENSION), ['yml', 'yaml'], true)

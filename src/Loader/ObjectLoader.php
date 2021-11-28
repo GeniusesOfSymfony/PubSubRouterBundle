@@ -11,13 +11,11 @@ abstract class ObjectLoader extends Loader
     abstract protected function getObject(string $id): object;
 
     /**
-     * @param mixed $resource
-     *
      * @throws \BadMethodCallException   if the method does not exist on the loader object
      * @throws \InvalidArgumentException if the resource cannot be processed
      * @throws \LogicException           if the loader does not return a RouteCollection
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         if (!preg_match('/^[^\:]+(?:::(?:[^\:]+))?$/', $resource)) {
             throw new \InvalidArgumentException(sprintf('Invalid resource "%s" passed to the %s route loader: use the format "object_id::method" or "object_id" if your object class has an "__invoke" method.', $resource, \is_string($type) ? '"'.$type.'"' : 'object'));

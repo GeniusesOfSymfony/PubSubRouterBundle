@@ -4,23 +4,18 @@ namespace Gos\Bundle\PubSubRouterBundle\Router;
 
 final class CompiledRoute
 {
-    private string $staticPrefix;
-    private string $regex;
-    private array $tokens;
-    private array $variables;
-
     /**
      * @param string $staticPrefix The static prefix of the compiled route
      * @param string $regex        The regular expression to use to match this route
      * @param array  $tokens       An array of tokens to use to generate URL for this route
      * @param array  $variables    An array of variables
      */
-    public function __construct(string $staticPrefix, string $regex, array $tokens, array $variables)
-    {
-        $this->staticPrefix = $staticPrefix;
-        $this->regex = $regex;
-        $this->tokens = $tokens;
-        $this->variables = $variables;
+    public function __construct(
+        public readonly string $staticPrefix,
+        public readonly string $regex,
+        public readonly array $tokens,
+        public readonly array $variables
+    ) {
     }
 
     public function __serialize(): array

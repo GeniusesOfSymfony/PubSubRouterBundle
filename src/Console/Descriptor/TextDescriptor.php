@@ -40,7 +40,7 @@ final class TextDescriptor extends Descriptor
             ['Pattern Regex', $route->compile()->getRegex()],
             ['Callback', $this->formatRouteCallback($route)],
             ['Requirements', ($route->getRequirements() ? $this->formatRouterConfig($route->getRequirements()) : 'NO CUSTOM')],
-            ['Class', \get_class($route)],
+            ['Class', $route::class],
             ['Defaults', $this->formatRouterConfig($route->getDefaults())],
             ['Options', $this->formatRouterConfig($route->getOptions())],
         ];
@@ -62,7 +62,7 @@ final class TextDescriptor extends Descriptor
     {
         if (\is_array($callable)) {
             if (\is_object($callable[0])) {
-                return sprintf('%s::%s()', \get_class($callable[0]), $callable[1]);
+                return sprintf('%s::%s()', $callable[0]::class, $callable[1]);
             }
 
             return sprintf('%s::%s()', $callable[0], $callable[1]);
@@ -87,7 +87,7 @@ final class TextDescriptor extends Descriptor
         }
 
         if (\is_object($callable) && method_exists($callable, '__invoke')) {
-            return sprintf('%s::__invoke()', \get_class($callable));
+            return sprintf('%s::__invoke()', $callable::class);
         }
 
         throw new \InvalidArgumentException('Callable is not describable.');

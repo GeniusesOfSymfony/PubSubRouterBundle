@@ -10,12 +10,8 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        // As this cache warmer is optional, dependencies should be lazy-loaded, that's why a container should be injected.
-        $this->container = $container;
     }
 
     /**

@@ -8,11 +8,9 @@ use Symfony\Component\Config\Loader\Loader;
 final class ClosureLoader extends Loader
 {
     /**
-     * @param mixed $resource
-     *
      * @throws \LogicException if the loader does not return a RouteCollection
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         $routeCollection = $resource();
 
@@ -23,10 +21,7 @@ final class ClosureLoader extends Loader
         return $routeCollection;
     }
 
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return $resource instanceof \Closure && (!$type || 'closure' === $type);
     }

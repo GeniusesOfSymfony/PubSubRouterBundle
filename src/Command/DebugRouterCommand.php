@@ -19,13 +19,9 @@ final class DebugRouterCommand extends Command
     protected static $defaultName = 'gos:pubsub-router:debug';
     protected static $defaultDescription = 'Display current routes for a PubSub router';
 
-    private RouterRegistry $registry;
-
-    public function __construct(RouterRegistry $registry)
+    public function __construct(private RouterRegistry $registry)
     {
         parent::__construct();
-
-        $this->registry = $registry;
     }
 
     protected function configure(): void

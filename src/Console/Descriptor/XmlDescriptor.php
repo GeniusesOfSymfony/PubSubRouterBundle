@@ -43,7 +43,7 @@ final class XmlDescriptor extends Descriptor
             $routeXML->setAttribute('name', $name);
         }
 
-        $routeXML->setAttribute('class', \get_class($route));
+        $routeXML->setAttribute('class', $route::class);
         $routeXML->setAttribute('callback', $this->formatRouteCallback($route));
 
         $routeXML->appendChild($patternXML = $dom->createElement('path'));
@@ -90,7 +90,7 @@ final class XmlDescriptor extends Descriptor
     {
         if (\is_array($callable)) {
             if (\is_object($callable[0])) {
-                return sprintf('%s::%s()', \get_class($callable[0]), $callable[1]);
+                return sprintf('%s::%s()', $callable[0]::class, $callable[1]);
             }
 
             return sprintf('%s::%s()', $callable[0], $callable[1]);
@@ -115,7 +115,7 @@ final class XmlDescriptor extends Descriptor
         }
 
         if (\is_object($callable) && method_exists($callable, '__invoke')) {
-            return sprintf('%s::__invoke()', \get_class($callable));
+            return sprintf('%s::__invoke()', $callable::class);
         }
 
         throw new \InvalidArgumentException('Callable is not describable.');

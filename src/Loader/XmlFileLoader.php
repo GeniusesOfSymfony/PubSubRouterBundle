@@ -60,10 +60,7 @@ final class XmlFileLoader extends FileLoader
         }
     }
 
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return \is_string($resource) && 'xml' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'xml' === $type);
     }

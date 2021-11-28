@@ -6,17 +6,11 @@ use Psr\Container\ContainerInterface;
 
 final class ContainerLoader extends ObjectLoader
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
     }
 
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return 'service' === $type;
     }

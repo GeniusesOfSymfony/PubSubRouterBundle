@@ -13,11 +13,9 @@ use Symfony\Component\Config\Resource\FileResource;
 class PhpFileLoader extends FileLoader
 {
     /**
-     * @param mixed $resource
-     *
      * @throws \LogicException if the resource does not return a RouteCollection
      */
-    public function load($resource, string $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         $path = $this->locator->locate($resource);
         $this->setCurrentDir(\dirname($path));
@@ -43,10 +41,7 @@ class PhpFileLoader extends FileLoader
         return $collection;
     }
 
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }

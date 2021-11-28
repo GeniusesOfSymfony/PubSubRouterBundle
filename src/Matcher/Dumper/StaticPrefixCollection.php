@@ -6,8 +6,6 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class StaticPrefixCollection
 {
-    private string $prefix;
-
     /**
      * @var string[]
      */
@@ -23,9 +21,8 @@ class StaticPrefixCollection
      */
     private array $items = [];
 
-    public function __construct(string $prefix = '')
+    public function __construct(private string $prefix = '')
     {
-        $this->prefix = $prefix;
     }
 
     public function getPrefix(): string
