@@ -17,10 +17,10 @@ class CompiledGeneratorDumper extends GeneratorDumper
             $compiledRoute = $route->compile();
 
             $compiledRoutes[$name] = [
-                $compiledRoute->getVariables(),
+                $compiledRoute->variables,
                 $route->getDefaults(),
                 $route->getRequirements(),
-                $compiledRoute->getTokens(),
+                $compiledRoute->tokens,
             ];
         }
 

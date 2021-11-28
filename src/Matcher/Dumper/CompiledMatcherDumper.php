@@ -107,9 +107,9 @@ EOF;
 
         foreach ($collection->all() as $name => $route) {
             $compiledRoute = $route->compile();
-            $regex = $compiledRoute->getRegex();
+            $regex = $compiledRoute->regex;
 
-            if (!$compiledRoute->getVariables()) {
+            if (!$compiledRoute->variables) {
                 $pattern = $route->getPattern();
 
                 foreach ($dynamicRegex as $rx) {
@@ -207,9 +207,9 @@ EOF;
         $perModifiers = [];
 
         foreach ($collection->all() as $name => $route) {
-            preg_match('#[a-zA-Z]*$#', $route->compile()->getRegex(), $rx);
+            preg_match('#[a-zA-Z]*$#', $route->compile()->regex, $rx);
 
-            if ($chunkLimit < ++$chunkSize || $prev !== $rx[0] && $route->compile()->getVariables()) {
+            if ($chunkLimit < ++$chunkSize || $prev !== $rx[0] && $route->compile()->variables) {
                 $chunkSize = 1;
                 $routes = new RouteCollection();
                 $perModifiers[] = [$rx[0], $routes];
@@ -231,7 +231,7 @@ EOF;
             $tree = new StaticPrefixCollection();
 
             foreach ($routes->all() as $name => $route) {
-                preg_match('#^.\^(.*)\$.[a-zA-Z]*$#', $route->compile()->getRegex(), $rx);
+                preg_match('#^.\^(.*)\$.[a-zA-Z]*$#', $route->compile()->regex, $rx);
 
                 $state->vars = [];
                 $regex = preg_replace_callback('#\?P<([^>]++)>#', $state->getVars, $rx[1]);
@@ -305,7 +305,7 @@ EOF;
 
             $compiledRoute = $route->compile();
 
-            if ($compiledRoute->getRegex() === $prevRegex) {
+            if ($compiledRoute->regex === $prevRegex) {
                 $state->routes[$state->mark][] = $this->compileRoute($route, $name, $vars);
 
                 continue;
@@ -317,7 +317,7 @@ EOF;
             $code .= "\n            .".self::export($rx);
             $state->regex .= $rx;
 
-            $prevRegex = $compiledRoute->getRegex();
+            $prevRegex = $compiledRoute->regex;
             $state->routes[$state->mark] = [$this->compileRoute($route, $name, $vars)];
         }
 

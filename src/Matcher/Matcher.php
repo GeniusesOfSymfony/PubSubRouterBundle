@@ -44,11 +44,11 @@ class Matcher implements MatcherInterface
             $compiledRoute = $route->compile();
 
             // check the static prefix of the URL first. Only use the more expensive preg_match when it matches
-            if ('' !== $compiledRoute->getStaticPrefix() && 0 !== strpos($channel, $compiledRoute->getStaticPrefix())) {
+            if ('' !== $compiledRoute->staticPrefix && 0 !== strpos($channel, $compiledRoute->staticPrefix)) {
                 continue;
             }
 
-            if (!preg_match($compiledRoute->getRegex(), $channel, $matches)) {
+            if (!preg_match($compiledRoute->regex, $channel, $matches)) {
                 continue;
             }
 

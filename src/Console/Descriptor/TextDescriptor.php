@@ -37,7 +37,7 @@ final class TextDescriptor extends Descriptor
         $tableRows = [
             ['Route Name', $options['name'] ?? ''],
             ['Pattern', $route->getPattern()],
-            ['Pattern Regex', $route->compile()->getRegex()],
+            ['Pattern Regex', $route->compile()->regex],
             ['Callback', $this->formatRouteCallback($route)],
             ['Requirements', ($route->getRequirements() ? $this->formatRouterConfig($route->getRequirements()) : 'NO CUSTOM')],
             ['Class', $route::class],

@@ -31,7 +31,7 @@ final class MarkdownDescriptor extends Descriptor
     protected function describeRoute(Route $route, array $options = []): void
     {
         $output = '- Pattern: '.$route->getPattern()
-            ."\n".'- Pattern Regex: '.$route->compile()->getRegex()
+            ."\n".'- Pattern Regex: '.$route->compile()->regex
             ."\n".'- Callback: '.$this->formatRouteCallback($route)
             ."\n".'- Requirements: '.($route->getRequirements() ? $this->formatRouterConfig($route->getRequirements()) : 'NO CUSTOM')
             ."\n".'- Class: '.$route::class

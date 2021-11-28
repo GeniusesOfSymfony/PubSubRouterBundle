@@ -15,10 +15,10 @@ final class RouteCompilerTest extends TestCase
         $route = new Route(...$arguments);
 
         $compiled = $route->compile();
-        $this->assertEquals($prefix, $compiled->getStaticPrefix(), $name.' (static prefix)');
-        $this->assertEquals($regex, $compiled->getRegex(), $name.' (regex)');
-        $this->assertEquals($variables, $compiled->getVariables(), $name.' (variables)');
-        $this->assertEquals($tokens, $compiled->getTokens(), $name.' (tokens)');
+        $this->assertEquals($prefix, $compiled->staticPrefix, $name.' (static prefix)');
+        $this->assertEquals($regex, $compiled->regex, $name.' (regex)');
+        $this->assertEquals($variables, $compiled->variables, $name.' (variables)');
+        $this->assertEquals($tokens, $compiled->tokens, $name.' (tokens)');
     }
 
     public function provideCompileData(): array

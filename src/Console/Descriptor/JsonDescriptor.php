@@ -34,7 +34,7 @@ final class JsonDescriptor extends Descriptor
     {
         return [
             'pattern' => $route->getPattern(),
-            'patternRegex' => $route->compile()->getRegex(),
+            'patternRegex' => $route->compile()->regex,
             'callback' => $this->formatRouteCallback($route),
             'requirements' => $route->getRequirements() ?: 'NO CUSTOM',
             'class' => $route::class,

@@ -17,7 +17,7 @@ final class StaticPrefixCollectionTest extends TestCase
 
         foreach ($routes as $route) {
             list($path, $name) = $route;
-            $staticPrefix = (new Route($path, 'strlen'))->compile()->getStaticPrefix();
+            $staticPrefix = (new Route($path, 'strlen'))->compile()->staticPrefix;
             $collection->addRoute($staticPrefix, [$name]);
         }
 

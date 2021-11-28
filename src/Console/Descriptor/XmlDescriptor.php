@@ -47,7 +47,7 @@ final class XmlDescriptor extends Descriptor
         $routeXML->setAttribute('callback', $this->formatRouteCallback($route));
 
         $routeXML->appendChild($patternXML = $dom->createElement('path'));
-        $patternXML->setAttribute('regex', $route->compile()->getRegex());
+        $patternXML->setAttribute('regex', $route->compile()->regex);
         $patternXML->appendChild(new \DOMText($route->getPattern()));
 
         if ($route->getDefaults()) {
