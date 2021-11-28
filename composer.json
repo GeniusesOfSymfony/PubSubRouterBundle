@@ -12,23 +12,23 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
-        "symfony/config": "^5.3 || ^6.0",
-        "symfony/console": "^5.3 || ^6.0",
-        "symfony/dependency-injection": "^5.3 || ^6.0",
-        "symfony/http-foundation": "^5.3 || ^6.0",
-        "symfony/http-kernel": "^5.3 || ^6.0"
+        "php": "^8.1",
+        "symfony/config": "^5.4 || ^6.0",
+        "symfony/console": "^5.4 || ^6.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/http-foundation": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0"
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.2.1",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^1.1.1",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpstan/phpstan-symfony": "^1.0.1",
+        "phpstan/phpstan": "1.2.0",
+        "phpstan/phpstan-phpunit": "1.0.0",
+        "phpstan/phpstan-symfony": "1.0.1",
         "phpunit/phpunit": "^9.5",
         "psr/container": "^1.0 || ^2.0",
-        "symfony/phpunit-bridge": "^5.3 || ^6.0",
-        "symfony/yaml": "^5.3 || ^6.0"
+        "symfony/phpunit-bridge": "^5.4 || ^6.0",
+        "symfony/yaml": "^5.4 || ^6.0"
     },
     "conflict": {
         "symfony/yaml": "<5.2"
@@ -41,7 +41,7 @@
     },
     "suggest": {
         "ext-dom": "* to use the XML file loader",
-        "symfony/yaml": "^5.3 || ^6.0 to use the YAML file loader"
+        "symfony/yaml": "^5.4 || ^6.0 to use the YAML file loader"
     },
     "minimum-stability": "dev"
 }
