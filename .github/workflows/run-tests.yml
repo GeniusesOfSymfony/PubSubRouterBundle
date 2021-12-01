@@ -18,10 +18,6 @@ jobs:
             symfony: '4.4.*'
             composer-flags: '--prefer-stable --prefer-lowest'
             can-fail: false
-          - php: '8.1'
-            symfony: '6.1.*@dev'
-            composer-flags: ''
-            can-fail: true
         exclude:
           - php: '7.2'
             symfony: '6.0.*'
