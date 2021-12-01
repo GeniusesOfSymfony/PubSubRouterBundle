@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.1 (2021-11-30)
+
+- Allow v3 of `symfony/deprecation-contracts`
+
 ## 2.7.0 (2021-11-07)
 
 - Add support for Symfony 6
