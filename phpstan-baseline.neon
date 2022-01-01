@@ -41,12 +41,17 @@ parameters:
 			path: src/Loader/XmlFileLoader.php
 
 		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
+			count: 5
+			path: src/Loader/XmlFileLoader.php
+
+		-
 			message: "#^Result of && is always false\\.$#"
 			count: 2
 			path: src/Loader/XmlFileLoader.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between string and array\\{\\} will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between string\\|null and array\\{\\} will always evaluate to false\\.$#"
 			count: 1
 			path: src/Loader/XmlFileLoader.php
 
