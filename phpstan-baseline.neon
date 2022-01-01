@@ -71,12 +71,12 @@ parameters:
 			path: src/Matcher/CompiledMatcher.php
 
 		-
-			message: "#^Cannot call method compile\\(\\) on string\\.$#"
+			message: "#^Cannot call method getMessage\\(\\) on Exception\\|null\\.$#"
 			count: 1
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
 		-
-			message: "#^Cannot call method getMessage\\(\\) on Exception\\|null\\.$#"
+			message: "#^Cannot use array destructuring on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route\\.$#"
 			count: 1
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
@@ -101,18 +101,8 @@ parameters:
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
 		-
-			message: "#^Parameter \\#1 \\$route of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\CompiledMatcherDumper\\:\\:compileRoute\\(\\) expects Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Route, string given\\.$#"
-			count: 2
-			path: src/Matcher/Dumper/CompiledMatcherDumper.php
-
-		-
 			message: "#^Parameter \\#1 \\$string of function substr expects string, array\\|string\\|null given\\.$#"
 			count: 1
-			path: src/Matcher/Dumper/CompiledMatcherDumper.php
-
-		-
-			message: "#^Parameter \\#3 \\$vars of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\CompiledMatcherDumper\\:\\:compileRoute\\(\\) expects array, string given\\.$#"
-			count: 2
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
 		-
