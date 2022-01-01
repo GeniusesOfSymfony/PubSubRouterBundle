@@ -10,7 +10,7 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
 {
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 
@@ -20,6 +20,7 @@ final class RouterCacheWarmer implements CacheWarmerInterface, ServiceSubscriber
      * @param string $cacheDir The cache directory
      *
      * @return string[] A list of classes to preload on PHP 7.4+
+     * @phpstan-return class-string[]
      */
     public function warmUp(string $cacheDir): array
     {

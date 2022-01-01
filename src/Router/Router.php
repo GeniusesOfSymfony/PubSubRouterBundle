@@ -25,15 +25,15 @@ final class Router implements RouterInterface, WarmableInterface
 {
     private ?MatcherInterface $matcher = null;
     private ?GeneratorInterface $generator = null;
-    private LoaderInterface $loader;
+    private readonly LoaderInterface $loader;
     private ?RouteCollection $collection = null;
 
     /**
      * @var array<array{resource: string|callable, type: string|null}|string>
      */
-    private array $resources;
+    private readonly array $resources;
 
-    private string $name;
+    private readonly string $name;
     private ?ConfigCacheFactoryInterface $configCacheFactory = null;
 
     /**
@@ -160,6 +160,7 @@ final class Router implements RouterInterface, WarmableInterface
      * @param string $cacheDir The cache directory
      *
      * @return string[] A list of classes to preload on PHP 7.4+
+     * @phpstan-return class-string[]
      */
     public function warmUp(string $cacheDir): array
     {

@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\CacheWarmer\\\\RouterCacheWarmer\\:\\:warmUp\\(\\) should return array\\<class\\-string\\> but returns array\\<string\\>\\.$#"
+			count: 1
+			path: src/CacheWarmer/RouterCacheWarmer.php
+
+		-
 			message: "#^Cannot call method write\\(\\) on Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\|null\\.$#"
 			count: 1
 			path: src/Console/Descriptor/Descriptor.php

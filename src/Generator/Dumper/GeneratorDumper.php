@@ -6,7 +6,7 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 abstract class GeneratorDumper implements GeneratorDumperInterface
 {
-    private RouteCollection $routes;
+    private readonly RouteCollection $routes;
 
     public function __construct(RouteCollection $routes)
     {

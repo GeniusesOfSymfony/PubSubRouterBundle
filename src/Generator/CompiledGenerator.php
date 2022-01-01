@@ -7,16 +7,10 @@ use Gos\Bundle\PubSubRouterBundle\Exception\ResourceNotFoundException;
 class CompiledGenerator extends Generator
 {
     /**
-     * @var array<string, array>
-     */
-    private array $compiledRoutes;
-
-    /**
      * @param array<string, array> $compiledRoutes
      */
-    public function __construct(array $compiledRoutes)
+    public function __construct(private readonly array $compiledRoutes)
     {
-        $this->compiledRoutes = $compiledRoutes;
     }
 
     /**

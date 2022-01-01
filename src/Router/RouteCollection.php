@@ -2,7 +2,6 @@
 
 namespace Gos\Bundle\PubSubRouterBundle\Router;
 
-use ReturnTypeWillChange;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
 /**
@@ -73,7 +72,7 @@ final class RouteCollection implements \Countable, \IteratorAggregate
     /**
      * @param string|string[] $name
      */
-    public function remove(string | array $name): void
+    public function remove(string|array $name): void
     {
         foreach ((array) $name as $n) {
             unset($this->routes[$n]);

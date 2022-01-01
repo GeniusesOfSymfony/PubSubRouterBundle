@@ -7,9 +7,9 @@ use Gos\Bundle\PubSubRouterBundle\Router\Route;
 
 class CompiledMatcher extends Matcher
 {
-    private array $staticRoutes;
-    private array $regexpList;
-    private array $dynamicRoutes;
+    private readonly array $staticRoutes;
+    private readonly array $regexpList;
+    private readonly array $dynamicRoutes;
 
     public function __construct(array $compiledRoutes)
     {

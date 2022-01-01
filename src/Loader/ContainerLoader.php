@@ -6,7 +6,7 @@ use Psr\Container\ContainerInterface;
 
 final class ContainerLoader extends ObjectLoader
 {
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 

@@ -9,11 +9,8 @@ use Gos\Bundle\PubSubRouterBundle\Router\RouteCollection;
 
 class Generator implements GeneratorInterface
 {
-    protected RouteCollection $routes;
-
-    public function __construct(RouteCollection $routes)
+    public function __construct(protected readonly RouteCollection $routes)
     {
-        $this->routes = $routes;
     }
 
     /**
