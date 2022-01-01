@@ -70,9 +70,6 @@ final class RouterCacheWarmerTest extends TestCase
         );
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testWarmUpWithoutWarmableInterface(): void
     {
         /** @var MockObject&testRouterInterfaceWithoutWarmableInterface $router */
@@ -88,7 +85,10 @@ final class RouterCacheWarmerTest extends TestCase
             ->with('gos_pubsub_router.router_registry')
             ->willReturn($routerRegistry);
 
-        (new RouterCacheWarmer($container))->warmUp('/tmp');
+        $this->assertSame(
+            [],
+            (new RouterCacheWarmer($container))->warmUp('/tmp')
+        );
     }
 }
 
