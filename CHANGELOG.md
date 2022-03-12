@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.0 (2022-??-??)
+
+- Drop support for Symfony 5.3 (branch is EOL)
+
 ## 2.7.1 (2021-11-30)
 
 - Allow v3 of `symfony/deprecation-contracts`
