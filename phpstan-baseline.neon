@@ -81,17 +81,7 @@ parameters:
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
 		-
-			message: "#^Offset \\-1 does not exist on array\\|string\\|null\\.$#"
-			count: 1
-			path: src/Matcher/Dumper/CompiledMatcherDumper.php
-
-		-
 			message: "#^Parameter \\#1 \\$code of method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\Dumper\\\\CompiledMatcherDumper\\:\\:indent\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: src/Matcher/Dumper/CompiledMatcherDumper.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function substr expects string, array\\|string\\|null given\\.$#"
 			count: 1
 			path: src/Matcher/Dumper/CompiledMatcherDumper.php
 
@@ -126,16 +116,6 @@ parameters:
 			path: src/Router/RouteCompiler.php
 
 		-
-			message: "#^Array \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept key \\(int\\|string\\)\\.$#"
-			count: 1
-			path: src/Router/Router.php
-
-		-
-			message: "#^Array \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept key string\\.$#"
-			count: 1
-			path: src/Router/Router.php
-
-		-
 			message: "#^Method Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:getGenerator\\(\\) should return Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface but returns object\\.$#"
 			count: 1
 			path: src/Router/Router.php
@@ -152,6 +132,21 @@ parameters:
 
 		-
 			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$matcher \\(Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\|null\\) does not accept object\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$options \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept non\\-empty\\-array\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$options \\(array\\{cache_dir\\: string\\|null, debug\\: bool, generator_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\GeneratorInterface\\>, generator_cache_class\\: non\\-empty\\-string\\|null, generator_dumper_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Generator\\\\Dumper\\\\GeneratorDumperInterface\\>, matcher_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, matcher_base_class\\: class\\-string\\<Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Matcher\\\\MatcherInterface\\>, \\.\\.\\.\\}\\) does not accept non\\-empty\\-array\\<string, mixed\\>\\.$#"
+			count: 1
+			path: src/Router/Router.php
+
+		-
+			message: "#^Static property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$cache \\(array\\<string, array\\>\\|null\\) does not accept array\\<string, mixed\\>\\.$#"
 			count: 1
 			path: src/Router/Router.php
 
