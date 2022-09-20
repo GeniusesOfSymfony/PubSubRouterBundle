@@ -1,9 +1,10 @@
 # Changelog
 
-## 2.8.0 (2022-??-??)
+## 2.8.0 (2022-09-20)
 
 - Drop support for Symfony 5.3 (branch is EOL)
 - Fix deprecated command configuration for Symfony 6.1
+- Bump minimum supported Symfony version to 4.4.42
 
 ## 2.7.1 (2021-11-30)
 
