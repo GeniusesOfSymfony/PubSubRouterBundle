@@ -111,6 +111,11 @@ parameters:
 			path: src/Router/Route.php
 
 		-
+			message: "#^Offset 3 on array\\{'variable', mixed, string, string\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Router/RouteCompiler.php
+
+		-
 			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Router/RouteCompiler.php
@@ -146,9 +151,9 @@ parameters:
 			path: src/Router/Router.php
 
 		-
-			message: "#^Static property Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\Router\\:\\:\\$cache \\(array\\<string, array\\>\\|null\\) does not accept array\\<string, mixed\\>\\.$#"
+			message: "#^Binary operation \"\\.\" between 'COLUMNS\\=' and non\\-empty\\-array\\|non\\-falsy\\-string results in an error\\.$#"
 			count: 1
-			path: src/Router/Router.php
+			path: tests/Console/Descriptor/AbstractDescriptorTestCase.php
 
 		-
 			message: "#^Cannot call method add\\(\\) on Gos\\\\Bundle\\\\PubSubRouterBundle\\\\Router\\\\RouteCollection\\|null\\.$#"
