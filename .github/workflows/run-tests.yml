@@ -25,6 +25,22 @@ jobs:
             symfony: '6.0.*'
           - php: '7.4'
             symfony: '6.0.*'
+          - php: '7.2'
+            symfony: '6.1.*'
+          - php: '7.3'
+            symfony: '6.1.*'
+          - php: '7.4'
+            symfony: '6.1.*'
+          - php: '8.0'
+            symfony: '6.1.*'
+          - php: '7.2'
+            symfony: '6.2.*'
+          - php: '7.3'
+            symfony: '6.2.*'
+          - php: '7.4'
+            symfony: '6.2.*'
+          - php: '8.0'
+            symfony: '6.2.*'
 
     name: "PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony }}${{ matrix.composer-flags != '' && format(' - Composer {0}', matrix.composer-flags) || '' }}"
 
