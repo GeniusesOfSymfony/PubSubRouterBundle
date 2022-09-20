@@ -4,6 +4,7 @@ namespace Gos\Bundle\PubSubRouterBundle\Command;
 
 use Gos\Bundle\PubSubRouterBundle\Console\Helper\DescriptorHelper;
 use Gos\Bundle\PubSubRouterBundle\Router\RouterRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -14,6 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'gos:pubsub-router:debug', description: 'Display current routes for a PubSub router')]
 final class DebugRouterCommand extends Command
 {
     protected static $defaultName = 'gos:pubsub-router:debug';

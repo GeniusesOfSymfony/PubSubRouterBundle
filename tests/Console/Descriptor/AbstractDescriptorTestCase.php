@@ -13,6 +13,22 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 abstract class AbstractDescriptorTestCase extends TestCase
 {
     /**
+     * @var array|false|string
+     */
+    private $colSize;
+
+    protected function setUp(): void
+    {
+        $this->colSize = getenv('COLUMNS');
+        putenv('COLUMNS=121');
+    }
+
+    protected function tearDown(): void
+    {
+        putenv($this->colSize ? 'COLUMNS=' . $this->colSize : 'COLUMNS');
+    }
+
+    /**
      * @dataProvider getDescribeRouteCollectionTestData
      */
     public function testDescribeRouteCollection(RouteCollection $routes, string $file): void
